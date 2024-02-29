@@ -272,7 +272,6 @@ header .icons span {
 }
 @media (max-width: 768px) {
   .info .row .image {
-    /* max-height: 100px; */
     min-height: 220px;
   }
 }
@@ -306,6 +305,7 @@ header .icons span {
   margin: 20px 0;
 }
 .info .row .content button {
+  border: 0;
   background-color: var(--main-color);
   border-radius: 20px;
   min-height: 15px;
