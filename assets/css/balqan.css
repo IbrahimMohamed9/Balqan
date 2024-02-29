@@ -19,7 +19,7 @@ html {
 }
 body {
   font-family: "Prompt", "Marcellus", sans-serif;
-  background-color: black;
+  background-color: #202528;
 }
 ul {
   list-style: none;
@@ -59,14 +59,15 @@ a {
   margin: 100px 0;
 }
 .main-title {
-  text-transform: uppercase;
+  text-transform: capitalize;
   text-align: center;
   border: 2px solid white;
+  font-weight: normal;
   width: fit-content;
   padding: 10px 20px;
   font-size: 30px;
   position: relative;
-  margin: 0 auto 80px;
+  margin: 0 auto 50px;
   z-index: 1;
   transition: var(--main-transition);
 }
@@ -102,6 +103,9 @@ a {
 }
 /* End Components */
 /* Start Header */
+header {
+  background-color: black;
+}
 header .container {
   display: flex;
   justify-content: space-between;
@@ -153,15 +157,15 @@ header .icons .cart-shopping::after {
   content: attr(data-counter);
   background-color: white;
   color: black;
-  font-size: 10px;
+  font-size: 8px;
   position: absolute;
   border-radius: 50%;
-  height: 15px;
-  width: 15px;
+  height: 10px;
+  width: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: -10px;
+  top: -6px;
   left: -6px;
 }
 @media (max-width: 768px) {
@@ -252,7 +256,7 @@ header .icons span {
 }
 /* End New packages */
 /* Start Info */
-.info .info-container {
+.info {
   display: grid;
   gap: 50px;
 }
@@ -321,6 +325,40 @@ header .icons span {
   display: block;
 }
 /* End Info */
+/* Start Tourist-Images */
+.tourist .images {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 260px;
+  gap: 10px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  margin: 0 20px;
+}
+.tourist .images::-webkit-scrollbar {
+  width: 0;
+}
+.tourist .images .image {
+  width: 300px;
+}
+
+.tourist .images .image img {
+  max-width: 100%;
+  min-width: 250px;
+  max-height: 175px;
+}
+
+/* 
+=================================================
+=================================================
+=================================================
+edit the scroll part in non touch devices
+=================================================
+=================================================
+=================================================
+*/
+/* End Tourist-Images */
+
 /* Start Animation */
 @keyframes bouncing {
   0%,
