@@ -251,6 +251,52 @@ header .icons span {
   opacity: 1;
 }
 /* End New packages */
+/* Start Info */
+.info .container {
+  display: grid;
+  gap: 50px;
+}
+.info .row {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  min-height: 300px;
+}
+.info .row .image {
+  position: relative;
+  width: 100%;
+}
+.info .row .image img {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.info .row .content {
+  max-width: calc(60% - 50px);
+  text-align: center;
+}
+.info .row .content .text p {
+  margin: 20px 0;
+}
+.info .row .content button {
+  background-color: var(--main-color);
+  border-radius: 20px;
+  min-height: 15px;
+  padding: 2px 25px;
+}
+.info .row .content button:hover span {
+  display: none;
+}
+.info .row .content .paragraph {
+  display: none;
+}
+.info .row .content button:hover + .paragraph {
+  display: block;
+}
+/* End Info */
 /* Start Animation */
 @keyframes bouncing {
   0%,
