@@ -1,3 +1,9 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
 /* 
 ====================================================================
 ====================================================================
@@ -165,10 +171,10 @@ header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 50px;
 }
 header .container .logo img {
   height: 35px;
+  /* padding: 7.5px 0; */
 }
 @media (min-width: 368px) and (max-width: 768px) {
   header .container .logo img {
@@ -188,9 +194,14 @@ header ul {
 header ul.title-words li {
   margin: 0 20px;
   position: relative;
+  overflow: hidden;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 }
 header .title-words li:hover a {
   color: var(--main-color);
+  
 }
 header .title-words li a::before {
   content: "";
@@ -199,11 +210,9 @@ header .title-words li a::before {
   width: 120%;
   height: 2px;
   background-color: var(--main-color);
-  top: -15px;
-  left: -100%;
-  -webkit-transition: var(--main-transition);
-  -o-transition: var(--main-transition);
-  transition: var(--main-transition) linear;
+  top: 0;
+  left: -80%;
+  transition: left var(--main-transition) linear;
 }
 header .title-words li:hover a::before {
   z-index: 0;
