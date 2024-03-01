@@ -56,8 +56,7 @@ body {
   font-family: "Prompt", "Marcellus", sans-serif;
   background-color: var(--main-background-color);
   color: var(--font-color);
-  transition: background-color 0.5s,
-    color 0.5s;
+  transition: background-color 0.5s, color 0.5s;
 }
 body::-webkit-scrollbar {
   background-color: var(--scrollbar-color);
@@ -424,7 +423,7 @@ header .icons span:hover {
 }
 @media (max-width: 569px) {
   .new-packages .container {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   }
 }
 .new-packages .package {
@@ -468,6 +467,11 @@ header .icons span:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   transition: var(--main-transition);
+}
+@media (max-width: 376px) {
+  .new-packages .package button::before {
+    font-size: 14px;
+  }
 }
 .new-packages .package button:hover::before {
   top: -15px;
