@@ -206,8 +206,8 @@ header .title-words li a::before {
   transition: var(--main-transition) linear;
 }
 header .title-words li:hover a::before {
-  left: -10%;
   z-index: 0;
+  left: -10%;
 }
 @media (min-width: 380px) and (max-width: 768px) {
   header ul li {
@@ -490,7 +490,7 @@ header .icons span:hover {
 .tourist .scroller[data-animated="true"] .scroller__inner {
   flex-wrap: nowrap;
   width: max-content;
-  animation: scroll 30s linear infinite;
+  animation: scroll 25s linear infinite;
 }
 .tourist .images .tag-list li {
   width: 250px;
