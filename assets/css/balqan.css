@@ -201,7 +201,6 @@ header ul.title-words li {
 }
 header .title-words li:hover a {
   color: var(--main-color);
-  
 }
 header .title-words li a::before {
   content: "";
@@ -332,15 +331,24 @@ header .icons span:hover {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
-.new-packages .package:hover {
+.new-packages .package {
   transition: var(--main-transition);
+  background-color: black;
+  border: 15px solid black;
+  border-radius: 10px;
+  border-left: 10px solid black;
+  border-right: 10px solid black;
+}
+.new-packages .package:hover {
   transform: translateY(-10px);
 }
 .new-packages .package img {
   width: 100%;
+  border-radius: 8px;
 }
 .new-packages .package .text {
   margin: 15px 5px;
+  text-align: center;
 }
 .new-packages .package .text h3 {
   font-weight: normal;
@@ -365,7 +373,7 @@ header .icons span:hover {
   transition: var(--main-transition);
 }
 .new-packages .package button:hover::before {
-  top: -25px;
+  top: -15px;
   opacity: 0;
 }
 .new-packages .package button::after {
@@ -375,7 +383,7 @@ header .icons span:hover {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
-  top: 30px;
+  top: 15px;
   color: white;
   opacity: 0;
   transition: var(--main-transition);
