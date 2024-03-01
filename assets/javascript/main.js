@@ -33,3 +33,15 @@ buttons.forEach((button) => {
     }
   });
 });
+
+const heartIcon = document.querySelector(".heart.fa-regular");
+
+heartIcon.addEventListener("mouseenter", () => {
+  heartIcon.classList.remove("fa-regular");
+  heartIcon.classList.add("fa-solid");
+});
+
+heartIcon.addEventListener("mouseleave", () => {
+  heartIcon.classList.remove("fa-solid");
+  heartIcon.classList.add("fa-regular");
+});
