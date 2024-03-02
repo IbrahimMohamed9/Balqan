@@ -184,6 +184,7 @@ a {
 */
 header {
   background-color: var(--secondary-background-color);
+  transition: background-color 0.5s, color 0.3s;
 }
 header .container {
   display: flex;
@@ -445,6 +446,7 @@ header .icons .cart-shopping::after {
   justify-content: center;
   top: -10px;
   left: -10px;
+  transition: background-color 0.3s, color 0.3s;
 }
 header .icons .cart-shopping:hover::after {
   color: var(--font-color);
