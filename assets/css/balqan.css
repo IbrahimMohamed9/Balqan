@@ -190,23 +190,89 @@ header .container {
   justify-content: space-between;
   align-items: center;
 }
-header .logo img {
+header .logo {
   height: 35px;
+  width: 150px;
+  position: relative;
+  --height: 40px;
+  --top: -6px;
 }
 @media (min-width: 368px) and (max-width: 768px) {
-  header .logo img {
+  header .logo {
     height: 30px;
+    --height: 30px;
   }
 }
 @media (max-width: 368px) {
-  header .logo img {
+  header .logo {
     height: 25px;
   }
 }
 @media (max-width: 331px) {
-  header .logo img {
+  header .logo {
     height: 20px;
   }
+}
+header .logo .b {
+  position: absolute;
+  left: 0;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .a-f {
+  position: absolute;
+  left: 16%;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .l {
+  position: absolute;
+  left: 32%;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .q {
+  position: absolute;
+  left: 42%;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .a-s {
+  position: absolute;
+  left: 58%;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .n {
+  position: absolute;
+  left: 75%;
+  top: var(--top);
+  height: var(--height);
+}
+header .logo .black {
+  background-color: black;
+  position: absolute;
+  width: 20px;
+  height: 10px;
+  top: -3%;
+  left: 44%;
+}
+header .logo .dot {
+  background-color: #f9c163;
+  position: absolute;
+  border-radius: 50%;
+  width: 4px;
+  height: 4px;
+  top: 9%;
+  left: 48%;
+  transition: var(--main-transition);
+}
+header .logo .dot.right {
+  top: 9%;
+  left: 54%;
+}
+header .logo:hover .dot {
+  width: 6px;
 }
 header ul {
   display: flex;
