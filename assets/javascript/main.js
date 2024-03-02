@@ -1,3 +1,22 @@
+const mainTitles = document.querySelectorAll(".main-title");
+
+mainTitles.forEach((mainTitle) => {
+  mainTitle.addEventListener("mouseenter", () => {
+    mainTitle.style.setProperty(
+      "--left-animation",
+      "left-move-reverse var(--animation-duration) linear forwards"
+    );
+    mainTitle.style.setProperty(
+      "--right-animation",
+      "right-move-reverse var(--animation-duration) linear forwards"
+    );
+  });
+  mainTitle.addEventListener("mouseleave", () => {
+    // Example: Reset color of ::before pseudo-element
+    mainTitle.style.removeProperty("--before-color");
+  });
+});
+
 const scrollers = document.querySelectorAll(".scroller");
 if (!window.matchMedia("(prefers-reduced-motion: reduce").matches) {
   addAnimation();
