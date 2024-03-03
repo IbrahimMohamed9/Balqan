@@ -1148,7 +1148,7 @@ header .icons span:hover {
 .articles .container .article .card a {
   width: fit-content;
   margin: auto;
-  color: white;
+  color: var(--font-color);
   position: relative;
   transition: var(--main-transition);
 }
