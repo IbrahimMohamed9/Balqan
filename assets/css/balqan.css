@@ -17,17 +17,20 @@
   --main-background-color: #ececec;
   --secondary-background-color: white;
   --font-color: black;
+  --secondary-font-color: #696969;
   --scrollbar-color: #77777736;
 
   --main-transition: 0.3s;
-  --main-padding: 100px;
+  --main-padding: 50px;
 }
 
 .dark-theme {
   --main-color: #f7af01;
   --secondary-color: #bb8501;
-  --main-background-color: #202528;
+  /* --main-background-color: #202528; */
+  --main-background-color: #1a1a1a;
   --secondary-background-color: black;
+  --secondary-font-color: #e2e2e2;
   --font-color: white;
 }
 /* 
@@ -53,7 +56,7 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  font-family: "Prompt", "Marcellus", sans-serif;
+  font-family: "Marcellus", "Prompt", sans-serif;
   background-color: var(--main-background-color);
   color: var(--font-color);
   transition: background-color 0.5s, color 0.5s;
@@ -122,7 +125,6 @@ a {
 .new-section {
   margin: 50px 0;
 }
-
 .main-title {
   text-transform: capitalize;
   text-align: center;
@@ -131,6 +133,8 @@ a {
   width: fit-content;
   padding: 10px 20px;
   font-size: 30px;
+  letter-spacing: -1px;
+  word-spacing: -2px;
   position: relative;
   margin: 0 auto 50px;
   z-index: 1;
@@ -789,21 +793,17 @@ header .icons span:hover {
   background-color: rgb(193, 163, 98);
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
-
 .new-packages .package .box .back .button:hover::before {
   scale: 3;
 }
-
 .new-packages .package .box .back .button:hover {
   color: #212121;
   scale: 1.1;
   box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
 }
-
 .new-packages .package .box .back .button:active {
   scale: 1;
 }
-
 .new-packages .package .box .image img {
   width: 100%;
   display: block;
@@ -876,7 +876,7 @@ header .icons span:hover {
   display: grid;
   gap: 50px;
   background-color: var(--secondary-background-color);
-  padding: 50px 0;
+  padding: var(--main-padding) 0;
 }
 .info .row {
   text-align: center;
@@ -924,8 +924,12 @@ header .icons span:hover {
     margin-right: 20px;
   }
 }
+.info .row .content .text h2 {
+  word-spacing: -3px;
+}
 .info .row .content .text p {
   margin: 20px 0;
+  line-height: 1.4;
 }
 .info .row .content button {
   border: 0;
@@ -941,6 +945,7 @@ header .icons span:hover {
 .info .row .content .paragraph {
   font-size: 0;
   transition: font-size var(--font-duration) linear;
+  line-height: 1.3;
 }
 .info .row .content .paragraph.show {
   font-size: initial;
@@ -994,6 +999,109 @@ header .icons span:hover {
 
 ====================================================================
 ====================================================================
+========================== Start Articles ==========================
+====================================================================
+====================================================================
+*/
+.articles {
+  background-color: var(--secondary-background-color);
+  padding: var(--main-padding) 0;
+}
+.articles .container {
+  display: flex;
+  gap: 4%;
+  overflow: hidden;
+}
+.articles .container .article {
+  max-width: 48%;
+  min-width: 48%;
+  height: 330px;
+  position: relative;
+}
+.articles .container .article .image {
+  max-height: 315px;
+  min-height: 315px;
+  max-width: 60%;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 15px solid var(--main-background-color);
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-radius: 10px;
+}
+.articles .container .article .image img {
+  width: 100%;
+  min-height: 300px;
+  object-fit: cover;
+}
+.articles .container .article .card {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(calc(-50% - 7.5px));
+  max-width: 50%;
+  text-align: center;
+  min-height: 80%;
+  background-color: var(--main-background-color);
+  border: 15px solid var(--main-background-color);
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-radius: 10px;
+}
+.articles .container .article .card h3 {
+  color: var(--main-color);
+  word-spacing: -2px;
+  line-height: 0.95;
+}
+.articles .container .article .card .icons {
+  margin: 15px 0 10px;
+}
+.articles .container .article .card .icons i {
+  margin: 0 5px;
+}
+.articles .container .article .card p {
+  color: var(--secondary-font-color);
+  line-height: 1.3;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.articles .container .article .card a {
+  width: fit-content;
+  margin: auto;
+  color: white;
+  position: relative;
+  transition: var(--main-transition);
+}
+.articles .container .article .card a::after {
+  content: "\f141";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 12px;
+  position: absolute;
+  bottom: -2px;
+  right: -13px;
+  opacity: 0;
+  transition: opacity var(--main-transition);
+}
+.articles .container .article .card a:hover::after {
+  opacity: 1;
+  animation: move-ellipsis 0.5s linear infinite;
+}
+.articles .container .article .card a:hover {
+  transform: translateX(-10px);
+}
+
+/* 
+====================================================================
+====================================================================
+=========================== End Articles ===========================
+====================================================================
+====================================================================
+
+====================================================================
+====================================================================
 ==========================Start Animation ==========================
 ====================================================================
 ====================================================================
@@ -1012,9 +1120,9 @@ header .icons span:hover {
     transform: translateY(-20px);
   }
 }
-@keyframes move-arrow {
+@keyframes move-ellipsis {
   100% {
-    transform: translateX(10px);
+    transform: translateX(4px);
   }
 }
 @keyframes flashing {
