@@ -1135,7 +1135,8 @@ header .icons span:hover {
 .articles .article .card .content .icons .font-share-icons::before {
   content: "";
   border: 10px solid var(--secondary-background-color);
-  border-color: white transparent transparent transparent;
+  border-color: var(--secondary-background-color) transparent transparent
+    transparent;
   position: absolute;
   bottom: -27px;
 }
