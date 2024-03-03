@@ -19,7 +19,6 @@
   --font-color: black;
   --secondary-font-color: #696969;
   --scrollbar-color: #77777736;
-
   --main-transition: 0.3s;
   --main-padding: 50px;
 }
@@ -27,7 +26,6 @@
 .dark-theme {
   --main-color: #f7af01;
   --secondary-color: #bb8501;
-  /* --main-background-color: #202528; */
   --main-background-color: #1a1a1a;
   --secondary-background-color: black;
   --secondary-font-color: #e2e2e2;
@@ -979,7 +977,7 @@ header .icons span:hover {
 .tourist .scroller[data-animated="true"] .scroller__inner {
   flex-wrap: nowrap;
   width: max-content;
-  animation: scroll 25s linear infinite;
+  animation: scroll 30s linear infinite;
 }
 .tourist .images .tag-list li {
   width: 250px;
@@ -1037,7 +1035,7 @@ header .icons span:hover {
   max-height: 315px;
   min-height: 315px;
   max-width: 60%;
-  overflow: hidden;
+  background-color: var(--main-background-color);
   position: absolute;
   right: 0;
   top: 0;
@@ -1053,8 +1051,9 @@ header .icons span:hover {
 }
 .articles .container .article .image img {
   width: 100%;
-  min-height: 300px;
+  min-height: 290px;
   object-fit: cover;
+  border-radius: 5px;
 }
 .articles .container .article .card {
   display: flex;
@@ -1122,30 +1121,33 @@ header .icons span:hover {
   display: none;
   justify-content: center;
   align-items: center;
-  gap: 5px;
   position: absolute;
-  top: -61px;
+  top: -50px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--secondary-background-color);
-  border: 15px solid var(--secondary-background-color);
-  border-left-width: 10px;
-  border-right-width: 10px;
+  background-color: var(--font-color);
+  border: 10px solid var(--font-color);
+  border-left-width: 8px;
+  border-right-width: 8px;
   border-radius: 10px;
   transition: var(--main-transition);
 }
-.articles .container .article .card .content .icons .font-share-icons i:hover {
-  color: var(--main-color);
-}
-.articles .container .article .card .content .icons .font-share-icons::before {
+.articles .article .card .content .icons .font-share-icons::before {
   content: "";
   border: 10px solid var(--secondary-background-color);
-  border-color: var(--secondary-background-color) transparent transparent
-    transparent;
+  border-color: white transparent transparent transparent;
   position: absolute;
-  bottom: -33px;
+  bottom: -27px;
 }
-.articles .container .article .card a {
+.articles .article .card .content .icons .font-share-icons a {
+  color: var(--secondary-background-color);
+  font-size: 20px;
+}
+.articles .article .card .content .icons .font-share-icons a:hover {
+  color: var(--main-color);
+}
+
+.articles .container .article .card .read {
   width: fit-content;
   margin: auto;
   color: var(--font-color);
@@ -1153,16 +1155,16 @@ header .icons span:hover {
   transition: var(--main-transition);
 }
 @media (max-width: 370px) {
-  .articles .container .article .card a {
+  .articles .container .article .card .read {
     font-size: 14px;
   }
 }
 @media (max-width: 325px) {
-  .articles .container .article .card a {
+  .articles .container .article .card .read {
     font-size: 13px;
   }
 }
-.articles .container .article .card a::after {
+.articles .container .article .card .read::after {
   content: "\f141";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -1173,11 +1175,11 @@ header .icons span:hover {
   opacity: 0;
   transition: opacity var(--main-transition);
 }
-.articles .container .article .card a:hover::after {
+.articles .container .article .card .read:hover::after {
   opacity: 1;
   animation: move-ellipsis 0.5s linear infinite;
 }
-.articles .container .article .card a:hover {
+.articles .container .article .card .read:hover {
   transform: translateX(-10px);
 }
 
@@ -1243,6 +1245,9 @@ header .icons span:hover {
     height: 12px;
     border-radius: 50%;
   }
+  50.5% {
+    border-radius: 50%;
+  }
   100% {
     left: 0;
     width: 100%;
@@ -1257,11 +1262,14 @@ header .icons span:hover {
     height: 103%;
     border-radius: 0;
   }
-  50% {
+  50.5% {
     left: 0;
     width: 12px;
     height: 12px;
     border-radius: 0;
+  }
+  51% {
+    border-radius: 50%;
   }
   100% {
     left: var(--position);
@@ -1277,11 +1285,14 @@ header .icons span:hover {
     height: 103%;
     border-radius: 0;
   }
-  50% {
+  50.5% {
     right: 0;
     width: 12px;
     height: 12px;
     border-radius: 0;
+  }
+  51% {
+    border-radius: 50%;
   }
   100% {
     right: var(--position);
