@@ -1134,9 +1134,8 @@ header .icons span:hover {
 }
 .articles .article .card .content .icons .font-share-icons::before {
   content: "";
-  border: 10px solid var(--secondary-background-color);
-  border-color: var(--secondary-background-color) transparent transparent
-    transparent;
+  border: 10px solid var(--font-color);
+  border-color: var(--font-color) transparent transparent transparent;
   position: absolute;
   bottom: -27px;
 }
