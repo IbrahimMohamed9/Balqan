@@ -974,10 +974,22 @@ header .icons span:hover {
   overflow: hidden;
   mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
 }
+@media (max-width: 768px) {
+  .tourist .scroller[data-animated="true"] {
+    overflow: hidden;
+    mask: linear-gradient(
+      90deg,
+      transparent,
+      white 10%,
+      white 90%,
+      transparent
+    );
+  }
+}
 .tourist .scroller[data-animated="true"] .scroller__inner {
   flex-wrap: nowrap;
   width: max-content;
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
 }
 .tourist .images .tag-list li {
   width: 250px;
