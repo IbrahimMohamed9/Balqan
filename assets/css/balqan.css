@@ -1012,11 +1012,26 @@ header .icons span:hover {
   gap: 4%;
   overflow: hidden;
 }
+@media (max-width: 1000px) {
+  .articles .container {
+    flex-direction: column;
+  }
+}
 .articles .container .article {
   max-width: 48%;
   min-width: 48%;
   height: 330px;
   position: relative;
+}
+@media (max-width: 1000px) {
+  .articles .container .article {
+    max-width: 100%;
+    min-width: 100%;
+    height: 330px;
+    position: relative;
+  }
+}
+@media (max-width: 400px) {
 }
 .articles .container .article .image {
   max-height: 315px;
