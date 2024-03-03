@@ -154,6 +154,7 @@ a {
   width: 12px;
   height: 12px;
   border-radius: 50%;
+  z-index: -1;
   transform: translateY(-50%);
 }
 .main-title::before {
@@ -165,11 +166,9 @@ a {
   animation: var(--right-animation);
 }
 .main-title:hover::before {
-  z-index: -1;
   animation: left-move var(--animation-duration) linear forwards;
 }
 .main-title:hover::after {
-  z-index: -1;
   animation: right-move var(--animation-duration) linear forwards;
 }
 /* 
