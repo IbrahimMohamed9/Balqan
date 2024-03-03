@@ -12,8 +12,21 @@ mainTitles.forEach((mainTitle) => {
     );
   });
   mainTitle.addEventListener("mouseleave", () => {
-    // Example: Reset color of ::before pseudo-element
     mainTitle.style.removeProperty("--before-color");
+  });
+});
+
+const shareIcons = document.querySelectorAll(".fa-solid.fa-share");
+
+shareIcons.forEach((shareIcon) => {
+  shareIcon.addEventListener("click", () => {
+    const parentDiv = shareIcon.parentElement;
+    const shareList = parentDiv.querySelector(".font-share-icons");
+    if (shareList.style.display === "flex") {
+      shareList.style.display = "none";
+    } else {
+      shareList.style.display = "flex";
+    }
   });
 });
 
