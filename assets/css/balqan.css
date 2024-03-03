@@ -138,7 +138,7 @@ a {
   --position: -30px;
   --left-animation: ;
   --right-animation: ;
-  --animation-duration: 0.3s;
+  --animation-duration: 0.5s;
 }
 .main-title:hover {
   border-color: var(--main-color);
