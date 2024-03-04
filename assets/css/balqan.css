@@ -1240,6 +1240,10 @@ footer ul {
 footer ul li a {
   color: var(--font-color);
   font-size: 20px;
+  transition: color var(--main-transition);
+}
+footer ul li:hover a {
+  color: var(--main-color);
 }
 footer p {
   text-align: center;
