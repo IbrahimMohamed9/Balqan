@@ -18,7 +18,7 @@ mainTitles.forEach((mainTitle) => {
 
 const shareIcons = document.querySelectorAll(".fa-solid.fa-share");
 
-shareIcons.forEach((shareIcon) => {
+shareIcons.forEach((shareIcon, index) => {
   shareIcon.addEventListener("click", () => {
     const parentDiv = shareIcon.parentElement;
     const shareList = parentDiv.querySelector(".font-share-icons");
@@ -27,8 +27,21 @@ shareIcons.forEach((shareIcon) => {
     } else {
       shareList.style.display = "flex";
     }
+
+    shareIcons.forEach((shareIcon1, index1) => {
+      if (index1 !== index) {
+        removeOpenShare(index1);
+      }
+    });
   });
 });
+
+function removeOpenShare(index) {
+  const shareIcon = shareIcons[index];
+  const parentDiv = shareIcon.parentElement;
+  const shareList = parentDiv.querySelector(".font-share-icons");
+  shareList.style.display = "none";
+}
 
 const scrollers = document.querySelectorAll(".scroller");
 if (!window.matchMedia("(prefers-reduced-motion: reduce").matches) {
@@ -51,7 +64,7 @@ function addAnimation() {
 
 let buttons = document.querySelectorAll(".info .row .content button");
 
-buttons.forEach((button) => {
+buttons.forEach((button, index) => {
   button.addEventListener("click", function () {
     let span = this.querySelector("span");
     let paragraph = this.nextElementSibling;
@@ -63,8 +76,21 @@ buttons.forEach((button) => {
     } else {
       span.textContent = "More";
     }
+    removeOpen(index);
   });
 });
+
+function removeOpen(clickedIndex) {
+  buttons.forEach((button, index) => {
+    if (index !== clickedIndex) {
+      let paragraph = button.nextElementSibling;
+      let span = button.querySelector("span");
+
+      paragraph.classList.remove("show");
+      span.textContent = "More";
+    }
+  });
+}
 
 const heartIcon = document.querySelector(".heart.fa-regular");
 
