@@ -71,7 +71,7 @@
 */
 .form {
   background-color: var(--secondary-background-color);
-  padding: var(--main-padding) 0;
+  padding: 75px 0 var(--main-padding);
 }
 @media (max-width: 480px) {
   .form .main-title {
