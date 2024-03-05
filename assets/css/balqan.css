@@ -53,6 +53,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  letter-spacing: 0.3px;
 }
 html {
   scroll-behavior: smooth;
@@ -199,7 +200,7 @@ header .container {
   justify-content: space-between;
   align-items: center;
 }
-header .logo {
+header .logoo {
   height: 35px;
   width: 150px;
   position: relative;
@@ -211,57 +212,57 @@ header .logo {
   --animation: move-letter 0.5s linear var(--dot-animation-duration) forwards;
 }
 @media (max-width: 768.8px) {
-  header .logo {
+  header .logoo {
     width: 115px;
     height: 30px;
     --height: 30px;
   }
 }
 @media (max-width: 368px) {
-  header .logo {
+  header .logoo {
     width: 105px;
     height: 25px;
     --height: 25px;
   }
 }
 @media (max-width: 331px) {
-  header .logo {
+  header .logoo {
     height: 20px;
   }
 }
-header .logo .letter {
+header .logoo .letter {
   position: absolute;
   top: 50%;
   transform: translateY(-60%);
   height: var(--height);
 }
-header .logo:hover .letter:not(.q) {
+header .logoo:hover .letter:not(.q) {
   animation: var(--animation);
 }
-header .logo .b {
+header .logoo .b {
   left: 0;
 }
-header .logo .a-f {
+header .logoo .a-f {
   left: 16%;
 }
-header .logo .l {
+header .logoo .l {
   left: 32%;
 }
-header .logo .q {
+header .logoo .q {
   left: 42%;
   top: 50%;
   transform-origin: 50% 50%;
 }
-header .logo .letter-image {
+header .logoo .letter-image {
   height: var(--height);
 }
-header .logo .letter-image img {
+header .logoo .letter-image img {
   max-height: 100%;
 }
-header .logo:hover .letter-image {
+header .logoo:hover .letter-image {
   animation: q-rotate 0.5s linear 0.6s forwards;
 }
-header .logo .dot {
+header .logoo .dot {
   --size: 6px;
   background-color: #f9c163;
   position: absolute;
@@ -275,38 +276,38 @@ header .logo .dot {
 }
 
 @media (max-width: 768.8px) {
-  header .logo .dot {
+  header .logoo .dot {
     --size: 5px;
     top: -9%;
   }
 }
 @media (max-width: 368px) {
-  header .logo .dot {
+  header .logoo .dot {
     --size: 4px;
   }
 }
 @media (max-width: 335px) {
-  header .logo .dot {
+  header .logoo .dot {
     top: -10%;
   }
 }
 @media (max-width: 332px) {
-  header .logo .dot {
+  header .logoo .dot {
     top: -20%;
   }
 }
-header .logo .dot.right {
+header .logoo .dot.right {
   left: 50%;
   animation: logo-right-dot-reverse var(--dot-animation-duration) linear
     forwards;
 }
-header .logo:hover .dot {
+header .logoo:hover .dot {
   animation: logo-dots var(--dot-animation-duration) linear forwards;
 }
-header .logo .a-s {
+header .logoo .a-s {
   left: 58%;
 }
-header .logo .n {
+header .logoo .n {
   left: 75%;
 }
 header ul {
@@ -314,21 +315,25 @@ header ul {
   justify-content: center;
   align-items: center;
 }
-header ul.title-words li {
+header ul.tile-wrds {
+  margin-bottom: 0;
+}
+header ul.tile-wrds li {
   margin: 0 20px;
   position: relative;
   overflow: hidden;
   min-height: 50px;
+  max-height: 50px;
   display: flex;
   align-items: center;
 }
-header .title-words li a {
+header .tile-wrds li a {
   color: var(--font-color);
 }
-header .title-words li:hover a {
+header .tile-wrds li:hover a {
   color: var(--main-color);
 }
-header .title-words li a::before {
+header .tile-wrds li a::before {
   content: "";
   position: absolute;
   z-index: -2;
@@ -339,7 +344,7 @@ header .title-words li a::before {
   left: -80%;
   transition: left var(--main-transition) linear;
 }
-header .title-words li:hover a::before {
+header .tile-wrds li:hover a::before {
   z-index: 0;
   left: -10%;
 }
@@ -347,7 +352,7 @@ header .title-words li:hover a::before {
   header ul li {
     font-size: 15px;
   }
-  header ul.title-words li {
+  header ul.tile-wrds li {
     margin: 0 10px;
   }
 }
@@ -355,7 +360,7 @@ header .title-words li:hover a::before {
   header ul li {
     font-size: 15px;
   }
-  header ul.title-words li {
+  header ul.tile-wrds li {
     margin: 0 5px;
   }
 }
@@ -363,7 +368,7 @@ header .title-words li:hover a::before {
   header ul li {
     font-size: 14px;
   }
-  header ul.title-words li {
+  header ul.tile-wrds li {
     margin: 0 3px;
   }
 }
@@ -371,15 +376,15 @@ header .title-words li:hover a::before {
   header ul li {
     font-size: 13px;
   }
-  header ul.title-words li {
+  header ul.tile-wrds li {
     margin: 0 2px;
   }
 }
 @media (max-width: 320px) {
-  header ul.title-words li:nth-child(2) {
+  header ul.tile-wrds li:nth-child(2) {
     display: none;
   }
-  header ul.title-words li {
+  header ul.tile-wrds li {
     margin: 0 3px;
   }
 }
@@ -846,6 +851,7 @@ header .icons span:hover {
   gap: 50px;
   background-color: var(--secondary-background-color);
   padding: var(--main-padding) 0;
+  overflow: hidden;
 }
 .info .row {
   text-align: center;
@@ -1047,7 +1053,7 @@ header .icons span:hover {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(calc(-50% - 7.5px));
+  transform: translateY(calc(-50% - 5.5px));
   max-width: 50%;
   text-align: center;
   min-height: 80%;
@@ -1071,10 +1077,11 @@ header .icons span:hover {
   color: var(--main-color);
   word-spacing: -2px;
   line-height: 0.95;
+  font-size: calc(1rem + 0.6vw);
 }
 @media (max-width: 370px) {
   .articles .container .article .card h3 {
-    font-size: 15px;
+    font-size: 20px;
   }
 }
 .articles .container .article .card .icons {
@@ -1104,10 +1111,12 @@ header .icons span:hover {
 }
 .articles .container .article .card .content .icons .font-share-icons {
   display: none;
+  grid-template-columns: repeat(5, 30px);
+  padding-left: 0;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: -50px;
+  top: -55px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--font-color);
@@ -1121,8 +1130,10 @@ header .icons span:hover {
   content: "";
   border: 10px solid var(--font-color);
   border-color: var(--font-color) transparent transparent transparent;
+  border-bottom: 1px solid transparent;
   position: absolute;
-  bottom: -27px;
+  left: calc(50% - 10px);
+  bottom: -19px;
 }
 .articles .article .card .content .icons .font-share-icons a {
   color: var(--secondary-background-color);
@@ -1202,9 +1213,11 @@ footer .container .row:first-child {
 }
 footer .row .icons {
   margin: 15px 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
   gap: 10px;
   align-items: center;
+  justify-content: center;
 }
 footer .row .icons .instagram {
   --hover-color: #cc39a4;
