@@ -25,7 +25,6 @@
   --footer-font: #000;
   --box-shadow: rgba(0, 0, 0, 0.2);
 }
-
 .dark-theme {
   --main-color: #f7af01;
   --secondary-color: #bb8501;
@@ -35,7 +34,6 @@
   --font-color: white;
   --footer-icon: #313131;
   --footer-font: #b9b9b9;
-  --box-shadow: rgba(255, 255, 255, 0.4);
   --box-shadow: rgba(255, 255, 255, 0.4);
 }
 /* 
@@ -1469,7 +1467,6 @@ a {
   -ms-transform: translateX(-10px);
   transform: translateX(-10px);
 }
-
 /* 
 ====================================================================
 ====================================================================
