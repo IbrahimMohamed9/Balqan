@@ -1,0 +1,7 @@
+article .article-container .category span:first-child {
+  color: var(--secondary-font-color);
+}
+
+article .article-container figure picture img {
+  max-width: 100%;
+}
