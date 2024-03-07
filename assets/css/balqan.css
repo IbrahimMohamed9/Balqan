@@ -1241,14 +1241,14 @@ a {
 .coupons {
   border-radius: 7px;
 }
-.coupons form {
+.coupons .form {
   display: grid;
   grid-template-columns: 1fr 80px;
   gap: 10px;
   padding: 10px;
 }
 @media (max-width: 360px) {
-  .coupons form {
+  .coupons .form {
     grid-template-columns: 1fr;
     gap: 5px;
   }
@@ -1269,7 +1269,7 @@ a {
   background-color: transparent;
   color: var(--font-color);
 }
-.coupons form button {
+.coupons .form button {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -1288,7 +1288,7 @@ a {
   color: black;
 }
 @media (max-width: 360px) {
-  .coupons form button {
+  .coupons .form button {
     max-width: 50%;
     position: relative;
     left: 50%;
