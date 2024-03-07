@@ -241,6 +241,7 @@ a {
   caret-color: transparent;
   --height: 40px;
   --dot-animation-duration: 0.5s;
+  --dot-animation-duration-reverse: 0.7s;
   --q-position: 42%;
   --animation: move-letter 0.5s linear 0.4s forwards;
 }
@@ -324,9 +325,10 @@ a {
   -webkit-transition: var(--main-transition);
   -o-transition: var(--main-transition);
   transition: var(--main-transition);
-  -webkit-animation: logo-left-dot-reverse var(--dot-animation-duration) linear
+  -webkit-animation: logo-left-dot-reverse var(--dot-animation-duration-reverse)
+    linear forwards;
+  animation: logo-left-dot-reverse var(--dot-animation-duration-reverse) linear
     forwards;
-  animation: logo-left-dot-reverse var(--dot-animation-duration) linear forwards;
 }
 
 @media (max-width: 768.8px) {
@@ -352,9 +354,9 @@ a {
 }
 .main-header .logoo .dot.right {
   left: 50%;
-  -webkit-animation: logo-right-dot-reverse var(--dot-animation-duration) linear
-    forwards;
-  animation: logo-right-dot-reverse var(--dot-animation-duration) linear
+  -webkit-animation: logo-right-dot-reverse
+    var(--dot-animation-duration-reverse) linear forwards;
+  animation: logo-right-dot-reverse var(--dot-animation-duration-reverse) linear
     forwards;
 }
 .main-header .logoo:hover .dot {
@@ -2248,33 +2250,19 @@ footer p {
     opacity: 0;
   }
 }
-@-webkit-keyframes logo-right-dot-reverse {
-  0% {
-    top: 8%;
-    left: 48%;
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.5;
-  }
-  50% {
-    top: -15%;
-    left: 48%;
-    opacity: 1;
-  }
-  100% {
-    top: -15%;
-    left: 50%;
-    opacity: 1;
-  }
-}
+
 @keyframes logo-right-dot-reverse {
   0% {
     top: 8%;
     left: 48%;
     opacity: 0;
   }
-  5% {
+  33% {
+    top: 8%;
+    left: 48%;
+    opacity: 0;
+  }
+  37% {
     opacity: 0.5;
   }
   50% {
@@ -2285,26 +2273,6 @@ footer p {
   100% {
     top: -15%;
     left: 50%;
-    opacity: 1;
-  }
-}
-@-webkit-keyframes logo-left-dot-reverse {
-  0% {
-    top: 8%;
-    left: 48%;
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.5;
-  }
-  50% {
-    top: -15%;
-    left: 48%;
-    opacity: 1;
-  }
-  100% {
-    top: -15%;
-    left: 44%;
     opacity: 1;
   }
 }
@@ -2314,7 +2282,12 @@ footer p {
     left: 48%;
     opacity: 0;
   }
-  5% {
+  33% {
+    top: 8%;
+    left: 48%;
+    opacity: 0;
+  }
+  37% {
     opacity: 0.5;
   }
   50% {
