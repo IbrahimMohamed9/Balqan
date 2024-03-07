@@ -1169,6 +1169,9 @@ a {
   font-size: var(--font-size);
   font-weight: var(--font-weight);
 }
+.cart .products .product .select-container select option {
+  background-color: var(--main-color);
+}
 @media (max-width: 360px) {
   .cart .products .product .select-container {
     min-width: 55px;
