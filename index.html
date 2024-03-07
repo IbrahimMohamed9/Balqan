@@ -65,16 +65,18 @@
           <img src="assets/images/logo/n.png" alt="" class="n letter" />
         </div>
         <ul class="tile-wrds">
-          <li><a href="#">Story</a></li>
+          <li><a href="#">Shop</a></li>
           <li><a href="#">Profile</a></li>
           <li><a href="assets/html/contact-us.html">Contact </a></li>
         </ul>
         <div class="icons">
-          <i class="fa-regular fa-heart heart"></i>
-          <i
-            class="fa-solid fa-cart-shopping cart-shopping"
-            data-counter="0"
-          ></i>
+          <a href="">
+            <i class="fa-regular fa-heart heart"></i>
+          </a>
+          <a href="assets/html/cart.html">
+            <i class="fa-solid fa-cart-shopping cart-shopping" data-counter="2">
+            </i>
+          </a>
           <span>KM 0.00</span>
 
           <div class="dark-mode-icon">
@@ -129,6 +131,100 @@
     <!-- Start New packages -->
     <div class="new-packages new-section">
       <h2 class="main-title">new packages</h2>
+      <div id="myModal" class="modal">
+        <div class="master-container">
+          <div class="card cart">
+            <div class="top-title">
+              <label class="title">Your cart</label>
+              <i class="fa-solid fa-xmark x"></i>
+            </div>
+            <div class="products">
+              <div class="product">
+                <img src="assets/images/package/en/package-7.jpg" alt="" />
+                <div>
+                  <span>Package</span>
+                  <p>7 Days</p>
+                  <div class="select-container">
+                    <select name="plans" id="plans">
+                      <option value="plan1">Plan 1</option>
+                      <option value="plan2">Plan 2</option>
+                      <option value="plan3">Plan 3</option>
+                      <option value="plan4">Plan 4</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </div>
+                </div>
+                <div class="quantity">
+                  <button>
+                    <svg
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      height="14"
+                      width="14"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                        stroke="black"
+                        d="M20 12L4 12"
+                      ></path>
+                    </svg>
+                  </button>
+                  <label>2</label>
+                  <button>
+                    <svg
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      height="14"
+                      width="14"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                        stroke="black"
+                        d="M12 4V20M20 12H4"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <label class="price small">$23.99</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card coupons">
+            <label class="title top-title">Apply coupons</label>
+            <form class="form">
+              <input
+                type="text"
+                placeholder="Apply your coupons here"
+                class="input_field"
+              />
+              <button>Apply</button>
+            </form>
+          </div>
+
+          <div class="card checkout">
+            <label class="title top-title">Checkout</label>
+            <div class="details">
+              <span>Your cart subtotal:</span>
+              <span>47.99$</span>
+              <span>Discount through applied coupons:</span>
+              <span>3.99$</span>
+              <span>Shipping fees:</span>
+              <span>4.99$</span>
+            </div>
+            <div class="checkout--footer">
+              <label class="price"><sup>$</sup>57.99</label>
+              <button class="checkout-btn">Checkout</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="container">
         <div class="package">
           <div class="box">
@@ -146,7 +242,7 @@
             <h3>4 Days</h3>
             <p>Price: 0.00 KM</p>
           </div>
-          <button></button>
+          <button class="pckbtn"></button>
         </div>
         <div class="package">
           <div class="box">
@@ -164,7 +260,7 @@
             <h3>7 Days</h3>
             <p>Price: 0.00 KM</p>
           </div>
-          <button></button>
+          <button class="pckbtn"></button>
         </div>
         <div class="package">
           <div class="box">
@@ -182,7 +278,7 @@
             <h3>10 Days</h3>
             <p>Price: 0.00 KM</p>
           </div>
-          <button></button>
+          <button class="pckbtn"></button>
         </div>
         <div class="package">
           <div class="box">
@@ -200,7 +296,7 @@
             <h3>14 Days</h3>
             <p>Price: 0.00 KM</p>
           </div>
-          <button></button>
+          <button class="pckbtn"></button>
         </div>
       </div>
     </div>

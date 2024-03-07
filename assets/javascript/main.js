@@ -124,3 +124,22 @@ if (icon) {
 } else {
   console.error("The element with ID 'switch' was not found.");
 }
+
+var modal = document.getElementById("myModal");
+
+var btns = document.querySelectorAll(".pckbtn");
+
+function handleClick() {
+  modal.classList.add("active");
+}
+
+btns.forEach((button) => button.addEventListener("click", handleClick));
+
+document.querySelector(".x").addEventListener("click", function () {
+  modal.classList.remove("active");
+});
+
+// Handle clicks on .checkout-btn element
+document.querySelector(".checkout-btn").addEventListener("click", function () {
+  modal.classList.remove("active");
+});
