@@ -121,6 +121,101 @@
 
     <!-- Start Cart -->
     <div class="cart">
+      <div id="myModal" class="modal">
+        <div class="master-container">
+          <div class="card cart">
+            <div class="top-title">
+              <label class="title">Cart Items</label>
+              <i class="fa-solid fa-xmark x"></i>
+            </div>
+            <div class="products">
+              <div class="product">
+                <img src="../images/package/en/package-14.jpg" alt="" />
+                <div>
+                  <span>Package</span>
+                  <p>14 Days</p>
+                  <p>Plain 1</p>
+                </div>
+                <div class="quantity">
+                  <button>
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <span>2</span>
+                  <button>
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+                <label class="price small">KM23.99</label>
+              </div>
+              <div class="product">
+                <img src="../images/package/en/package-4.jpg" alt="" />
+                <div>
+                  <span>Package</span>
+                  <p>4 Days</p>
+                  <p>Plain 1</p>
+                </div>
+                <div class="quantity">
+                  <button>
+                    <i class="fa-solid fa-minus"></i>
+                  </button>
+                  <span>2</span>
+                  <button>
+                    <i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+                <label class="price small">KM23.99</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card coupons">
+            <label class="title top-title">Apply coupons</label>
+            <!-- 
+      
+      
+      
+            
+            Edit here importan 
+      
+      
+      
+            
+          -->
+            <div class="form">
+              <input
+                type="text"
+                placeholder="Apply your coupons"
+                class="input_field"
+              />
+              <button>Apply</button>
+            </div>
+            <!--
+      
+      
+      
+      
+            Edit here importan 
+      
+      
+      
+      
+          --></div>
+
+          <div class="card checkout">
+            <label class="title top-title">Total</label>
+            <div class="details">
+              <span>Your subtotal:</span>
+              <span>47.98KM</span>
+              <span>Discount through applied coupons:</span>
+              <span>3.99KM</span>
+            </div>
+            <div class="checkout--footer">
+              <label class="price"><sup>KM</sup>47.98</label>
+              <button class="checkout-btn">Pay</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="containerr">
         <div class="right-corner">
           <a href="../../index.html">Home</a>
@@ -212,6 +307,9 @@
               </p>
             </div>
           </div>
+          <div class="footer">
+            <button class="btn-pay pckbtn">Proceed to checkout</button>
+          </div>
         </div>
       </div>
     </div>
@@ -263,112 +361,3 @@
     <script src="../javascript/main.js"></script>
   </body>
 </html>
-
-<!-- <div class="master-container">
-  <div class="card cart">
-    <div class="top-title">
-      <label class="title">Cart Items</label>
-      <i class="fa-solid fa-xmark x"></i>
-    </div>
-    <div class="products">
-      <div class="product">
-        <img src="assets/images/package/en/package-7.jpg" alt="" />
-        <div>
-          <span>Package</span>
-          <p>7 Days</p>
-          <div class="select-container">
-            <select name="plans" id="plans">
-              <option value="plan1">Plan 1</option>
-              <option value="plan2">Plan 2</option>
-              <option value="plan3">Plan 3</option>
-              <option value="plan4">Plan 4</option>
-            </select>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-        </div>
-        <div class="quantity">
-          <button>
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              height="14"
-              width="14"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2.5"
-                stroke="black"
-                d="M20 12L4 12"
-              ></path>
-            </svg>
-          </button>
-          <label>2</label>
-          <button>
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              height="14"
-              width="14"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2.5"
-                stroke="black"
-                d="M12 4V20M20 12H4"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <label class="price small">KM23.99</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="card coupons">
-    <label class="title top-title">Apply coupons</label>
-    <!- 
-
-
-
-      
-      Edit here importan 
-
-
-
-      
-    ->
-    <div class="form">
-      <input type="text" placeholder="Apply your coupons" class="input_field" />
-      <button>Apply</button>
-    </div>
-    <!-
-
-
-
-
-      Edit here importan 
-
-
-
-
-    ->
-  </div>
-
-  <div class="card checkout">
-    <label class="title top-title">Total</label>
-    <div class="details">
-      <span>Your subtotal:</span>
-      <span>47.98KM</span>
-      <span>Discount through applied coupons:</span>
-      <span>3.99KM</span>
-    </div>
-    <div class="checkout--footer">
-      <label class="price"><sup>KM</sup>47.98</label>
-      <button class="checkout-btn">Add to cart</button>
-    </div>
-  </div>
-</div> -->

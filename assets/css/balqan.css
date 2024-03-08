@@ -1121,6 +1121,12 @@ a {
   --height: 30px;
   --font-weight: 700;
   --font-size: 15px;
+  background-color: var(--secondary-background-color);
+  padding: 5px;
+  border-radius: 8px;
+}
+.cart .products .product:not(:last-child) {
+  margin-bottom: 10px;
 }
 @media (max-width: 360px) {
   .cart .products .product {
