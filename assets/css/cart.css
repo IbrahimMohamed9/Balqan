@@ -20,6 +20,37 @@
   word-spacing: -3px;
   margin-top: 5px;
 }
+.containerr {
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+/* Medium devices */
+@media (min-width: 576px) {
+  .containerr {
+    width: 98%;
+    padding: 0;
+  }
+}
+/* Large devices */
+@media (min-width: 768px) {
+  .containerr {
+    width: 750px;
+  }
+}
+/* Extra large devices */
+@media (min-width: 992px) {
+  .containerr {
+    width: 970px;
+  }
+}
+/* Extra Extra large devices */
+@media (min-width: 1200px) {
+  .containerr {
+    width: 1170px;
+  }
+}
 .row > *:not(:nth-child(2)) {
   flex-shrink: 0;
   width: fit-content;
@@ -30,34 +61,40 @@
   align-items: center;
   justify-content: center;
 }
-.cart .container .products .row p {
+.cart .containerr .products .row p {
   text-align: center;
   min-width: 100%;
+  position: relative;
 }
-.cart .container .products .row {
+.cart .containerr .products .row p i {
+  position: absolute;
+  right: 10%;
+  color: #969696;
+}
+.cart .containerr .products .row {
   padding: 10px 0 5px;
   display: grid;
   grid-template-columns: 100px 20% repeat(3, 1fr);
   gap: 10px;
   border-bottom: 1px solid var(--secondary-product-color);
 }
-.cart .container .products .row:first-child {
+.cart .containerr .products .row:first-child {
   padding: 0;
   max-height: 27px;
 }
-.cart .container .products .row .image {
+.cart .containerr .products .row .image {
   overflow: hidden;
   border-radius: 5px;
   max-width: 90px;
   max-height: 90px;
 }
-.cart .container .products .row .image img {
+.cart .containerr .products .row .image img {
   min-width: 100%;
   max-width: 100%;
   min-height: 100%;
   max-height: 100%;
 }
-.cart .container .products .row .quantity {
+.cart .containerr .products .row .quantity {
   min-width: 80px;
   max-width: 80px;
   height: var(--height);
@@ -68,8 +105,16 @@
   color: black;
   overflow: hidden;
 }
-.cart .container .products .row .total p .down {
+.cart .containerr .products .row .price p {
+  font-weight: normal;
+  font-size: 20px;
+}
+.cart .containerr .products .row .total p {
+  font-weight: normal;
+  font-size: 20px;
+}
+.cart .containerr .products .row p .down {
   top: 0;
 }
-.cart .container .products .row {
+.cart .containerr .products .row {
 }
