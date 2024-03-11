@@ -58,6 +58,8 @@ body .page + .content + footer {
   min-width: calc(100% - var(--sidebar-width));
   position: relative;
   top: -100vh;
+  z-index: 3;
+  bottom: 0;
   left: calc(var(--sidebar-width));
   background-color: var(--main-background-color);
 }
@@ -65,22 +67,12 @@ body .page + .content + footer .container {
   max-width: 100%;
 }
 @media (max-width: 300px) {
-  body .page + .content + footer {
-    z-index: 3;
-    max-width: calc(100% - var(--sidebar-width));
-    min-width: calc(100% - var(--sidebar-width));
-    position: relative;
-    left: var(--sidebar-width);
-    bottom: 0;
-    background-color: var(--main-background-color);
-  }
   body .page + .content + footer .container {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
     padding-top: 15px;
     padding-bottom: 15px;
-    background-color: var(--main-background-color);
   }
   footer .row .image img {
     max-width: 210px;
@@ -112,8 +104,8 @@ body .page + .content + footer .container {
   .dash .main-header .container {
     margin-left: 50px;
     margin-right: 50px;
-    min-width: calc(100% - 100px);
-    max-width: calc(100% - 100px);
+    min-width: calc(100vw - 100px);
+    max-width: calc(100vw - 100px);
   }
 }
 /* 
@@ -125,10 +117,11 @@ body .page + .content + footer .container {
 */
 .sidebar {
   width: var(--sidebar-width);
-  box-shadow: 0 4px 10px var(--box-shadow);
+  box-shadow: 0 0 10px var(--box-shadow);
   position: fixed;
+
   min-height: calc(100vh);
-  z-index: 101;
+  z-index: 90;
 }
 .sidebar ul li a {
   transition: var(--main-transition);
@@ -814,8 +807,8 @@ textarea {
 }
 .toggle-switch {
   background-color: #ccc;
-  width: 45px;
-  height: 20px;
+  width: 40px;
+  height: 15px;
   border-radius: 16px;
   position: relative;
   transition: var(--main-transition);
@@ -826,25 +819,25 @@ textarea {
   content: "\f00d";
   font-weight: 900;
   background-color: white;
-  width: 16px;
-  height: 16px;
+  width: 13px;
+  height: 13px;
   position: absolute;
   border-radius: 50%;
-  top: 2px;
+  top: 1px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #aaa;
-  font-size: 12px;
+  font-size: 10px;
   transition: var(--main-transition);
-  left: 2px;
+  left: 1px;
 }
 .toggle-checkbox:checked + .toggle-switch {
   background-color: var(--main-color);
 }
 .toggle-checkbox:checked + .toggle-switch::before {
   content: "\f00c";
-  left: 27px;
+  left: 26px;
   color: var(--main-color);
 }
 .settings-page :disabled {
@@ -894,22 +887,20 @@ textarea {
   background-color: var(--main-color);
   border-radius: 6px;
 }
-@media (min-width: 768px) {
-  .profile-page .info-box {
-    border-left: 1px solid #eee;
-  }
-}
 .profile-page .info-box .box {
   flex-wrap: wrap;
   border-bottom: 1px solid #eee;
+  border-left: 1px solid #eee;
   transition: var(--main-transition);
 }
 .profile-page .info-box .box:first-of-type {
   border-top: 1px solid #eee;
   border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 .profile-page .info-box .box:last-of-type {
   border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 @media (max-width: 768px) {
   .profile-page .info-box .box:last-of-type,

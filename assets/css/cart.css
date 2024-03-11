@@ -299,7 +299,7 @@ header + .cart {
 .cart .containerr .products .footer {
   position: relative;
 }
-.cart .containerr .products .footer .btn-pay {
+.footer .btn-pay {
   padding: 10px 15px;
   border-radius: 8px;
   background-color: var(--main-color);
