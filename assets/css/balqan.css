@@ -92,6 +92,7 @@ body.fix {
 }
 ul {
   list-style: none;
+  padding-left: 0;
 }
 a {
   text-decoration: none;
@@ -1317,9 +1318,7 @@ a {
 ====================================================================
 ====================================================================
 */
-.info {
-  padding: 50px 0;
-  display: -ms-grid;
+.new-packages + .info {
   display: grid;
   gap: 50px;
   background-color: var(--third-background-color);

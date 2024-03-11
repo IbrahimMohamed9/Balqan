@@ -6,15 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   barIcon.addEventListener("click", function () {
-    if (body.classList.contains("sidebar-250px")) {
-      body.classList.remove("sidebar-250px");
-      body.classList.add("sidebar-58px");
+    if (body.classList.contains("sidebar-250")) {
+      body.classList.remove("sidebar-250");
+      body.classList.add("sidebar-58");
       hideMobileSpans.forEach((span) => {
         span.style.display = "none";
       });
     } else {
-      body.classList.remove("sidebar-58px");
-      body.classList.add("sidebar-250px");
+      body.classList.remove("sidebar-58");
+      body.classList.add("sidebar-250");
       hideMobileSpans.forEach((span) => {
         span.style.display = "";
       });
