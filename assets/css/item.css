@@ -295,22 +295,57 @@ header + .cart.item {
 .more-items {
   padding: 30px 0;
   background-color: var(--secondary-background-color);
+  position: relative;
 }
 .more-items .container {
   display: flex;
-  column-gap: 10px;
-  /* overflow-x: auto; */
+  column-gap: 25px;
+  overflow-x: auto;
+}
+.more-items .container::-webkit-scrollbar {
+  display: none;
+}
+.more-items::after,
+.more-items::before {
+  --position: 10px;
+  --dimension: 30px;
+  width: var(--dimension);
+  height: var(--dimension);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--grey-color);
+  font-family: var(--fa-style-family-classic);
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  z-index: 5;
+}
+.more-items::before {
+  content: "\f054";
+  right: var(--position);
+}
+.more-items::after {
+  content: "\f053";
+  left: var(--position);
 }
 .more-items .container .col {
+  margin: 10px 0;
+  max-height: 95%;
   max-width: 225px;
   min-width: 225px;
   display: flex;
   flex-direction: column;
-  background-color: var(--main-background-color);
-  border: 10px solid var(--main-background-color);
+  border: 10px solid transparent;
   border-left-width: 5px;
   border-right-width: 5px;
   border-radius: 8px;
+  box-shadow: -5px 5px 9px -3px var(--box-shadow),
+    4px -5px 9px -3px var(--box-shadow);
 }
 .more-items .container .col h2 {
   color: var(--secondary-font-color);
@@ -324,7 +359,7 @@ header + .cart.item {
   max-height: 220px;
 }
 .more-items .container .col .image img {
-  max-height: 220px;
+  max-height: 225px;
   min-width: 100%;
   position: relative;
   left: 50%;

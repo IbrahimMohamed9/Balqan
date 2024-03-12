@@ -903,9 +903,8 @@ textarea {
   border-bottom-left-radius: 6px;
 }
 @media (max-width: 768px) {
-  .profile-page .info-box .box:last-of-type,
-  .profile-page .info-box .box:first-of-type {
-    border-radius: 6px;
+  .profile-page .info-box .box {
+    border-right: 1px solid #eee;
   }
 }
 .profile-page .info-box .box:hover {

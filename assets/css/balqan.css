@@ -610,12 +610,7 @@ a {
   border-left-width: 10px;
   border-right-width: 10px;
   border-radius: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 0 10px -2px var(--box-shadow);
@@ -628,32 +623,23 @@ a {
 .new-packages .package .box {
   position: relative;
   width: 100%;
-  -ms-flex-preferred-size: 280px;
   flex-basis: 280px;
-  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
   transition: 0.5s;
-  -webkit-transform-origin: center center;
-  -ms-transform-origin: center center;
   transform-origin: center center;
 }
 @media (max-width: 993px) {
   .new-packages .package .box {
-    -ms-flex-preferred-size: 200px;
     flex-basis: 200px;
   }
 }
 @media (max-width: 991.9px) {
   .new-packages .package .box {
-    -ms-flex-preferred-size: 207px;
     flex-basis: 207px;
   }
 }
 @media (max-width: 767.8px) {
   .new-packages .package .box {
-    -ms-flex-preferred-size: 226px;
     flex-basis: 226px;
   }
 }
@@ -1340,26 +1326,14 @@ a {
   direction: rtl;
 }
 .info .row .image {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
 }
 .info .row .wrap {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
 }
 .info .row .wrap .content {
@@ -1695,6 +1669,11 @@ a {
   left: calc(50% - 10px);
   bottom: -19px;
   transition: var(--main-transition);
+}
+.icons .font-share-icons li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .icons .font-share-icons a {
   color: var(--secondary-background-color);
@@ -2262,3 +2241,8 @@ footer p {
 ====================================================================
 ====================================================================
 */
+.change-me {
+  display: inline;
+  color: var(--font-color);
+  cursor: auto;
+}
