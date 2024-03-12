@@ -9,11 +9,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/normalize.css" />
-    <link rel="stylesheet" href="../css/balqan.css" />
-
     <link rel="stylesheet" href="../css/cart.css" />
+    <link rel="stylesheet" href="../css/balqan.css" />
     <link rel="stylesheet" href="../css/item.css" />
-
     <!-- Font Awesome Library -->
     <link rel="stylesheet" href="../css/all.min.css" />
     <!-- Google Font -->
@@ -124,21 +122,29 @@
       </div>
     </header>
     <!-- End Header -->
-    <div class="cart item">
+    <div class="cart item p-relative">
       <div id="myModal" class="modal">
         <div class="master-container">
           <div class="card cart">
             <div class="top-title">
-              <span class="title">Cart Items</span>
+              <span class="title">Package</span>
               <i class="fa-solid fa-xmark x"></i>
             </div>
             <div class="products">
               <div class="product">
-                <img src="../images/package/en/package-4.jpg" alt="" />
+                <img src="../images/package/en/package-7.jpg" alt="" />
                 <div>
-                  <span>Package</span>
-                  <p>4 Days</p>
-                  <p>Plain 1</p>
+                  <!-- <span>Package</span> -->
+                  <p>7 Days</p>
+                  <div class="select-container">
+                    <select name="plans" id="plans">
+                      <option value="plan1">Plan 1</option>
+                      <option value="plan2">Plan 2</option>
+                      <option value="plan3">Plan 3</option>
+                      <option value="plan4">Plan 4</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </div>
                 </div>
                 <div class="quantity">
                   <button>
@@ -149,21 +155,22 @@
                     <i class="fa-solid fa-plus"></i>
                   </button>
                 </div>
-                <span class="price small">KM23.99</span>
+                <span class="price small">$23.99</span>
               </div>
             </div>
           </div>
-
           <div class="card checkout">
             <span class="title top-title">Total</span>
             <div class="details">
-              <span>Your subtotal:</span>
-              <span>47.98KM</span>
-              <span>Discount through applied coupons:</span>
-              <span>3.99KM</span>
+              <span>Your total:</span>
+              <span>47.98$</span>
+              <!-- <span>Discount through applied coupons:</span>
+              <span>3.99$</span>
+              <span>Shipping fees:</span>
+              <span>4.99$</span> -->
             </div>
             <div class="checkout--footer">
-              <span class="price"><sup>KM</sup>47.98</span>
+              <span class="price"><sup>$</sup>47.98</span>
               <button class="checkout-btn">Add to cart</button>
             </div>
           </div>
@@ -181,7 +188,7 @@
       <div class="item-container p-relative">
         <!-- Start Item Images -->
         <div class="images">
-          <div class="main p-relative p-relative-c-m ">
+          <div class="main p-relative p-relative-c-m">
             <img
               class="center"
               src="../images/item/activeExample.jpeg"
@@ -218,7 +225,7 @@
               <i class="fa-solid fa-share share"></i>
             </div>
           </div>
-          <div class="span-container p-relative p-relative-c-m ">
+          <div class="span-container p-relative p-relative-c-m">
             <span class="images-span center">Roll over image to zoom in </span>
           </div>
           <div class="list-container p-relative">
@@ -279,11 +286,20 @@
             the advantages provided to you The option can also be modified
             according to the customer's choice
           </p>
-          <div class="footer">
-            <button class="btn-pay pckbtn">Add to cart</button>
+        </div>
+        <div class="add">
+          <div class="wrapper">
+            <div class="price"><sup>km</sup>150<sub>.00</sub></div>
+            <select name="peopleCount" id="count" class="btn">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+            <button class="pckbtn btn">Add to cart</button>
+            <button class="pckbtn btn pay">Pay Now</button>
           </div>
         </div>
-        
       </div>
     </div>
     <!-- Start Footer -->
