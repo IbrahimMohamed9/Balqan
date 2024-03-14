@@ -123,13 +123,13 @@ body .page + .content + footer .container {
   min-height: calc(100vh);
   z-index: 90;
 }
-.sidebar ul li a {
+.sidebar ul li span {
   transition: var(--main-transition);
   margin-bottom: 5px;
   width: 100%;
 }
-.sidebar ul li a:hover,
-.sidebar ul li a.active {
+.sidebar ul li span:hover,
+.sidebar ul li span.active {
   background-color: var(--third-font-color);
 }
 @media (max-width: 768px) {

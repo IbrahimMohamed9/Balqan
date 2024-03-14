@@ -74,6 +74,9 @@
 .d-block {
   display: block;
 }
+.d-none {
+  display: none;
+}
 @media (max-width: 330px) {
   .center-f {
     justify-content: center;
