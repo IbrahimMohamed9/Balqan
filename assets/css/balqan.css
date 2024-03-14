@@ -602,8 +602,6 @@ a {
   }
 }
 .new-packages .package {
-  -webkit-transition: var(--main-transition);
-  -o-transition: var(--main-transition);
   transition: var(--main-transition);
   background-color: var(--secondary-background-color);
   border: 15px solid var(--secondary-background-color);
@@ -616,11 +614,9 @@ a {
   box-shadow: 0 0 10px -2px var(--box-shadow);
 }
 .new-packages .package:hover {
-  -webkit-transform: translateY(-10px);
-  -ms-transform: translateY(-10px);
   transform: translateY(-10px);
 }
-.new-packages .package .box {
+.package .box {
   position: relative;
   width: 100%;
   flex-basis: 280px;
@@ -629,115 +625,104 @@ a {
   transform-origin: center center;
 }
 @media (max-width: 993px) {
-  .new-packages .package .box {
+  .package .box {
     flex-basis: 200px;
   }
 }
 @media (max-width: 991.9px) {
-  .new-packages .package .box {
+  .package .box {
     flex-basis: 207px;
   }
 }
 @media (max-width: 767.8px) {
-  .new-packages .package .box {
+  .package .box {
     flex-basis: 226px;
   }
 }
 @media (max-width: 575.7px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 243px;
+  .package .box {
     flex-basis: 243px;
   }
 }
 @media (max-width: 565.8px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 237px;
+  .package .box {
     flex-basis: 237px;
   }
 }
 @media (max-width: 550px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 225px;
+  .package .box {
     flex-basis: 225px;
   }
 }
 @media (max-width: 525px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 220px;
+  .package .box {
     flex-basis: 220px;
   }
 }
 @media (max-width: 508px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 205px;
+  .package .box {
     flex-basis: 205px;
   }
 }
 @media (max-width: 476px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 190px;
+  .package .box {
     flex-basis: 190px;
   }
 }
 @media (max-width: 470.8px) {
-  .new-packages .package .box {
+  .package .box {
     -ms-flex-preferred-size: 190px;
     flex-basis: 190px;
   }
 }
 @media (max-width: 441px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 174px;
+  .package .box {
     flex-basis: 174px;
   }
 }
 @media (max-width: 405px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 150px;
+  .package .box {
     flex-basis: 150px;
   }
 }
 @media (max-width: 365px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 135px;
+  .package .box {
     flex-basis: 135px;
   }
 }
 @media (max-width: 349.8px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 300px;
+  .package .box {
     flex-basis: 300px;
   }
 }
 @media (max-width: 336px) {
-  .new-packages .package .box {
+  .package .box {
     -ms-flex-preferred-size: 280px;
     flex-basis: 280px;
   }
 }
 @media (max-width: 315px) {
-  .new-packages .package .box {
+  .package .box {
     -ms-flex-preferred-size: 262px;
     flex-basis: 262px;
   }
 }
 @media (max-width: 300px) {
-  .new-packages .package .box {
+  .package .box {
     -ms-flex-preferred-size: 250px;
     flex-basis: 250px;
   }
 }
 @media (max-width: 282px) {
-  .new-packages .package .box {
-    -ms-flex-preferred-size: 232px;
+  .package .box {
     flex-basis: 232px;
   }
 }
-.new-packages .package:hover .box {
+.package:hover .box {
   -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
 }
-.new-packages .package .box .face {
+.package .box .face {
   width: 100%;
   height: 100%;
   border-radius: 8px;
@@ -746,24 +731,15 @@ a {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-.new-packages .package .box .back {
+.package .box .back {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
-  background-color: var(--main-background-color);
+  background-color: var(--secondary-background-color);
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   gap: 20px;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 }
 @media (max-width: 992.8px) {
