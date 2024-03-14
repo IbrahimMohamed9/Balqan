@@ -42,9 +42,12 @@ const friendsIcon = document.getElementById("friends");
 const filesIcon = document.getElementById("files");
 const dashboardIcon = document.getElementById("dashboard");
 
-function switchPage(clickedIcon, targetPage) {
+const profileH1 = document.getElementById("p-h1");
+
+function switchPage(clickedIcon, targetPage, h1Content) {
   targetPage.classList.remove("d-none");
   clickedIcon.classList.add("active");
+  profileH1.innerHTML = h1Content;
 
   const pages = [
     profilePage,
@@ -78,18 +81,20 @@ function switchPage(clickedIcon, targetPage) {
 }
 
 profileIcon.addEventListener("click", () =>
-  switchPage(profileIcon, profilePage)
+  switchPage(profileIcon, profilePage, "Profile")
 );
 settingsIcon.addEventListener("click", () =>
-  switchPage(settingsIcon, settingsPage)
+  switchPage(settingsIcon, settingsPage, "Settings")
 );
 projectsIcon.addEventListener("click", () =>
-  switchPage(projectsIcon, projectsPage)
+  switchPage(projectsIcon, projectsPage, "Projects")
 );
 friendsIcon.addEventListener("click", () =>
-  switchPage(friendsIcon, friendsPage)
+  switchPage(friendsIcon, friendsPage, "Friends")
 );
-filesIcon.addEventListener("click", () => switchPage(filesIcon, filesPage));
+filesIcon.addEventListener("click", () =>
+  switchPage(filesIcon, filesPage, "Files")
+);
 dashboardIcon.addEventListener("click", () =>
-  switchPage(dashboardIcon, dashboardPage)
+  switchPage(dashboardIcon, dashboardPage, "Dashboard")
 );
