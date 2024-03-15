@@ -97,7 +97,7 @@ header + .cart.item {
   position: absolute;
   right: 0;
   --left: -35px;
-  top: 25px;
+  top: 0;
 }
 .cart.item .item-container .icons .share {
   cursor: pointer;
@@ -218,7 +218,7 @@ header + .cart.item {
 .cart.item .item-container .images .main {
   max-height: 330px;
   max-width: 429px;
-  min-height: 330px;
+  min-height: 270px;
   min-width: 429px;
 }
 .cart.item .item-container .images .main img {
@@ -226,6 +226,7 @@ header + .cart.item {
   max-width: 430px;
 }
 .cart.item .item-container .images .span-container {
+  margin-top: 10px;
   min-height: 40px;
   min-width: 429px;
   max-width: 429px;
