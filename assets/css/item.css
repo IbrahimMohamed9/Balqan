@@ -100,9 +100,10 @@ header + .cart.item {
   top: 25px;
 }
 .cart.item .item-container .icons .share {
+  cursor: pointer;
   position: absolute;
   --dimantion: 30px;
-  background-image: url(../images/share-std.svg);
+  background-image: url(../images/shareIcons/share-black.svg);
   background-repeat: no-repeat;
   background-position: center;
   width: var(--dimantion);
@@ -113,7 +114,7 @@ header + .cart.item {
   background-color: var(--secondary-background-color);
 }
 .dark-theme .cart.item .item-container .icons .share {
-  background-image: url(../images/Untitled.svg);
+  background-image: url(../images/shareIcons/share-white.svg);
 }
 .cart.item .item-container .icons .share::before {
   position: relative;
