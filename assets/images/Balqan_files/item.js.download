@@ -47,12 +47,9 @@ const rightArrowItems = document.querySelector(".more-items .right-arrow");
 
 leftArrowItems.addEventListener("click", () => {
   containerItems.style.transform = "translateX(-225px)";
-  leftArrowItems.style.outlineColor = "var(--secondary-color)";
 });
-
 rightArrowItems.addEventListener("click", () => {
   containerItems.style.transform = "translateX(125px)";
-  rightArrowItems.style.outlineColor = "var(--secondary-color)";
 });
 
 const shareIcons = document.querySelectorAll(".share");
