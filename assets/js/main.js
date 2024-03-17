@@ -38,7 +38,6 @@ function logoAnimation() {
 
 //dots in main-title
 const mainTitles = document.querySelectorAll(".main-title");
-const stylePseudo = document.getElementById("pseudo-elemets-style");
 
 mainTitles.forEach((mainTitle) => {
   mainTitle.addEventListener("mouseenter", () => {
