@@ -50,7 +50,7 @@ function mainTitleAnimation(title) {
   setTimeout(() => {
     title.classList.remove("hovered");
     title.classList.add("unhovered");
-  }, 800);
+  }, 1500);
 }
 //change heart in hover header
 const heartIcon = document.querySelector(".heart.fa-regular");
