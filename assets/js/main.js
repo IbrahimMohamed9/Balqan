@@ -45,8 +45,4 @@ if (icon) {
   console.error("The element with ID 'switch' was not found.");
 }
 
-//redirect
-document.getElementById("p-1-4").addEventListener("click", redirect);
-function redirect() {
-  window.location = "assets/html/item.html";
-}
+

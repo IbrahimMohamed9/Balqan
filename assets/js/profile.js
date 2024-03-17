@@ -44,7 +44,7 @@ const dashboardIcon = document.getElementById("dashboard");
 
 const profileH1 = document.getElementById("p-h1");
 
-function switchPage(clickedIcon, targetPage, h1Content) {
+function switchPage(clickedIcon, targetPage, h1Content = "Profile") {
   targetPage.classList.remove("d-none");
   clickedIcon.classList.add("active");
   profileH1.innerHTML = h1Content;
@@ -81,7 +81,7 @@ function switchPage(clickedIcon, targetPage, h1Content) {
 }
 
 profileIcon.addEventListener("click", () =>
-  switchPage(profileIcon, profilePage, "Profile")
+  switchPage(profileIcon, profilePage)
 );
 settingsIcon.addEventListener("click", () =>
   switchPage(settingsIcon, settingsPage, "Settings")
