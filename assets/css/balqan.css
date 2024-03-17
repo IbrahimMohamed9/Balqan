@@ -165,9 +165,7 @@ a {
   transition: var(--main-transition);
   --position: -30px;
   --animation-duration: 0.5s;
-}
-.main-title:hover {
-  transition-delay: calc(var(--animation-duration) + 0.01s);
+  transition-delay: var(--animation-duration);
 }
 .main-title::before,
 .main-title::after {
@@ -198,13 +196,6 @@ a {
     --position: -15px;
   }
 }
-.main-title.unhovered::before {
-  animation: left-move-reverse var(--animation-duration) linear forwards;
-}
-.main-title.unhovered::after {
-  animation: right-move-reverse var(--animation-duration) linear forwards;
-}
-
 .main-title.hovered::before {
   animation: left-move var(--animation-duration) linear forwards;
 }
@@ -212,8 +203,19 @@ a {
   animation: right-move var(--animation-duration) linear forwards;
 }
 .main-title.hovered {
-  border-color: var(--main-color);
   color: var(--secondary-background-color);
+  border-color: var(--main-color);
+}
+.main-title.unhovered {
+  border-color: var(--font-color);
+  color: var(--font-color);
+  transition-delay: 0.0s;
+}
+.main-title.unhovered::before {
+  animation: left-move-reverse var(--animation-duration) linear forwards;
+}
+.main-title.unhovered::after {
+  animation: right-move-reverse var(--animation-duration) linear forwards;
 }
 /* 
 ====================================================================

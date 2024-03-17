@@ -45,6 +45,7 @@ mainTitles.forEach((mainTitle) => {
   });
 });
 function mainTitleAnimation(title) {
+  title.classList.remove("unhovered");
   title.classList.add("hovered");
   setTimeout(() => {
     title.classList.remove("hovered");
