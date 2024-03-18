@@ -10,6 +10,7 @@ letters.splice(3, 3);
 
 window.addEventListener("load", logoAnimation);
 logo.addEventListener("mouseenter", logoAnimation);
+logo.addEventListener("click", logoAnimation);
 
 function logoAnimation() {
   leftDot.style.animation =
@@ -43,6 +44,9 @@ mainTitles.forEach((mainTitle) => {
   mainTitle.addEventListener("mouseenter", () => {
     mainTitleAnimation(mainTitle);
   });
+  mainTitle.addEventListener("click", () => {
+    mainTitleAnimation(mainTitle);
+  });
 });
 function mainTitleAnimation(title) {
   title.classList.remove("unhovered");
@@ -67,14 +71,56 @@ heartIcon.addEventListener("mouseleave", () => {
 
 //dark theme
 const icon = document.getElementById("switch");
-if (icon) {
-  icon.addEventListener("click", function () {
-    if (body.classList.contains("dark-theme")) {
-      body.classList.remove("dark-theme");
-    } else {
-      body.classList.add("dark-theme");
-    }
-  });
-} else {
-  console.error("The element with ID 'switch' was not found.");
+
+function toggleTheme() {
+  if (body.classList.contains("dark-theme")) {
+    body.classList.remove("dark-theme");
+    localStorage.setItem("theme", "light");
+  } else {
+    body.classList.add("dark-theme");
+    localStorage.setItem("theme", "dark");
+  }
 }
+
+icon.addEventListener("click", toggleTheme);
+
+function applyThemeFromLocalStorage() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    body.classList.add("dark-theme");
+  } else {
+    body.classList.remove("dark-theme");
+    icon.checked = true;
+  }
+}
+applyThemeFromLocalStorage();
+
+// header
+const headerMenu = document.querySelector(
+  ".main-header .container button.menu:last-of-type"
+);
+const headerWords = document.querySelector(".main-header .modal ul.tile-wrds");
+
+headerMenu.addEventListener("click", () => {
+  if (headerWords.style.top == "0px") {
+    headerWords.style.zIndex = "-5";
+    headerWords.style.top = "250px";
+    headerWords.style.opacity = "0";
+    headerWords.parentNode.classList.remove("active");
+    document.body.classList.remove("fix");
+  } else {
+    headerWords.style.top = "0";
+    headerWords.style.zIndex = "20";
+    headerWords.style.opacity = "1";
+    headerWords.parentNode.classList.add("active");
+    headerWords.parentNode.style.top = "50px";
+    document.body.classList.add("fix");
+  }
+});
+headerWords.parentNode.addEventListener("click", () => {
+  headerWords.style.zIndex = "-5";
+  headerWords.style.top = "300px";
+  headerWords.style.opacity = "0";
+  headerWords.parentNode.classList.remove("active");
+  document.body.classList.remove("fix");
+});
