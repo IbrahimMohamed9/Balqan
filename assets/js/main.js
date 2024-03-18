@@ -99,28 +99,23 @@ applyThemeFromLocalStorage();
 const headerMenu = document.querySelector(
   ".main-header .container button.menu:last-of-type"
 );
-const headerWords = document.querySelector(".main-header .modal ul.tile-wrds");
+const headerWords = document.querySelector(".main-header ul.tile-wrds");
+const globalModal = document.getElementById("headerModal");
 
 headerMenu.addEventListener("click", () => {
-  if (headerWords.style.top == "0px") {
-    headerWords.style.zIndex = "-5";
-    headerWords.style.top = "250px";
-    headerWords.style.opacity = "0";
-    headerWords.parentNode.classList.remove("active");
+  if (headerWords.classList.contains("active")) {
+    headerWords.classList.remove("active");
+    globalModal.classList.remove("active");
     document.body.classList.remove("fix");
   } else {
-    headerWords.style.top = "0";
-    headerWords.style.zIndex = "20";
-    headerWords.style.opacity = "1";
-    headerWords.parentNode.classList.add("active");
-    headerWords.parentNode.style.top = "50px";
+    headerWords.classList.add("active");
+    globalModal.style.top = "50px";
+    globalModal.classList.add("active");
     document.body.classList.add("fix");
   }
 });
-headerWords.parentNode.addEventListener("click", () => {
-  headerWords.style.zIndex = "-5";
-  headerWords.style.top = "300px";
-  headerWords.style.opacity = "0";
-  headerWords.parentNode.classList.remove("active");
+globalModal.addEventListener("click", () => {
+  globalModal.classList.remove("active");
+  headerWords.classList.remove("active");
   document.body.classList.remove("fix");
 });
