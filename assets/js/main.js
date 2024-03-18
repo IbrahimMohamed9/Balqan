@@ -119,3 +119,18 @@ globalModal.addEventListener("click", () => {
   headerWords.classList.remove("active");
   document.body.classList.remove("fix");
 });
+
+// Go Up 
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Show/hide the go-up box based on scroll position
+window.addEventListener('scroll', function() {
+  var goUpBox = document.getElementById('goUpBox');
+  if (window.scrollY > 100) {
+      goUpBox.classList.add('active');
+  } else {
+      goUpBox.classList.remove('active');
+  }
+});
