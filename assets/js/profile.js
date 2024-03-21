@@ -1,26 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const body = document.body;
-  const barIcon = document.querySelector(".dash .main-header .bar .bar-icon");
+  const body = document.body,
+    barIcon = document.querySelector(".sidebar .sidebar-control"),
+    sidebarArrow = document.querySelector(
+      ".sidebar .sidebar-control .sidebar-icon"
+    );
   if (barIcon) {
     barIcon.addEventListener("click", function () {
       if (body.classList.contains("sidebar-250")) {
         body.classList.remove("sidebar-250");
         body.classList.add("sidebar-58");
-        hideMobileSpans.forEach((span) => {
+        sidebarSpans.forEach((span) => {
           span.classList.add("d-none");
         });
+        sidebarArrow.classList.remove("fa-chevron-left");
+        sidebarArrow.classList.add("fa-chevron-right");
       } else {
         body.classList.remove("sidebar-58");
         body.classList.add("sidebar-250");
-        hideMobileSpans.forEach((span) => {
+        sidebarSpans.forEach((span) => {
           span.classList.remove("d-none");
         });
+        sidebarArrow.classList.remove("fa-chevron-right");
+        sidebarArrow.classList.add("fa-chevron-left");
       }
     });
   }
 
-  const hideMobileSpans = document.querySelectorAll(
-      ".page .sidebar ul li span i + span.hide-mobile"
+  const sidebarSpans = document.querySelectorAll(
+      ".page .sidebar ul li span i + span"
     ),
     dashPages = document.querySelectorAll(".content .screen"),
     dashIcons = document.querySelectorAll(

@@ -45,9 +45,6 @@
   <body class="dark-theme dash sidebar-250">
     <!-- Start Header -->
     <header class="main-header">
-      <div class="bar">
-        <i class="fa-solid fa-bars fa-lg bar-icon"></i>
-      </div>
       <div class="container">
         <a href="../../index.html">
           <div class="logoo">
@@ -147,7 +144,6 @@
           <!-- <i class="fa-solid fa-bars"></i> -->
           <span></span>
           <span></span>
-          <span></span>
 
           <span class="close"></span>
           <span class="close"></span>
@@ -161,63 +157,70 @@
       <i class="fa-solid fa-chevron-up"></i>
     </div>
     <!-- End Go Up -->
-    <!-- Start Dashbord -->
-    <div class="page d-flex">
-      <div class="sidebar bg-black-s p-relative p-10">
-        <ul class="p-0">
-          <!-- profile -->
-          <li>
-            <span
-              class="dash-icon active d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-regular fa-user fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Profile</span>
-            </span>
-          </li>
-          <li>
-            <span
-              class="dash-icon d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-regular fa-chart-bar fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Dashbord</span>
-            </span>
-          </li>
-          <li>
-            <span
-              class="dash-icon d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-solid fa-gear fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Settings</span>
-            </span>
-          </li>
+    <!-- Start sidebar -->
+    <div class="page">
+      <div class="sidebar bg-black-s p-10">
+        <div class="wrapper p-relative">
+          <div class="sidebar-control bg-black-s">
+            <i class="fa-solid fa-chevron-left sidebar-icon"></i>
+            <!-- <i class="fa-solid fa-chevron-right bar-icon"></i> -->
+          </div>
+          <ul class="p-0">
+            <!-- profile -->
+            <li>
+              <span
+                class="dash-icon active d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-regular fa-user fa-fw"></i>
+                <span class="fs-14 ml-10">Profile</span>
+              </span>
+            </li>
+            <li>
+              <span
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-regular fa-chart-bar fa-fw"></i>
+                <span class="fs-14 ml-10">Dashbord</span>
+              </span>
+            </li>
+            <li>
+              <span
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-solid fa-gear fa-fw"></i>
+                <span class="fs-14 ml-10">Settings</span>
+              </span>
+            </li>
 
-          <li>
-            <span
-              class="dash-icon d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-solid fa-diagram-project fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Projects</span>
-            </span>
-          </li>
-          <li>
-            <span
-              class="dash-icon d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-solid fa-user-group fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Friends</span>
-            </span>
-          </li>
-          <li>
-            <span
-              class="dash-icon d-flex center-f align-center fs-14 c-main-font rad-6 p-10"
-            >
-              <i class="fa-regular fa-file fa-fw"></i>
-              <span class="fs-14 ml-10 hide-mobile">Files</span>
-            </span>
-          </li>
-        </ul>
+            <li>
+              <span
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-solid fa-diagram-project fa-fw"></i>
+                <span class="fs-14 ml-10">Projects</span>
+              </span>
+            </li>
+            <li>
+              <span
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-solid fa-user-group fa-fw"></i>
+                <span class="fs-14 ml-10">Friends</span>
+              </span>
+            </li>
+            <li>
+              <span
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+              >
+                <i class="fa-regular fa-file fa-fw"></i>
+                <span class="fs-14 ml-10">Files</span>
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+    <!-- Start sidebar -->
     <div class="content">
       <!-- Start Head -->
       <div class="head bg-third p-15 between-flex">
@@ -614,11 +617,7 @@
               Finish The Project & Get Money
             </li>
           </ul>
-          <img
-            class="launch-icon hide-mobile"
-            src="../images/profile/project.png"
-            alt=""
-          />
+          <img class="launch-icon" src="../images/profile/project.png" alt="" />
         </div>
         <!-- End Last Project Progress Widget -->
         <!-- Start Reminders Widget -->
@@ -914,7 +913,6 @@
         <!-- End Settings Box -->
       </div>
       <!-- End Settings -->
-
       <!-- Start Projects -->
       <div class="screen projects-page d-none d-grid m-20 gap-20">
         <div class="project bg-fourth p-20 rad-6 p-relative">
