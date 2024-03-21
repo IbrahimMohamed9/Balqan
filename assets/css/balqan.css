@@ -676,7 +676,6 @@ p {
 }
 .video {
   background-color: var(--secondary-background-color);
-  mask: linear-gradient(0deg, transparent, white 10%);
 }
 .video video {
   min-width: 100%;
