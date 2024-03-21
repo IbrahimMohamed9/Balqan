@@ -55,6 +55,7 @@ a {
 body.sidebar-250,
 body.sidebar-58 {
   max-height: 100vh;
+  overflow-x: hidden;
 }
 body.sidebar-250 header.main-header,
 body.sidebar-58 header.main-header {
