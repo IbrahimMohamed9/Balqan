@@ -62,7 +62,7 @@ body.sidebar-58 header.main-header {
   position: fixed;
   width: 100%;
 }
-body .page + .content + footer {
+body .content + footer {
   max-width: calc(100% - var(--sidebar-width));
   min-width: calc(100% - var(--sidebar-width));
   position: relative;
@@ -71,11 +71,11 @@ body .page + .content + footer {
   left: calc(var(--sidebar-width));
   background-color: var(--main-background-color);
 }
-body .page + .content + footer .container {
+body .content + footer .container {
   max-width: 100%;
 }
 @media (max-width: 300px) {
-  body .page + .content + footer .container {
+  body .content + footer .container {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -86,14 +86,6 @@ body .page + .content + footer .container {
     max-width: 210px;
   }
 }
-.page {
-  background-color: var(--main-background-color);
-  min-height: 100vh;
-  position: relative;
-  right: 0;
-  max-width: var(--sidebar-width);
-  margin-top: 50px;
-}
 /* 
 ====================================================================
 ====================================================================
@@ -103,11 +95,32 @@ body .page + .content + footer .container {
 */
 .sidebar {
   min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
   box-shadow: 0 0 10px var(--box-shadow);
   position: fixed;
   min-height: 100vh;
   z-index: 90;
   transition: var(--main-transition);
+  margin-top: 50px;
+}
+@media (max-width: 500px) {
+  .sidebar {
+    padding: 10px 5px;
+  }
+  .sidebar-250 {
+    --sidebar-width: 150px;
+  }
+  .sidebar-58 {
+    --sidebar-width: 48px;
+  }
+}
+@media (max-width: 400px) {
+  .sidebar-250 {
+    --sidebar-width: 48px;
+  }
+  .sidebar-58 {
+    --sidebar-width: 48px;
+  }
 }
 .sidebar .wrapper {
   min-width: 100%;
@@ -129,6 +142,19 @@ body .page + .content + footer .container {
   align-items: center;
   border-radius: 0 5px 5px 0;
 }
+@media (max-width: 500px) {
+  .sidebar .sidebar-control {
+    right: -24px;
+  }
+}
+@media (max-width: 400px) {
+  .sidebar .sidebar-control {
+    display: none;
+  }
+  .sidebar ul li a i + span {
+    display: none;
+  }
+}
 .sidebar ul li a:first-child {
   transition: var(--main-transition);
   width: 100%;
@@ -137,9 +163,11 @@ body .page + .content + footer .container {
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
   background-color: var(--third-font-color);
+  color: var(--main-color);
 }
 .sidebar ul li a.active {
   box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
+  color: var(--main-color);
 }
 /* 
 ====================================================================
@@ -155,10 +183,9 @@ body .page + .content + footer .container {
 ====================================================================
 */
 .content {
-  padding-top: 50px;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr var(--sidebar-width);
+  grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
 }
 .content .head .search {
   position: relative;
@@ -240,6 +267,8 @@ body .page + .content + footer .container {
   transition: var(--main-transition);
   position: relative;
   left: var(--sidebar-width);
+  margin-top: 50px;
+  overflow: hidden;
 }
 .wrapper {
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
