@@ -489,6 +489,7 @@ p {
   .main-header ul.tile-wrds li a:hover,
   .main-header ul.tile-wrds li#current-page a {
     background-color: var(--third-font-color);
+    color: var(--main-color);
   }
   .main-header ul.tile-wrds li#current-page a {
     box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);

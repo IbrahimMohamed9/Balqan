@@ -159,9 +159,10 @@
       <i class="fa-solid fa-chevron-up"></i>
     </div>
     <!-- End Go Up -->
-    <!-- Start sidebar -->
-    <!-- End sidebar -->
+    <!--  -->
+    <!--  -->
     <div class="content">
+      <!-- Start sidebar -->
       <div class="sidebar bg-black-s p-10">
         <div class="wrapper p-relative">
           <div class="sidebar-control bg-black-s">
@@ -227,13 +228,14 @@
           </ul>
         </div>
       </div>
+      <!-- End sidebar -->
       <main id="spapp" role="main">
-        <section id="profile" data-load="profile.html"></section>
         <section id="dashbord" data-load="dashbord.html"></section>
         <section id="settings" data-load="settings.html"></section>
         <section id="projects" data-load="projects.html"></section>
         <section id="friends" data-load="friends.html"></section>
         <section id="files" data-load="files.html"></section>
+        <section id="profile" data-load="profile.html"></section>
       </main>
     </div>
     <!-- Start Footer -->
@@ -288,7 +290,7 @@
           templateDir: "./profilePages/",
         });
 
-        app.run(0);
+        app.run();
       });
     </script>
   </body>
