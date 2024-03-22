@@ -12,7 +12,7 @@
   --footer-icon: #fff;
   --footer-font: #333;
   --box-shadow: rgba(0, 0, 0, 0.2);
-  --box-shadow-2: rgba(0, 0, 0, 0.08);
+  --box-shadow-2: rgb(255 254 254/ 80%);
   --product-color: #47484b;
   --secondary-product-color: #7a7c81;
   --third-background-color: #0c0c0d1a;
@@ -161,14 +161,20 @@ body .content + footer .container {
   width: 100%;
   min-height: 41px;
 }
-.sidebar ul li a:hover,
-.sidebar ul li a.active {
+.sidebar ul li a:hover {
   background-color: var(--third-font-color);
+}
+.sidebar ul li a.active {
   color: var(--main-color);
 }
 .sidebar ul li a.active {
-  box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
+  box-shadow: inset 0px 9px 20px 3px var(--box-shadow-2);
   color: var(--main-color);
+  background-color: #514f4f21;
+}
+.dark-theme .sidebar ul li a.active {
+  box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
+  background-color: var(--third-font-color);
 }
 /* 
 ====================================================================

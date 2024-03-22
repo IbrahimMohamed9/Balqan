@@ -25,7 +25,7 @@
   --footer-icon: #fff;
   --footer-font: #333;
   --box-shadow: rgba(0, 0, 0, 0.2);
-  --box-shadow-2: rgba(0, 0, 0, 0.08);
+  --box-shadow-2: rgb(255 254 254/ 90%);
   --product-color: #47484b;
   --secondary-product-color: #7a7c81;
   --third-background-color: #ffffff1a;
@@ -486,13 +486,21 @@ p {
     width: 100%;
     min-height: 41px;
   }
-  .main-header ul.tile-wrds li a:hover,
-  .main-header ul.tile-wrds li#current-page a {
+  .main-header ul.tile-wrds li a:hover {
     background-color: var(--third-font-color);
+    color: var(--font-color);
+  }
+  .main-header ul.tile-wrds li#current-page a {
     color: var(--main-color);
   }
   .main-header ul.tile-wrds li#current-page a {
+    box-shadow: inset 0px 9px 20px 3px var(--box-shadow-2);
+    color: var(--main-color);
+    background-color: #514f4f21;
+  }
+  .dark-theme .main-header ul.tile-wrds li#current-page a {
     box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
+    background-color: var(--third-font-color);
   }
   .main-header .tile-wrds li a::before,
   .main-header .tile-wrds li a::after {
