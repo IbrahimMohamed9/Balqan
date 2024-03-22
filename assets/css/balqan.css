@@ -496,7 +496,10 @@ p {
   .main-header ul.tile-wrds li#current-page a {
     box-shadow: inset 0px 9px 20px 3px var(--box-shadow-2);
     color: var(--main-color);
-    background-color: #514f4f21;
+    background-color: #00000025;
+  }
+  .main-header ul.tile-wrds li#current-page:hover a {
+    background-color: #00000035;
   }
   .dark-theme .main-header ul.tile-wrds li#current-page a {
     box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
@@ -1005,14 +1008,21 @@ p {
   opacity: 0;
   transition: opacity var(--main-transition) ease;
 }
+.modal#headerModal,
+.modal.animation {
+  left: -100%;
+  transition: 0.3s ease;
+}
 .modal.active {
   opacity: 1;
   z-index: 650;
 }
-.modal#headerModal.active {
+.modal#headerModal.active,
+.modal.animation.active {
   top: 50px;
   opacity: 1;
   z-index: 500;
+  left: 0;
 }
 .master-container {
   display: grid;
@@ -1380,7 +1390,7 @@ p {
   border-radius: 50%;
 }
 .go-up-box.active {
-  left: 20px;
+  left: 10px;
 }
 .go-up-box i {
   color: black;
@@ -1406,7 +1416,7 @@ p {
 .new-packages + .info {
   display: grid;
   gap: 50px;
-  background-color: var(--third-background-color);
+  background-color: var(--secondary-background-color);
   padding: var(--main-padding) 0;
   overflow: hidden;
 }
@@ -1500,6 +1510,10 @@ p {
 ====================================================================
 ====================================================================
 */
+.tourist {
+  padding: 50px 0;
+  background-color: var(--secondary-background-color);
+}
 .tourist .scroller {
   max-width: 98vw;
   margin: 0 auto;
@@ -1552,7 +1566,7 @@ p {
 ====================================================================
 */
 .articles {
-  background-color: var(--third-background-color);
+  background-color: var(--secondary-background-color);
   padding: var(--main-padding) 0;
 }
 .articles .main-title {
@@ -1773,6 +1787,9 @@ p {
 ====================================================================
 ====================================================================
 */
+footer {
+  background-color: var(--third-background-color);
+}
 footer .container {
   display: flex;
   align-items: center;
