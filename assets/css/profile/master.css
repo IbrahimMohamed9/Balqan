@@ -165,12 +165,8 @@ body .content + footer .container {
   min-height: 41px;
 }
 .sidebar ul li a.files {
-  font-size: 17px;
+  font-size: 18px;
   padding-left: 7px;
-}
-.sidebar-58 .sidebar ul li a.files {
-  padding: 12px;
-  padding-left: 12px;
 }
 .sidebar ul li a span {
   transition: var(--main-transition);
