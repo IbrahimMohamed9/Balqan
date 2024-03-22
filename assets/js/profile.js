@@ -12,11 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.matchMedia("(max-width: 500px)").matches) {
     body.classList.remove("sidebar-250");
     body.classList.add("sidebar-58");
-    sidebarSpans.forEach((span) => {
-      setTimeout(() => {
-        span.classList.add("d-none");
-      }, 300);
-    });
     sidebarArrow.classList.remove("fa-chevron-left");
     sidebarArrow.classList.add("fa-chevron-right");
   }
@@ -42,20 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function closeNav() {
     body.classList.remove("sidebar-250");
     body.classList.add("sidebar-58");
-    sidebarSpans.forEach((span) => {
-      setTimeout(() => {
-        span.classList.add("d-none");
-      }, 350);
-    });
     sidebarArrow.classList.remove("fa-chevron-left");
     sidebarArrow.classList.add("fa-chevron-right");
   }
   function openNav() {
     body.classList.remove("sidebar-58");
     body.classList.add("sidebar-250");
-    sidebarSpans.forEach((span) => {
-      span.classList.remove("d-none");
-    });
     sidebarArrow.classList.remove("fa-chevron-right");
     sidebarArrow.classList.add("fa-chevron-left");
   }
@@ -64,12 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
     globalModal.classList.add("d-block");
     setTimeout(() => {
       globalModal.classList.add("active");
-      body.classList.add("fix");
+      body.classList.add("fix-2");
     }, 2);
   }
   function disappearModal() {
     globalModal.classList.remove("active");
-    body.classList.remove("fix");
+    body.classList.remove("fix-2");
 
     setTimeout(() => {
       globalModal.classList.remove("d-block");
