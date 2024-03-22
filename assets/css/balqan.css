@@ -1000,13 +1000,13 @@ p {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  transition: opacity var(--main-transition) ease;
+  transition: opacity var(--main-transition);
 }
 .modal#headerModal,
 .modal.animation {
   top: 50px;
   left: -100%;
-  transition: 0.3s ease;
+  transition: var(--main-transition) linear;
 }
 .modal.active {
   opacity: 1;
@@ -1710,7 +1710,7 @@ p {
   border-bottom: 1px solid transparent;
   position: absolute;
   left: calc(50% - 10px);
-  bottom: -10px;
+  bottom: -9px;
   transition: var(--main-transition);
 }
 .icons .font-share-icons li {

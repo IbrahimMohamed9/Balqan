@@ -49,11 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     sidebarArrow.classList.remove("fa-chevron-left");
     sidebarArrow.classList.add("fa-chevron-right");
-    sidebar.style.zIndex = 60;
   }
   function openNav() {
-    sidebar.style.zIndex = 6000;
-
     body.classList.remove("sidebar-58");
     body.classList.add("sidebar-250");
     sidebarSpans.forEach((span) => {
@@ -63,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarArrow.classList.add("fa-chevron-left");
   }
   function appearModal() {
+    sidebar.style.zIndex = 6000;
     globalModal.classList.add("d-block");
     setTimeout(() => {
       globalModal.classList.add("active");
@@ -75,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       globalModal.classList.remove("d-block");
+      sidebar.style.zIndex = 60;
     }, 300);
   }
 
