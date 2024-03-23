@@ -1005,7 +1005,7 @@ p {
   background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
   transition: opacity var(--main-transition);
-  transition: 0.2s linear;
+  transition: var(--main-transition) linear;
 }
 .modal#headerModal,
 .modal.animation {
