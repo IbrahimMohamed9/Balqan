@@ -28,7 +28,7 @@
   --box-shadow-2: rgb(255 254 254/ 90%);
   --product-color: #47484b;
   --secondary-product-color: #7a7c81;
-  --third-background-color: #ffffff1a;
+  --third-background-color: #ffffff80;
   --grey-color: grey;
 }
 .dark-theme {
@@ -45,7 +45,7 @@
   --box-shadow-2: rgba(255, 255, 255, 0.1);
   --product-color: #e7e7e7;
   --secondary-product-color: #dbdbdb;
-  --third-background-color: #0c0c0d85;
+  --third-background-color: #020202db;
 }
 /* 
 ====================================================================
@@ -61,7 +61,6 @@
 ====================================================================
 */
 * {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -1414,23 +1413,23 @@ p {
 .new-packages + .info {
   display: grid;
   gap: 50px;
-  background-color: var(--secondary-background-color);
+  background-color: var(--third-background-color);
   padding: var(--main-padding) 0;
   overflow: hidden;
 }
 .info .row {
   text-align: center;
-  display: -ms-grid;
   display: grid;
   grid-template-columns: 1fr 47%;
   gap: 20px;
 }
+.info .row:not(:last-of-type) {
+  margin-bottom: 20px;
+}
 @media (max-width: 768px) {
   .info .row {
     text-align: center;
-    display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     gap: 20px;
   }
@@ -1443,6 +1442,9 @@ p {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+.info .row .image img {
+  max-width: 100%;
 }
 .info .row .wrap {
   display: flex;
@@ -1564,7 +1566,7 @@ p {
 ====================================================================
 */
 .articles {
-  background-color: var(--secondary-background-color);
+  background-color: var(--third-background-color);
   padding: var(--main-padding) 0;
 }
 .articles .main-title {
@@ -1579,9 +1581,6 @@ p {
 }
 @media (max-width: 1000px) {
   .articles .container {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
   }
 }
@@ -1758,18 +1757,13 @@ p {
   bottom: -2px;
   right: -13px;
   opacity: 0;
-  -webkit-transition: opacity var(--main-transition);
-  -o-transition: opacity var(--main-transition);
   transition: opacity var(--main-transition);
 }
 .articles .container .article .card .read:hover::after {
   opacity: 1;
-  -webkit-animation: move-ellipsis 0.5s linear 1;
   animation: move-ellipsis 0.5s linear 1;
 }
 .articles .container .article .card .read:hover {
-  -webkit-transform: translateX(-10px);
-  -ms-transform: translateX(-10px);
   transform: translateX(-10px);
 }
 /* 
@@ -1786,7 +1780,7 @@ p {
 ====================================================================
 */
 footer {
-  background-color: var(--third-background-color);
+  background-color: var(--main-background-color);
 }
 footer .container {
   display: flex;
