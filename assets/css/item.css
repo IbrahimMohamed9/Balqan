@@ -280,7 +280,7 @@ header + .cart.item {
   display: flex;
   justify-content: center;
 }
-.wrapper {
+.add .wrapper {
   text-align: center;
   border: 1px solid #eee;
   padding: 10px;
@@ -314,7 +314,7 @@ header + .cart.item {
   .add {
     grid-row: 2;
   }
-  .wrapper {
+  .add .wrapper {
     min-width: 100%;
   }
   .add .wrapper .btn {
@@ -340,20 +340,17 @@ header + .cart.item {
   --display: none;
   width: 100%;
 }
-.wrapper {
+.wrapper.container {
+  min-height: 320px;
   border: none;
-  overflow: hidden;
   position: relative;
+  width: 100%;
 }
 .wrapper .right-arrow::before,
 .wrapper .left-arrow::before {
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   font-size: 20px;
-}
-.wrapper .right-arrow::after,
-.wrapper .left-arrow::after {
-  display: none;
 }
 .wrapper .right-arrow::before {
   content: "\f054";
@@ -364,7 +361,7 @@ header + .cart.item {
 .wrapper .right-arrow,
 .wrapper .left-arrow {
   display: var(--display);
-  --position: 20px;
+  --position: -20px;
   --dimension: 30px;
   width: var(--dimension);
   height: var(--dimension);
@@ -383,6 +380,12 @@ header + .cart.item {
   font-size: 16px;
   transition: var(--main-transition);
 }
+@media (max-width: 600px) {
+  .wrapper .right-arrow,
+  .wrapper .left-arrow {
+    --position: 10px;
+  }
+}
 .wrapper .right-arrow.active,
 .wrapper .left-arrow.active {
   box-shadow: 0 0 15px var(--main-color);
@@ -395,11 +398,42 @@ header + .cart.item {
   left: var(--position);
 }
 .wrapper .carousel {
-  border: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
   display: flex;
-  justify-content: center;
-  column-gap: 25px;
-  overflow-x: hidden;
+  cursor: grab;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  gap: 25px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+@media (max-width: 600px) {
+  .wrapper .carousel {
+    width: 85%;
+  }
+}
+@media (max-width: 450px) {
+  .wrapper .carousel {
+    width: 80%;
+  }
+}
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+.carousel.dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+.carousel.dragging .col {
+  cursor: grab;
+  user-select: none;
+}
+.wrapper .carousel .spacer {
+  margin: -10px;
 }
 .wrapper .carousel .col {
   margin: 10px 0;

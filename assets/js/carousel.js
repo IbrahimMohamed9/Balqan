@@ -9,26 +9,41 @@ document.addEventListener("DOMContentLoaded", () => {
     return isOverflowing;
   }
 
-  //arrows design
-  const carousel = document.querySelector(".wrapper .carousel"),
+  //carousel
+  const carousel = document.querySelector(".wrapper > .carousel"),
     arrows = document.querySelectorAll(".wrapper button.arrow"),
-    firstColWidth = carousel.querySelector(".col").offsetWidth;
+    firstCardWidth = carousel.querySelector(".col").offsetWidth;
 
   if (checkOverf(carousel)) {
     arrows[0].parentNode.style.setProperty("--display", "block");
+  } else {
+    carousel.style.justifyContent = "center";
   }
 
-  var swiper = new Swiper(".mySwiper", {
-    slidesPerView: carousel.offsetWidth / firstColWidth,
-    spaceBetween: 0,
-    grabCursor: true,
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
+  let isDragging = false,
+    startX,
+    startScrollLeft;
+
+  carousel.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    carousel.classList.add("dragging");
+    startX = e.pageX;
+    startScrollLeft = carousel.scrollLeft;
+  });
+  carousel.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
+  });
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    carousel.classList.remove("dragging");
   });
 
   arrows.forEach((arrow, index) => {
+    arrow.addEventListener("click", () => {
+      carousel.scrollLeft +=
+        index == 0 ? -(firstCardWidth + 26) : firstCardWidth + 24;
+    });
     arrow.addEventListener("focus", () => {
       arrow.classList.add("active");
     });
