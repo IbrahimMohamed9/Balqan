@@ -1,21 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   // check overflow
-  function checkOverf(el) {
-    const elOverf = el.style.overflow;
-    if (!elOverf || elOverf === "visible") el.style.overflow = "hidden";
-    const isOverflowing =
-      el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
-    el.style.overflow = elOverf;
-    return isOverflowing;
-  }
+  // function checkOverf(el) {
+  //   const elOverf = el.style.overflow;
+  //   if (!elOverf || elOverf === "visible") el.style.overflow = "hidden";
+  //   const isOverflowing =
+  //     el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+  //   el.style.overflow = elOverf;
+  //   return isOverflowing;
+  // }
 
   //carousel
   const splideTrack = document.querySelector(".splide .splide__track"),
     widthOfCol = splideTrack.querySelector(".splide__slide").offsetWidth;
-
-  // if (!checkOverf(carousel)) {
-  //   carousel.style.justifyContent = "center";
-  // }
 
   splideTrack.addEventListener("mousedown", () => {
     splideTrack.classList.add("clicked");
