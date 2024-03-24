@@ -1593,9 +1593,6 @@ p {
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   font-size: 20px;
-}
-.splide__track .right-arrow::after,
-.splide__track .left-arrow::after {
   display: block;
 }
 .splide__track .right-arrow::before {
@@ -1632,6 +1629,12 @@ p {
     --position: 10px;
   }
 }
+@media (max-width: 450px) {
+  .splide__arrows.splide__arrows--ltr .right-arrow,
+  .splide__arrows.splide__arrows--ltr .left-arrow {
+    display: none;
+  }
+}
 .splide__arrows.splide__arrows--ltr .right-arrow.active,
 .splide__arrows.splide__arrows--ltr .left-arrow.active {
   box-shadow: 0 0 15px var(--main-color);
@@ -1639,10 +1642,16 @@ p {
 }
 .splide__pagination {
   bottom: 30px;
-  padding: 0 1em;
 }
 .splide__pagination li .splide__pagination__page {
   background-color: var(--third-color);
+}
+.splide__pagination li .splide__pagination__page.is-active {
+  background-color: var(--main-color);
+  opacity: 0.8;
+}
+.splide__pagination li .splide__pagination__page.is-active:hover {
+  opacity: 1;
 }
 .articles .container .article {
   max-width: 48%;

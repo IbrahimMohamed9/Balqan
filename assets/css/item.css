@@ -344,8 +344,13 @@ header + .cart.item {
 .splide__track .carousel {
   width: 95%;
 }
-.splide__pagination li {
-  display: none;
+.splide__pagination {
+  bottom: 10px;
+}
+@media (min-width: 450px) {
+  .splide__pagination li {
+    display: none;
+  }
 }
 .splide__track .carousel .col {
   margin: 10px 0;
