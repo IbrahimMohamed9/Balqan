@@ -10,45 +10,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   //carousel
-  const carousel = document.querySelector(".wrapper > .carousel"),
-    arrows = document.querySelectorAll(".wrapper button.arrow"),
-    firstCardWidth = carousel.querySelector(".col").offsetWidth;
+  const splideTrack = document.querySelector(".splide .splide__track"),
+    widthOfCol = splideTrack.querySelector(".splide__slide").offsetWidth;
 
-  if (checkOverf(carousel)) {
-    arrows[0].parentNode.style.setProperty("--display", "block");
-  } else {
-    carousel.style.justifyContent = "center";
-  }
+  // if (!checkOverf(carousel)) {
+  //   carousel.style.justifyContent = "center";
+  // }
 
-  let isDragging = false,
-    startX,
-    startScrollLeft;
-
-  carousel.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    carousel.classList.add("dragging");
-    startX = e.pageX;
-    startScrollLeft = carousel.scrollLeft;
-  });
-  carousel.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
-  });
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    carousel.classList.remove("dragging");
+  splideTrack.addEventListener("mousedown", () => {
+    splideTrack.classList.add("clicked");
   });
 
-  arrows.forEach((arrow, index) => {
-    arrow.addEventListener("click", () => {
-      carousel.scrollLeft +=
-        index == 0 ? -(firstCardWidth + 26) : firstCardWidth + 24;
+  //arrow design
+  setTimeout(() => {
+    const arrows = document.querySelectorAll(
+      ".splide__arrows.splide__arrows--ltr .arrow"
+    );
+    arrows.forEach((arrow) => {
+      arrow.addEventListener("focus", () => {
+        arrow.classList.add("active");
+      });
+      arrow.addEventListener("blur", () => {
+        arrow.classList.remove("active");
+      });
     });
-    arrow.addEventListener("focus", () => {
-      arrow.classList.add("active");
-    });
-    arrow.addEventListener("blur", () => {
-      arrow.classList.remove("active");
-    });
+  }, 100);
+
+  var splide = new Splide(".splide", {
+    type: "loop",
+    perPage: Math.floor(splideTrack.offsetWidth / widthOfCol),
+    focus: "center",
+    gap: 25,
+    classes: {
+      arrows: "splide__arrows your-class-arrows",
+      arrow: "splide__arrow your-class-arrow",
+      prev: "splide__arrow--prev your-class-prev left-arrow arrow",
+      next: "splide__arrow--next your-class-next right-arrow arrow",
+    },
   });
+
+  splide.mount();
 });
