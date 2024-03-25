@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     splideTrack.addEventListener("mousedown", () => {
       splideTrack.classList.add("clicked");
     });
-
+    document.addEventListener("mouseup", () => {
+      splideTrack.classList.remove("clicked");
+    });
     //arrow design
     setTimeout(() => {
       const arrows = document.querySelectorAll(
@@ -33,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
       perPage: Math.floor(splideTrack.offsetWidth / widthOfCol),
       focus: "center",
       gap: 25,
+      keyboard: "global",
+      wheelSleep: 300,
+      wheel: true,
       classes: {
         arrows: "splide__arrows your-class-arrows",
         arrow: "splide__arrow your-class-arrow",
