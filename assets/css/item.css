@@ -382,15 +382,18 @@ header + .cart.item {
 .wrapper .carousel .col {
   cursor: pointer;
 }
-.wrapper .carousel .col .text h3 {
-  margin: 5px 0 -2px 0;
-}
 .wrapper .carousel .col:hover .text h3 {
   text-decoration: underline;
 }
 .wrapper .carousel .col .text h3 {
   color: var(--main-color);
   font-size: 1.5rem;
+  margin-top: 1px;
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
 }
 @media (max-width: 510px) {
   .wrapper .carousel .col h3 {
