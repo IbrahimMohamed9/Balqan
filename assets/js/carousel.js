@@ -9,12 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     splideTrack.children[0].children.length * widthOfCol >
     document.documentElement.offsetWidth
   ) {
-    splideTrack.addEventListener("mousedown", () => {
-      splideTrack.classList.add("clicked");
-    });
-    document.addEventListener("mouseup", () => {
-      splideTrack.classList.remove("clicked");
-    });
     //arrow design
     setTimeout(() => {
       const arrows = document.querySelectorAll(
@@ -28,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           arrow.classList.remove("active");
         });
       });
-    }, 1);
+    }, 100);
 
     var splide = new Splide(".splide", {
       type: "loop",
@@ -36,9 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
       focus: "center",
       gap: 25,
       keyboard: "global",
-      wheelSleep: 300,
       wheel: true,
-      speed: 2500,
+      speed: 1500,
+      drag: true,
       classes: {
         arrows: "splide__arrows your-class-arrows",
         arrow: "splide__arrow your-class-arrow",
@@ -48,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     splide.mount();
+    console.log(splide.options);
   } else {
     carousel.classList.remove("splide");
     carousel.classList.add("not-overflow");
