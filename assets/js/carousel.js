@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       keyboard: "global",
       wheelSleep: 300,
       wheel: true,
+      speed: 2500,
       classes: {
         arrows: "splide__arrows your-class-arrows",
         arrow: "splide__arrow your-class-arrow",
