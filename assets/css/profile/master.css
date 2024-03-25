@@ -221,6 +221,12 @@ body .content + footer .container {
   display: grid;
   grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
 }
+.content .head {
+  margin-top: 50px;
+  width: 100%;
+  margin-left: var(--sidebar-width);
+  transition: var(--main-transition);
+}
 .content .head .search {
   position: relative;
 }
@@ -301,7 +307,6 @@ body .content + footer .container {
   transition: var(--main-transition);
   position: relative;
   left: var(--sidebar-width);
-  margin-top: 50px;
   overflow: hidden;
 }
 .wrapper {
