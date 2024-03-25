@@ -343,25 +343,10 @@ p {
   top: -15%;
   transition: var(--main-transition);
 }
-@media (max-width: 768.8px) {
+@media (max-width: 345px) {
   .main-header .logoo .dot {
     --size: 5px;
     top: -9%;
-  }
-}
-@media (max-width: 368px) {
-  .main-header .logoo .dot {
-    --size: 4px;
-  }
-}
-@media (max-width: 335px) {
-  .main-header .logoo .dot {
-    top: -10%;
-  }
-}
-@media (max-width: 332px) {
-  .main-header .logoo .dot {
-    top: -20%;
   }
 }
 .main-header .logoo .dot.right {
