@@ -1,0 +1,26 @@
+[
+  {
+    "id": "843244",
+    "imgSrc": "assets/images/package/en/package-4.jpg",
+    "title": "4 Days",
+    "price": "55"
+  },
+  {
+    "id": "158745",
+    "imgSrc": "assets/images/package/en/package-7.jpg",
+    "title": "7 Days",
+    "price": "60"
+  },
+  {
+    "id": "420599",
+    "imgSrc": "assets/images/package/en/package-10.jpg",
+    "title": "10 Days",
+    "price": "70"
+  },
+  {
+    "id": "105394",
+    "imgSrc": "assets/images/package/en/package-14.jpg",
+    "title": "14 Days",
+    "price": "80"
+  }
+]

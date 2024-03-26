@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       keyboard: "global",
       wheel: true,
       speed: 1500,
+      wheelSleep: 200,
       drag: true,
       classes: {
         arrows: "splide__arrows your-class-arrows",
@@ -42,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     splide.mount();
-    console.log(splide.options);
   } else {
     carousel.classList.remove("splide");
     carousel.classList.add("not-overflow");

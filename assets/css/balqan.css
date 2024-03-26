@@ -1492,29 +1492,13 @@ p {
   padding: 50px 0;
   background-color: var(--secondary-background-color);
 }
-.tourist .scroller {
-  max-width: 98vw;
-  margin: 0 auto;
-}
 .tourist .scroller .scroller__inner {
   display: flex;
   flex-wrap: wrap;
 }
 .tourist .scroller {
   overflow: hidden;
-  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-}
-@media (max-width: 768px) {
-  .tourist .scroller {
-    overflow: hidden;
-    mask: linear-gradient(
-      90deg,
-      transparent,
-      white 10%,
-      white 90%,
-      transparent
-    );
-  }
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
 }
 .tourist .scroller .scroller__inner {
   flex-wrap: nowrap;
@@ -1550,26 +1534,26 @@ p {
 .articles .main-title {
   margin: 0 auto;
 }
-.not-overflow {
-  width: 100%;
-}
-.not-overflow .splide__track {
-  width: 100%;
-}
 .splide .splide__track {
   position: relative;
   cursor: grab;
   width: 90%;
   left: 50%;
   transform: translateX(-50%);
+  padding-left: 30px !important;
+}
+@media screen and (max-width: 1000px) {
+  .splide .splide__track {
+    padding-left: 20px !important;
+  }
 }
 .splide .splide__track.clicked {
   cursor: grabbing;
 }
-@media (max-width: 500px) {
-  .splide .splide__track {
-    width: 90%;
-  }
+.not-overflow .splide__track {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .splide__track .right-arrow::before,
 .splide__track .left-arrow::before {
@@ -1583,6 +1567,9 @@ p {
 }
 .splide__track .left-arrow::before {
   content: "\f053";
+}
+.splide__list.container {
+  width: 100%;
 }
 .not-overflow .splide__list {
   display: flex;
@@ -1610,6 +1597,10 @@ p {
   z-index: 5;
   font-size: 16px;
   transition: var(--main-transition);
+}
+.articles .splide__arrows.splide__arrows--ltr .right-arrow,
+.articles .splide__arrows.splide__arrows--ltr .left-arrow {
+  top: 56%;
 }
 @media (max-width: 600px) {
   .splide__track .right-arrow,
