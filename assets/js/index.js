@@ -1,7 +1,7 @@
+import { itemModal, setupModalActions } from "./component.js";
 document.addEventListener("DOMContentLoaded", () => {
   //share icon in article
   const shareIcons = document.querySelectorAll(".share-btn"),
-    body = document.body,
     shareLists = document.querySelectorAll(".icons .font-share-icons");
 
   shareIcons.forEach((shareIcon, index) => {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   //change main video
-  mainVideoSrc = (src) => {
+  function mainVideoSrc(src) {
     fetch(src)
       .then((response) => {
         if (!response.ok) {
@@ -92,49 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
       });
-  };
+  }
 
   mainVideoSrc("assets/json/video.json");
 
   //New Packages
-  const modal = document.getElementById("myModal"),
-    addItemAlert = document.querySelector(".alert.alert-success.add-item"),
-    modalTitle = modal.querySelector(".item-name"),
-    modalImage = modal.querySelector(".modal-img"),
-    modalPrice = modal.querySelector(".price.small");
 
-  function addItemModal(title, imgSrc, name, price) {
-    modalTitle.textContent = title;
-    modalImage.src = imgSrc;
-    modalPrice.textContent = `${price} KM`;
+  setupModalActions();
 
-    modal.classList.add("d-block");
-    setTimeout(() => {
-      modal.classList.add("active");
-      body.classList.add("fix");
-    }, 1);
-  }
-  function removeItemModal() {
-    modal.classList.remove("active");
-    body.classList.remove("fix");
-    setTimeout(() => {
-      modal.classList.remove("d-block");
-    }, 300);
-  }
-
-  document.querySelector(".x").addEventListener("click", removeItemModal);
-
-  document.querySelector(".checkout-btn").addEventListener("click", () => {
-    removeItemModal();
-
-    addItemAlert.classList.remove("d-none");
-    addItemAlert.style.animation = "alert 1.7s linear forwards";
-    setTimeout(() => {
-      addItemAlert.classList.add("d-none");
-    }, 1700);
-  });
-
-  newPackages = (src) => {
+  function newPackages(src) {
     fetch(src)
       .then((response) => {
         if (!response.ok) {
@@ -147,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ".new-packages .container.holder"
         );
         data.map((packageData) => {
-          const package = `
+          const packageCon = `
         <div class="package">
           <div class="box">
             <div class="back face">
@@ -166,16 +132,17 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <button class="pckbtn"></button>
         </div>`;
-          newPackages.innerHTML += package;
+          newPackages.innerHTML += packageCon;
         });
 
         document.querySelectorAll(".pckbtn").forEach((button, index) =>
           button.addEventListener("click", () => {
             const packageData = data[index];
-            addItemModal(
+            itemModal(
               packageData.title,
               packageData.imgSrc,
-              packageData.name,
+              packageData.min,
+              packageData.max,
               packageData.price
             );
           })
@@ -192,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location = "assets/html/item.html";
         }
       });
-  };
+  }
 
   newPackages("assets/json/newPackages.json");
 });
