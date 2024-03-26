@@ -1,64 +1,68 @@
 export const modal = document.getElementById("myModal"),
   addItemAlert = document.querySelector(".alert.alert-success.add-item"),
-  decreaseAlert = document.querySelector(".alert.alert-danger.decrease"),
+  quantityAlert = document.querySelector(".alert.alert-danger.decrease"),
   modalTitle = modal.querySelector(".item-name"),
   modalImage = modal.querySelector(".modal-img"),
   modalPrice = modal.querySelector(".price.small"),
   body = document.body,
-  quantity = Array.from(document.querySelector(".cart .quantity").children),
-  QuantityNumber = quantity[1];
-
-quantity.splice(1, 1);
+  quantity = modal.querySelector(".cart .quantity");
 
 //appear the modal
+var quantityNumber, quantityBtns;
+
 export function itemModal(title, imgSrc, min, max, price) {
+  quantityBtns = Array.from(quantity.children);
+  quantityNumber = quantityBtns[1];
   modalTitle.textContent = title;
   modalImage.src = imgSrc;
   modalPrice.textContent = `${price} KM`;
-  QuantityNumber.textContent = min;
+  quantityNumber.textContent = min;
 
-  quantity.forEach((el, index) => {
-    el.addEventListener("click", () => {
-      modalButton(index, min, max);
-    });
+  quantityBtns[0].addEventListener("click", () => {
+    modalButton(0, min, max);
+  });
+  quantityBtns[2].addEventListener("click", () => {
+    modalButton(2, min, max);
   });
 
   modal.classList.add("d-block");
+  body.classList.add("fix");
   setTimeout(() => {
     modal.classList.add("active");
-    body.classList.add("fix");
   }, 1);
 }
 
 //increse and decrease the quantity
 export function modalButton(index, min, max) {
   if (index === 0) {
-    if (parseInt(QuantityNumber.textContent) - min)
-      QuantityNumber.textContent = parseInt(QuantityNumber.textContent) - 1;
+    if (parseInt(quantityNumber.textContent) - min)
+      quantityNumber.textContent = parseInt(quantityNumber.textContent) - 1;
     else {
-      decreaseAlert.classList.remove("d-none");
-      decreaseAlert.textContent = "This is the minimum number";
-      decreaseAlert.style.animation = "alert 1.7s linear forwards";
-      decreaseAlert.addEventListener("animationend", () => {
-        decreaseAlert.classList.add("d-none");
-      });
+      appearQuantityAlert("This is the minimum number");
     }
   } else {
-    if (parseInt(QuantityNumber.textContent) < max)
-      QuantityNumber.textContent = parseInt(QuantityNumber.textContent) + 1;
+    if (parseInt(quantityNumber.textContent) < max)
+      quantityNumber.textContent = parseInt(quantityNumber.textContent) + 1;
     else {
-      decreaseAlert.classList.remove("d-none");
-      decreaseAlert.textContent = "This is the maximum number";
-      decreaseAlert.style.animation = "alert 1.7s linear forwards";
-      decreaseAlert.addEventListener("animationend", () => {
-        decreaseAlert.classList.add("d-none");
-      });
+      appearQuantityAlert("This is the maximum number");
     }
   }
 }
 
+function appearQuantityAlert(message) {
+  quantityAlert.classList.remove("d-none");
+  quantityAlert.textContent = message;
+  quantityAlert.style.animation = "alert 1.7s linear forwards";
+  quantityAlert.addEventListener("animationend", () => {
+    quantityAlert.classList.add("d-none");
+  });
+}
+
 //remove the modal
 export function removeItemModal() {
+  removeAllEventListeners(quantityBtns[0]);
+  removeAllEventListeners(quantityBtns[2]);
+
   modal.classList.remove("active");
   body.classList.remove("fix");
   setTimeout(() => {
@@ -79,4 +83,9 @@ export function setupModalActions() {
       addItemAlert.classList.add("d-none");
     });
   });
+}
+
+function removeAllEventListeners(element) {
+  const clone = element.cloneNode(true);
+  element.parentNode.replaceChild(clone, element);
 }
