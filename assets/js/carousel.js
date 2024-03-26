@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // check overflow
   if (
     splideTrack.children[0].children.length * widthOfCol >
-    document.documentElement.offsetWidth
+      document.documentElement.offsetWidth ||
+    splideTrack.children[0].children.length * widthOfCol > 1170
   ) {
     //arrow design
     setTimeout(() => {

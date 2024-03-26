@@ -340,13 +340,12 @@ header + .cart.item {
   --display: none;
   width: 100%;
   overflow: hidden;
+  min-height: 400px;
 }
 .splide__track .carousel {
   width: 95%;
 }
-.splide__pagination {
-  bottom: 10px;
-}
+
 .splide__track .carousel .col {
   margin: 10px 0;
   max-width: 210px;

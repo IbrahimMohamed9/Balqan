@@ -1529,6 +1529,8 @@ p {
 .articles {
   background-color: var(--third-background-color);
   padding: var(--main-padding) 0;
+  position: relative;
+  min-height: 530px;
 }
 .articles .main-title {
   margin: 0 auto;
@@ -1539,11 +1541,32 @@ p {
   width: 90%;
   left: 50%;
   transform: translateX(-50%);
-  padding-left: 30px !important;
+  padding-left: 40px !important;
 }
 @media screen and (max-width: 1000px) {
   .splide .splide__track {
-    padding-left: 20px !important;
+    padding-left: 25px !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .splide .splide__track {
+    padding-left: 15px !important;
+  }
+}
+/* articles splide*/
+@media (min-width: 279px) {
+  .articles .splide .splide__track {
+    padding-left: 4px !important;
+  }
+}
+@media (min-width: 400px) {
+  .articles .splide .splide__track {
+    padding-left: 0 !important;
+  }
+}
+@media (min-width: 630px) {
+  .articles .splide .splide__track {
+    padding-left: 25px !important;
   }
 }
 .splide .splide__track.clicked {
@@ -1569,6 +1592,19 @@ p {
 }
 .splide__list.container {
   width: 100%;
+}
+@media (min-width: 1200px) {
+  .splide__list.container {
+    width: 1170px;
+  }
+}
+@media (min-width: 1200px) {
+  .splide {
+    width: 1170px !important;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 .not-overflow .splide__list {
   display: flex;
@@ -1619,7 +1655,12 @@ p {
   background-color: var(--main-color);
 }
 .splide__pagination {
-  bottom: 30px;
+  bottom: -20px;
+}
+@media (min-width: 1200px) {
+  .splide__pagination {
+    bottom: -30px;
+  }
 }
 .splide__pagination li .splide__pagination__page {
   background-color: var(--third-color);
@@ -1635,26 +1676,35 @@ p {
   outline-color: var(--main-color);
 }
 .articles .container .article {
-  max-width: 48%;
-  min-width: 48%;
+  min-width: 500px;
+  max-width: 500px;
   height: 330px;
   position: relative;
   z-index: 5;
   margin: 50px 0 0;
 }
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
   .articles .container .article {
-    min-width: 55%;
+    min-width: 400px;
+    max-width: 400px;
   }
 }
-@media (max-width: 780px) {
+@media (max-width: 600px) {
   .articles .container .article {
-    min-width: 65%;
+    min-width: 300px;
+    max-width: 300px;
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 420px) {
   .articles .container .article {
-    min-width: 80%;
+    min-width: 250px;
+    max-width: 250px;
+  }
+}
+@media (max-width: 300px) {
+  .articles .container .article {
+    min-width: 230px;
+    max-width: 230px;
   }
 }
 .articles .container .article .image {
