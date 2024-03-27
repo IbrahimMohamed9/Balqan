@@ -117,6 +117,8 @@ export function carouselSplide(carousel, gap = 25) {
   const totalWidth = splideTrack.children[0].children.length * widthOfCol;
 
   if (totalWidth > document.documentElement.offsetWidth || totalWidth > 1170) {
+    splideTrack.parentElement.parentElement.classList.add("overflow");
+
     //arrow design
     setTimeout(() => {
       const arrows = document.querySelectorAll(

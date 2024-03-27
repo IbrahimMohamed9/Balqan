@@ -683,17 +683,23 @@ p {
 
 ====================================================================
 ====================================================================
-=========================Start items=========================
+=========================== Start items ============================
 ====================================================================
 ====================================================================
 */
-.items {
-  padding: 50px 0;
+.items.new-packages {
+  padding: 30px 0 50px;
   background-color: var(--secondary-background-color);
+}
+.items .main-title{
+  margin-bottom: 20px;
 }
 @media (min-width: 1200px) {
   .items {
-    min-height: 630px;
+    min-height: 550px;
+  }
+  .items.overflow.new-packages {
+    min-height: 580px;
   }
 }
 .items .splide .splide__track {
