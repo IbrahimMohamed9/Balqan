@@ -1,4 +1,10 @@
+import { setupModalActions, carouselSplide, itemModal } from "./component.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+  setupModalActions();
+
+  carouselSplide(".splide");
+
   // Main image
   var previous = 0;
 
@@ -61,4 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 300);
     }
   });
+
+  document.querySelector(".pckbtn").addEventListener("click", itemModal);
 });

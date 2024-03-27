@@ -1,19 +1,22 @@
 export const modal = document.getElementById("myModal"),
   addItemAlert = document.querySelector(".alert.alert-success.add-item"),
   quantityAlert = document.querySelector(".alert.alert-danger.decrease"),
-  modalTitle = modal.querySelector(".item-name"),
+  modalName = modal.querySelector(".item-name"),
   modalImage = modal.querySelector(".modal-img"),
   modalPrice = modal.querySelector(".price.small"),
   body = document.body,
-  quantity = modal.querySelector(".cart .quantity");
+  quantity = modal.querySelector(".cart .quantity"),
+  modalType = modal.querySelector(".top-title .title");
 
 //appear the modal
 var quantityNumber, quantityBtns;
 
-export function itemModal(title, imgSrc, min, max, price) {
+export function itemModal(type, name, imgSrc, min, max, price, plans = true) {
   quantityBtns = Array.from(quantity.children);
+
+  modalType.textContent = type;
   quantityNumber = quantityBtns[1];
-  modalTitle.textContent = title;
+  modalName.textContent = name;
   modalImage.src = imgSrc;
   modalPrice.textContent = `${price} KM`;
   quantityNumber.textContent = min;
@@ -24,6 +27,16 @@ export function itemModal(title, imgSrc, min, max, price) {
   quantityBtns[2].addEventListener("click", () => {
     modalButton(2, min, max);
   });
+
+  if (plans) {
+    modal.querySelector(".select-container").style.display = "block";
+    modal
+      .querySelector(".cart .products .product p")
+      .classList.remove("active");
+  } else {
+    modal.querySelector(".select-container").style.display = "none";
+    modal.querySelector(".cart .products .product p").classList.add("active");
+  }
 
   modal.classList.add("d-block");
   body.classList.add("fix");
@@ -88,4 +101,58 @@ export function setupModalActions() {
 function removeAllEventListeners(element) {
   const clone = element.cloneNode(true);
   element.parentNode.replaceChild(clone, element);
+}
+
+export function redirect(src) {
+  window.location = src;
+}
+
+export function carouselSplide(carousel, gap = 25) {
+  const splideTrack = document.querySelector(`${carousel} .splide__track`);
+
+  const widthOfCol =
+    document.querySelector(`${carousel} .splide__slide`).offsetWidth + gap;
+
+  // check overflow
+  const totalWidth = splideTrack.children[0].children.length * widthOfCol;
+
+  if (totalWidth > document.documentElement.offsetWidth || totalWidth > 1170) {
+    //arrow design
+    setTimeout(() => {
+      const arrows = document.querySelectorAll(
+        ".splide__arrows.splide__arrows--ltr .arrow"
+      );
+      arrows.forEach((arrow) => {
+        arrow.addEventListener("focus", () => {
+          arrow.classList.add("active");
+        });
+        arrow.addEventListener("blur", () => {
+          arrow.classList.remove("active");
+        });
+      });
+    }, 100);
+
+    var splide = new Splide(carousel, {
+      type: "loop",
+      perPage: Math.floor(splideTrack.offsetWidth / widthOfCol),
+      perMove: 1,
+      focus: 0,
+      gap: gap,
+      autoWidth: true,
+      keyboard: "global",
+      wheel: true,
+      speed: 1500,
+      wheelSleep: 200,
+      drag: true,
+      classes: {
+        arrows: "splide__arrows your-class-arrows",
+        arrow: "splide__arrow your-class-arrow",
+        prev: "splide__arrow--prev your-class-prev left-arrow arrow",
+        next: "splide__arrow--next your-class-next right-arrow arrow",
+      },
+    }).mount();
+  } else {
+    splideTrack.parentElement.classList.remove("splide");
+    splideTrack.parentElement.classList.add("not-overflow");
+  }
 }

@@ -1,4 +1,9 @@
-import { itemModal, setupModalActions } from "./component.js";
+import {
+  itemModal,
+  setupModalActions,
+  redirect,
+  carouselSplide,
+} from "./component.js";
 document.addEventListener("DOMContentLoaded", () => {
   //share icon in article
   const shareIcons = document.querySelectorAll(".share-btn"),
@@ -97,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
   mainVideoSrc("assets/json/video.json");
 
   //New Packages
-
   setupModalActions();
 
   function newPackages(src) {
@@ -109,12 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((data) => {
-        const newPackages = document.querySelector(
-          ".new-packages .container.holder"
-        );
+        const newPackages = document.querySelector(".items .container.holder");
         data.map((packageData) => {
           const packageCon = `
-        <div class="package">
+        <div class="item splide__slide">
           <div class="box">
             <div class="back face">
               <button class="button" id="${packageData.id}-1">plan 1</button>
@@ -127,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <div class="text">
-            <h3>${packageData.title}</h3>
+            <h3>${packageData.name}</h3>
             <p>Price: ${packageData.price} KM</p>
           </div>
           <button class="pckbtn"></button>
@@ -139,7 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
           button.addEventListener("click", () => {
             const packageData = data[index];
             itemModal(
-              packageData.title,
+              "Package",
+              packageData.name,
               packageData.imgSrc,
               packageData.min,
               packageData.max,
@@ -148,18 +151,18 @@ document.addEventListener("DOMContentLoaded", () => {
           })
         );
 
-        //redirect
-        document
-          .querySelectorAll(".package .back .button")
-          .forEach((button, index) => {
-            button.addEventListener("click", redirect);
-          });
+        carouselSplide(".items .items-carousel", 20);
 
-        function redirect() {
-          window.location = "assets/html/item.html";
-        }
+        //redirect
+        document.querySelectorAll(".item .back .button").forEach((button) => {
+          button.addEventListener("click", () => {
+            redirect("assets/html/item.html");
+          });
+        });
       });
   }
 
   newPackages("assets/json/newPackages.json");
+
+  carouselSplide(".articles .splide");
 });
