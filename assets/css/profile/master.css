@@ -141,7 +141,7 @@ body .content + footer .container {
 }
 .sidebar .sidebar-control {
   cursor: pointer;
-  box-shadow: 1px -1px 5px -1px var(--box-shadow);
+  box-shadow: 5px 0px 9px -8px;
   position: absolute;
   right: -29px;
   max-width: fit-content;
