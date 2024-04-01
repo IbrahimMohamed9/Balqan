@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     quantitiesCart,
     quantitiesModal,
     sumOfTotalPrices = 0;
+  setupModalActions();
 
+  //load the items of shopping cart
   function loadItems(src) {
     fetch(src)
       .then((response) => {
@@ -22,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         const items = document.querySelector(".cart.shopping .cart-rows");
         let content, modalContent;
-
         data.map((itemData) => {
           const price = parseFloat(itemData.price),
             decimalPart = checkDec(price),
@@ -235,6 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadItems("../json/cart.json");
 
+  //change the quantity and prices in modal and page
   function cartQuantityBtn(min, max, plus, price, index) {
     const quantityModal = quantitiesModal[index].children[1],
       quantityCart = quantitiesCart[index].children[1];
@@ -293,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //remove unnecessary decimal zeroes
   function checkDec(number) {
     let decPartTest = Number(
       String((parseFloat(number) - Math.floor(number)).toFixed(2)).slice(3)
@@ -318,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.classList.remove("d-block");
     }, 300);
   }
-  setupModalActions();
   //add the functionality of modal buttons
   function setupModalActions() {
     document.querySelector(".x").addEventListener("click", removeItemModal);
@@ -334,16 +336,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-// <div class="card checkout">
-//   <span class="title top-title">Total</span>
-//   <div class="details">
-//     <span>Your subtotal:</span>
-//     <span>47.98KM</span>
-//     <span>Discount through applied coupons:</span>
-//     <span>3.99KM</span>
-//   </div>
-//   <div class="checkout--footer">
-//     <span class="price"><sup>KM</sup>47.98</span>
-//     <button class="checkout-btn">Register</button>
-//   </div>
-// </div>
