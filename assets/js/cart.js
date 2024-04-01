@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ).slice(1);
     }
 
-    return Number(decPartTest) ? decPartTest : "";
+    return Number(decPartTest) ? decPartTest : "&emsp;";
   }
 
   //remove the modal
