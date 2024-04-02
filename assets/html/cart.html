@@ -292,12 +292,20 @@
         }, 1000);
       });
       function itemModal() {
-        const selectedOption = document.querySelector(
-            ".cart .containerr .products .row .select-container select option:checked"
-          ),
-          selectedText = selectedOption ? selectedOption.textContent : "";
-        document.querySelector(".cart .products .product p.plan").textContent =
-          selectedText;
+        const selectedOptions = document.querySelectorAll(
+          ".cart .containerr .products .row .select-container select option:checked"
+        );
+        let selectedText = [];
+        selectedOptions.forEach((option) => {
+          if (option.selected) {
+            selectedText.push(option.textContent.trim());
+          }
+        });
+        document
+          .querySelectorAll(".cart .products .product p.plan")
+          .forEach((element, index) => {
+            element.textContent = selectedText[index];
+          });
 
         modal.classList.add("d-block");
         body.classList.add("fix");
