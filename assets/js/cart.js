@@ -282,4 +282,43 @@ document.addEventListener("DOMContentLoaded", () => {
     sumOfTotalModal[1].innerHTML = Math.floor(sumOfTotalPrices);
     sumOfTotalModal[2].innerHTML = checkDec(sumOfTotalPrices);
   }
+  let masterContainer;
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      // body = document.body;
+      // modal = document.getElementById("myModal");
+      masterContainer = modal.querySelector(".master-container");
+    }, 1000);
+  });
+  function itemModal() {
+    const selectedOptions = document.querySelectorAll(
+      ".cart .containerr .products .row .select-container select option:checked"
+    );
+    let selectedText = [];
+    selectedOptions.forEach((option) => {
+      if (option.selected) {
+        selectedText.push(option.textContent.trim());
+      }
+    });
+    document
+      .querySelectorAll(".cart .products .product p.plan")
+      .forEach((element, index) => {
+        element.textContent = selectedText[index];
+      });
+
+    modal.classList.add("d-block");
+    body.classList.add("fix");
+    setTimeout(() => {
+      modal.classList.add("active");
+
+      // Check if the height of master container is more than the height of the customer
+      const masterContainerHeight = masterContainer.offsetHeight,
+        customerHeight = window.innerHeight;
+
+      if (masterContainerHeight > customerHeight) {
+        masterContainer.style.marginTop = "115px";
+        masterContainer.style.paddingBottom = "50px";
+      }
+    }, 1);
+  }
 });
