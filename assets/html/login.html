@@ -4,14 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/normalize.css" />
     <link rel="stylesheet" href="../css/balqan.css" />
     <link rel="stylesheet" href="../css/login.css" />
     <link rel="stylesheet" href="../css/contact.css" />
+    <style id="pseudo-elemets-style" type="text/css"></style>
     <!-- Font Awesome Library -->
     <link rel="stylesheet" href="../css/all.min.css" />
     <!-- Google Font -->
@@ -69,17 +65,46 @@
           </div>
         </a>
         <ul class="tile-wrds">
-          <li><a href="../../index.html">Home</a></li>
-          <li><a href="../html/profile.html">Profile</a></li>
-          <li><a href="../html/shop.html">Shop</a></li>
+          <li>
+            <a href="../../index.html">
+              <i class="fa-solid fa-house-chimney"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="../html/contact-us.html"
+              ><i class="fa-regular fa-id-badge"></i> <span>Contact</span></a
+            >
+          </li>
+          <li>
+            <a href="../html/articles.html">
+              <i class="fa-regular fa-newspaper"></i>
+              <span>Articles</span>
+            </a>
+          </li>
+          <li>
+            <a href="../html/profile.html#profile">
+              <i class="fa-regular fa-user"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="../html/shop.html">
+              <i class="fa-solid fa-shop"></i>
+              <span>Shop</span>
+            </a>
+          </li>
         </ul>
         <div class="icons">
           <a href="">
             <!-- <i class="fa-regular fa-heart heart"></i> -->
-            <i class="fa-regular fa-bell heart"></i>
+            <i class="fa-regular fa-bell fa-lg heart"></i>
           </a>
           <a href="../html/cart.html">
-            <i class="fa-solid fa-cart-shopping cart-shopping" data-counter="2">
+            <i
+              class="fa-solid fa-cart-shopping fa-lg cart-shopping"
+              data-counter=""
+            >
             </i>
           </a>
           <span>KM 0.00</span>
@@ -119,13 +144,27 @@
             </label>
           </div>
         </div>
+        <button class="menu">
+          <!-- <i class="fa-solid fa-bars"></i> -->
+          <span></span>
+          <span></span>
+
+          <span class="close"></span>
+          <span class="close"></span>
+        </button>
+        <div class="modal" id="headerModal"></div>
       </div>
     </header>
     <!-- End Header -->
+    <!-- Start Go Up -->
+    <div class="go-up-box">
+      <i class="fa-solid fa-chevron-up"></i>
+    </div>
+    <!-- End Go Up -->
     <!-- Start login -->
     <div class="login">
       <div class="container">
-        <div class="container" id="container">
+        <div class="container sign-component" id="container">
           <div class="form-container sign-up-container">
             <form action="#">
               <h1>Create Account</h1>
@@ -140,12 +179,13 @@
               </div>
               <span>or use your email for registration</span>
               <div class="inputs">
-                <div class="form-control">
+                <div class="form-control full">
                   <input
                     type="text"
                     id="fullname"
                     name="fullname"
                     required=""
+                    class="field"
                   />
                   <label for="fullname">
                     <span>F</span>
@@ -165,6 +205,7 @@
                     id="emailcreate"
                     name="emailcreate"
                     required=""
+                    class="field"
                   />
                   <label for="emailcreate">
                     <span>E</span>
@@ -180,6 +221,7 @@
                     id="passwordcreate"
                     name="passwordcreate"
                     required=""
+                    class="field"
                   />
                   <label for="passwordcreate">
                     <span>P</span>
@@ -195,7 +237,8 @@
               </div>
               <button>Sign Up</button>
               <div class="app-register have-account">
-                Do have an account? <span class="end" id="have">Sign In</span>
+                Do have an account?
+                <span class="end sign-component">Sign In</span>
               </div>
             </form>
           </div>
@@ -219,6 +262,7 @@
                     id="emailsignin"
                     name="emailsignin"
                     required=""
+                    class="field"
                   />
                   <label for="emailsignin">
                     <span>E</span>
@@ -234,6 +278,7 @@
                     id="passwordsignin"
                     name="passwordsignin"
                     required=""
+                    class="field"
                   />
                   <label for="passwordsignin">
                     <span>P</span>
@@ -251,7 +296,7 @@
               <button>Sign In</button>
               <div class="app-register have-account">
                 Don't have an account?
-                <span class="end" id="have-not">Sign Up</span>
+                <span class="end sign-component">Sign Up</span>
               </div>
             </form>
           </div>
@@ -262,12 +307,16 @@
                 <p>
                   To keep connected with us please login with your personal info
                 </p>
-                <button class="ghost" id="signIn">Sign In</button>
+                <button class="ghost sign-component" id="signIn">
+                  Sign In
+                </button>
               </div>
               <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <button class="ghost sign-component" id="signUp">
+                  Sign Up
+                </button>
               </div>
             </div>
           </div>
@@ -318,7 +367,6 @@
     </footer>
     <!-- End Footer -->
     <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/login.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/contact.js"></script>

@@ -55,6 +55,17 @@ article .article-container {
     --container-padding: 15px;
   }
 }
+article .article-container h2 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+article .article-container p {
+  padding: 0 0;
+  margin-bottom: 20px;
+}
+.category {
+  font-size: 12px;
+}
 .category span:first-child {
   color: var(--secondary-font-color);
   position: relative;
@@ -97,6 +108,7 @@ article .article-container figure picture img {
 }
 article .article-container figure figcaption {
   padding: 10px 15px;
+  margin-bottom: 20px;
 }
 article .article-container header + section .icons {
   margin: 15px 0 10px;
@@ -122,15 +134,17 @@ article .article-container header + section .icons i {
 }
 article .article-container header + section .icons .font-share-icons {
   max-width: 150px;
-  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(5, 30px);
-  padding-left: 0;
-  justify-content: center;
-  align-items: center;
-  transition: var(--main-transition);
+  position: initial;
+  transform: initial;
+  background-color: transparent;
+  padding: initial;
+}
+article .article-container header + section .icons .font-share-icons::before {
+  content: none;
 }
 article .article-container header + section .icons a {
+  transition: var(--main-transition);
   color: var(--font-color);
   font-size: 20px;
 }
@@ -155,15 +169,22 @@ article .article-container header + section .icons .font-share-icons a:hover {
   background-color: var(--secondary-background-color);
 }
 .more-articles .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-  column-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+@media (min-width: 510px) {
+  .more-articles .container > * {
+    min-width: 205px;
+    max-width: 205px;
+  }
 }
 @media (max-width: 510px) {
   .more-articles .container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
+    row-gap: 20px;
   }
 }
 .more-articles .container .col {
@@ -189,10 +210,7 @@ article .article-container header + section .icons .font-share-icons a:hover {
 }
 @media (max-width: 510px) {
   .more-articles .container .col .image {
-    -ms-grid-columns: 40% 10px 1fr;
     grid-template-columns: 40% 1fr;
-    -webkit-column-gap: 10px;
-    -moz-column-gap: 10px;
     column-gap: 10px;
     margin: 10px 0;
   }
@@ -202,6 +220,7 @@ article .article-container header + section .icons .font-share-icons a:hover {
 }
 .more-articles .container .col .image img {
   max-width: 100%;
+  max-height: 100%;
 }
 .more-articles .container .col h3 a {
   color: var(--main-color);

@@ -1,6 +1,7 @@
-header + .cart {
+header ~ .shopping.cart {
   background-color: var(--third-background-color);
-  padding: 20px 0 100px;
+  padding: 5px 0 100px;
+  position: relative;
 }
 .containerr {
   margin-left: auto;
@@ -34,7 +35,7 @@ header + .cart {
   }
 }
 .right-corner {
-  margin: -10px 0 10px;
+  margin: 5px 0 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -48,15 +49,27 @@ header + .cart {
   text-transform: uppercase;
   word-spacing: -1px;
 }
+@media (max-width: 416px) {
+  #myModal .cart .products .product p.active {
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 14px;
+    margin-top: 0;
+    max-width: 70px;
+  }
+}
+.cart .products .product img {
+  min-height: 100%;
+  min-width: 100%;
+}
 .cart .container h1 {
   font-weight: 900;
-  letter-spacing: -1px;
   word-spacing: -3px;
   margin-top: 5px;
   font-size: 2rem;
   text-align: center;
 }
-/* Extra Extra large devices */
 @media (max-width: 578px) {
   .cart .container h1 {
     font-size: 25px;
@@ -126,14 +139,14 @@ header + .cart {
 }
 .cart .containerr .products .row p i {
   position: absolute;
-  right: 10%;
+  right: 6%;
   color: #969696;
   cursor: pointer;
 }
 .cart .containerr .products .row p .circle-minus {
   display: none;
 }
-@media (max-width: 710px) {
+@media (max-width: 750px) {
   .cart .containerr .products .row p .trash {
     display: none;
   }
@@ -192,6 +205,12 @@ header + .cart {
 .cart .containerr .products .row .select-container select {
   cursor: pointer;
 }
+.cart .containerr .products .row .name-plan h2 {
+  font-size: 25px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 @media (max-width: 580px) {
   .cart .containerr .products .row .name-plan {
     padding-top: 10px;
@@ -210,11 +229,8 @@ header + .cart {
 @media (max-width: 500px) {
   .cart .containerr .products .row .name-plan h2 {
     font-size: 1.2rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
     width: 60px;
     height: 1.2em;
-    white-space: nowrap;
   }
 }
 @media (max-width: 370px) {
@@ -286,32 +302,32 @@ header + .cart {
   font-weight: normal;
   font-size: 20px;
 }
-@media (max-width: 490px) {
+@media (max-width: 520px) {
   .cart .containerr .products .row .total p {
     font-weight: normal;
     font-size: 1rem;
   }
 }
-@media (max-width: 320px) {
+@media (max-width: 340px) {
   .cart .containerr .products .row .total p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 }
 .cart .containerr .products .row p .down {
   top: 0;
 }
 .cart .containerr .products .footer {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
 }
 .footer .btn-pay {
+  position: relative;
   padding: 10px 15px;
   border-radius: 8px;
   background-color: var(--main-color);
   border: 0;
-  margin-top: 20px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-weight: bold;
   min-width: 187px;
 }

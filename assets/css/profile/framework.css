@@ -72,10 +72,10 @@
   gap: 20px;
 }
 .d-block {
-  display: block;
+  display: block !important;
 }
 .d-none {
-  display: none;
+  display: none !important;
 }
 @media (max-width: 330px) {
   .center-f {
@@ -93,8 +93,8 @@
   }
 }
 @media (max-width: 768px) {
-  .hide-mobile {
-    display: none;
+  .center-mobile {
+    justify-content: center;
   }
 }
 /* 
@@ -155,13 +155,18 @@
   }
 }
 @media (max-width: 330px) {
-  .pr-10-f {
-    padding-right: 10px;
+  .pl-10-f {
+    padding-left: 10px;
   }
 }
 @media (max-width: 330px) {
-  .pl-10-f {
-    padding-left: 10px;
+  .pb-60-f {
+    padding-bottom: 60px;
+  }
+}
+@media (max-width: 330px) {
+  .pr-10-f {
+    padding-right: 10px;
   }
 }
 .m-0 {
@@ -454,6 +459,7 @@
   bottom: 20px;
   right: 20px;
   position: absolute;
+  border: none;
 }
 .btn-shape.btn-position:hover {
   background-color: var(--secondary-color);

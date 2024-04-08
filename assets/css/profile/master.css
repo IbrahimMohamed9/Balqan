@@ -12,6 +12,7 @@
   --footer-icon: #fff;
   --footer-font: #333;
   --box-shadow: rgba(0, 0, 0, 0.2);
+  --box-shadow-2: rgb(255 254 254/ 80%);
   --product-color: #47484b;
   --secondary-product-color: #7a7c81;
   --third-background-color: #0c0c0d1a;
@@ -29,14 +30,21 @@
   --footer-icon: #313131;
   --footer-font: #b9b9b9;
   --box-shadow: rgba(255, 255, 255, 0.4);
+  --box-shadow-2: rgba(255, 255, 255, 0.1);
   --product-color: #e7e7e7;
   --secondary-product-color: #dbdbdb;
   --third-background-color: #38383a;
   --grey-color: #ccc;
   --eee-bg: #eeeeeee1;
 }
-* {
+body {
   outline: 0;
+  color: var(--font-color);
+  font-family: "Marcellus", "Prompt", sans-serif;
+  transition: background-color 0.5s, color 0.5s;
+}
+a {
+  text-decoration: none;
 }
 .sidebar-250 {
   --sidebar-width: 250px;
@@ -47,27 +55,29 @@
 body.sidebar-250,
 body.sidebar-58 {
   max-height: 100vh;
+  overflow-x: hidden;
 }
 body.sidebar-250 header.main-header,
 body.sidebar-58 header.main-header {
+  box-shadow: none;
   position: fixed;
   width: 100%;
+  z-index: 10000;
 }
-body .page + .content + footer {
+body .content + footer {
   max-width: calc(100% - var(--sidebar-width));
   min-width: calc(100% - var(--sidebar-width));
   position: relative;
-  top: -100vh;
   z-index: 3;
   bottom: 0;
   left: calc(var(--sidebar-width));
   background-color: var(--main-background-color);
 }
-body .page + .content + footer .container {
+body .content + footer .container {
   max-width: 100%;
 }
 @media (max-width: 300px) {
-  body .page + .content + footer .container {
+  body .content + footer .container {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -78,36 +88,6 @@ body .page + .content + footer .container {
     max-width: 210px;
   }
 }
-.page {
-  min-height: 100vh;
-  background-color: var(--main-background-color);
-  position: relative;
-  right: 0;
-  max-width: var(--sidebar-width);
-  margin-top: 50px;
-}
-.dash .main-header .bar {
-  position: relative;
-}
-.dash .main-header .bar .bar-icon {
-  position: absolute;
-  left: 8px;
-  top: 5px;
-  border-radius: 50%;
-  padding: 21px 12px;
-  cursor: pointer;
-}
-.dash .main-header .bar .bar-icon:hover {
-  background-color: var(--third-font-color);
-}
-@media (min-width: 768px) {
-  .dash .main-header .container {
-    margin-left: 50px;
-    margin-right: 50px;
-    min-width: calc(100vw - 100px);
-    max-width: calc(100vw - 100px);
-  }
-}
 /* 
 ====================================================================
 ====================================================================
@@ -116,40 +96,112 @@ body .page + .content + footer .container {
 ====================================================================
 */
 .sidebar {
-  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
   box-shadow: 0 0 10px var(--box-shadow);
   position: fixed;
-
-  min-height: calc(100vh);
+  min-height: 100vh;
   z-index: 90;
-}
-.sidebar ul li span {
   transition: var(--main-transition);
-  margin-bottom: 5px;
-  width: 100%;
+  margin-top: 50px;
 }
-.sidebar ul li span:hover,
-.sidebar ul li span.active {
-  background-color: var(--third-font-color);
+@media (max-width: 700px) {
+  .sidebar-250 {
+    --sidebar-width: 150px;
+  }
 }
-@media (max-width: 768px) {
+@media (max-width: 500px) {
+  .sidebar {
+    padding: 0;
+  }
   .sidebar-250 {
     --sidebar-width: 58px;
+    --sidebar-width-min: 150px;
   }
-  .dash .main-header .bar {
-    display: none;
-  }
-  .sidebar {
-    padding: 10px;
+  .sidebar-58 {
+    --sidebar-width-min: 58px;
   }
 }
-@media (max-width: 300px) {
-  body {
-    --sidebar-width: 46px;
+.sidebar .wrapper {
+  min-width: 100%;
+  margin: 0;
+  min-height: 100vh;
+}
+@media (max-width: 500px) {
+  .sidebar .wrapper {
+    top: 0px;
+    padding: 10px;
+    min-width: 100%;
+    position: absolute;
+    height: 100vh;
+    max-width: var(--sidebar-width-min);
+    background-color: var(--secondary-background-color);
+    transition: var(--main-transition);
   }
-  .sidebar {
-    padding: 3px;
+}
+.sidebar .sidebar-control {
+  cursor: pointer;
+  box-shadow: 5px 0px 9px -8px;
+  position: absolute;
+  right: -29px;
+  max-width: fit-content;
+  background-color: var(--secondary-background-color);
+  min-width: 20px;
+  min-height: 30px;
+  top: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 5px 5px 0;
+}
+@media (max-width: 500px) {
+  .sidebar .sidebar-control {
+    right: -19px;
   }
+}
+.sidebar ul li a {
+  transition: var(--main-transition);
+  width: 100%;
+  min-height: 41px;
+}
+.sidebar ul li a span {
+  transition: font-size var(--main-transition);
+}
+.sidebar-58 .sidebar ul li a span {
+  font-size: 0;
+}
+.sidebar-58 .sidebar ul li a i {
+  position: relative;
+  top: 0px;
+  left: 2px;
+}
+.sidebar-58 .sidebar ul li a i.friends {
+  left: 0.7px;
+}
+.sidebar-58 .sidebar ul li a i.projects {
+  top: 1px;
+}
+.sidebar ul li a i.files {
+  font-size: 18px;
+}
+.sidebar-250 .sidebar ul li a i.files {
+  position: relative;
+  left: -4px;
+}
+.sidebar ul li a:hover {
+  background-color: var(--third-font-color);
+}
+.sidebar ul li a.active {
+  box-shadow: inset 0px 9px 20px 3px var(--box-shadow-2);
+  color: var(--main-color);
+  background-color: #00000025;
+}
+.sidebar ul li:hover a.active {
+  background-color: #00000035;
+}
+.dark-theme .sidebar ul li a.active {
+  box-shadow: inset 0px 20px 25px 0px var(--box-shadow-2);
+  background-color: var(--third-font-color);
 }
 /* 
 ====================================================================
@@ -165,10 +217,15 @@ body .page + .content + footer .container {
 ====================================================================
 */
 .content {
-  max-width: calc(100% - var(--sidebar-width));
   position: relative;
-  top: -100vh;
-  left: var(--sidebar-width);
+  display: grid;
+  grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
+}
+.content .head {
+  margin-top: 50px;
+  width: 100%;
+  margin-left: var(--sidebar-width);
+  transition: var(--main-transition);
 }
 .content .head .search {
   position: relative;
@@ -210,16 +267,6 @@ body .page + .content + footer .container {
 .content .head .search input:focus::placeholder {
   opacity: 0;
 }
-.content .head .icons .notification::before {
-  content: "";
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  right: -3px;
-  top: -6px;
-}
 .content .head .icons img {
   width: 32px;
   height: 32px;
@@ -243,6 +290,14 @@ body .page + .content + footer .container {
 .content h1::after {
   background-color: black;
   width: 40px;
+}
+.content main {
+  background-color: var(--main-background-color);
+  padding-bottom: 10px;
+  transition: var(--main-transition);
+  position: relative;
+  left: var(--sidebar-width);
+  overflow: hidden;
 }
 .wrapper {
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
@@ -412,10 +467,6 @@ textarea {
 .tickets .box {
   width: calc(50% - 10px);
 }
-@media (max-width: 768px) {
-  .tickets .box {
-  }
-}
 .tickets > div .box:first-of-type {
   --row-color: 0 255 0;
 }
@@ -534,6 +585,11 @@ textarea {
   right: 0;
   bottom: 0;
   opacity: 0.1;
+}
+@media (max-width: 790px) {
+  .last-project .launch-icon {
+    display: none;
+  }
 }
 /* 
 ====================================================================
@@ -699,8 +755,10 @@ textarea {
 .settings-page .social-boxes > div:focus-within i {
   color: black;
 }
+.widgets-control > div {
+  max-height: fit-content;
+}
 .widgets-control .control input[type="checkbox"] {
-  -webkit-appearance: none;
   appearance: none;
 }
 .widgets-control .control label {
@@ -892,6 +950,13 @@ textarea {
   border-bottom: 1px solid #eee;
   border-left: 1px solid #eee;
   transition: var(--main-transition);
+}
+.profile-page .info-box .box .email {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+
 }
 .profile-page .info-box .box:first-of-type {
   border-top: 1px solid #eee;
@@ -1199,17 +1264,16 @@ textarea {
 /* 
 ====================================================================
 ====================================================================
-======================== End Friends Page ========================
+========================= End Friends Page =========================
 ====================================================================
 ====================================================================
 
 ====================================================================
 ====================================================================
-======================== Start  =========================
+======================== Start Files Page ==========================
 ====================================================================
 ====================================================================
 */
-/* Start Files Page */
 .files-page {
   flex-direction: row-reverse;
   align-items: flex-start;

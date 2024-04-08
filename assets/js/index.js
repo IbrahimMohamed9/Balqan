@@ -1,107 +1,191 @@
-//share icon in article
-const shareIcons = document.querySelectorAll(".fa-solid.fa-share");
+import { setupModalActions, carouselSplide, packages } from "./component.js";
+document.addEventListener("DOMContentLoaded", () => {
+  //images in example
+  const scrollers = document.querySelectorAll(".scroller");
+  addAnimation();
+  function addAnimation() {
+    scrollers.forEach((scroller) => {
+      const scrollerInner = scroller.querySelector(".scroller__inner");
+      const scrollerConternt = Array.from(scrollerInner.children);
 
-shareIcons.forEach((shareIcon, index) => {
-  shareIcon.addEventListener("mouseenter", () => {
-    const parentDiv = shareIcon.parentElement;
-    const shareList = parentDiv.querySelector(".font-share-icons");
-    shareList.style.display = "grid";
+      scrollerConternt.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        duplicatedItem.setAttribute("aria-hidden", true);
+        scrollerInner.appendChild(duplicatedItem);
+      });
+    });
+  }
 
-    shareIcons.forEach((shareIcon1, index1) => {
-      if (index1 !== index) {
-        removeOpenShare(index1);
+  //expand the content in info
+  const buttons = document.querySelectorAll(".info .row .content button");
+
+  buttons.forEach((button, index) => {
+    button.addEventListener("click", function () {
+      let span = this.querySelector("span");
+      let paragraph = this.nextElementSibling;
+
+      paragraph.classList.toggle("show");
+
+      if (paragraph.classList.contains("show")) {
+        span.textContent = "";
+      } else {
+        span.textContent = "More";
+      }
+      removeOpen(index);
+    });
+  });
+
+  function removeOpen(clickedIndex) {
+    buttons.forEach((button, index) => {
+      if (index !== clickedIndex) {
+        let paragraph = button.nextElementSibling;
+        let span = button.querySelector("span");
+
+        paragraph.classList.remove("show");
+        span.textContent = "More";
       }
     });
-  });
-});
-shareIcons.forEach((shareIcon, index) => {
-  shareIcon.addEventListener("click", () => {
-    const parentDiv = shareIcon.parentElement;
-    const shareList = parentDiv.querySelector(".font-share-icons");
-    if (shareList.style.display === "grid") {
-      shareList.style.display = "none";
-    } else {
-      shareList.style.display = "grid";
-    }
-  });
-});
+  }
 
-function removeOpenShare(index) {
-  const shareIcon = shareIcons[index];
-  const parentDiv = shareIcon.parentElement;
-  const shareList = parentDiv.querySelector(".font-share-icons");
-  shareList.style.display = "none";
-}
+  //change main video
+  function mainVideoSrc(src) {
+    fetch(src)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        document.querySelector(".video-wraper .video video").innerHTML = `
+        <source
+            src="${data.src}"
+            type="video/mp4"
+          />`;
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }
 
-//images in example
-const scrollers = document.querySelectorAll(".scroller");
-if (!window.matchMedia("(prefers-reduced-motion: reduce").matches) {
-  addAnimation();
-}
-function addAnimation() {
-  scrollers.forEach((scroller) => {
-    scroller.setAttribute("data-animated", true);
+  mainVideoSrc("assets/json/video.json");
 
-    const scrollerInner = scroller.querySelector(".scroller__inner");
-    const scrollerConternt = Array.from(scrollerInner.children);
+  //New Packages
+  setupModalActions();
 
-    scrollerConternt.forEach((item) => {
-      const duplicatedItem = item.cloneNode(true);
-      duplicatedItem.setAttribute("aria-hidden", true);
-      scrollerInner.appendChild(duplicatedItem);
-    });
-  });
-}
+  packages(
+    "assets/json/newPackages.json",
+    "assets/html/item.html",
+    ".items .container.holder",
+    ".items .items-carousel",
+    20
+  );
+  // carouselSplide();
 
-//expand the content in info
-let buttons = document.querySelectorAll(".info .row .content button");
+  //Newest Articles
+  function articles(src, redirect, carouselSelector, sectionSelector) {
+    fetch(src)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const articles = document.querySelector(sectionSelector);
+        data.map((articleData) => {
+          const articleCon = `
+          <div class="article splide__slide">
+          <div class="image">
+            <img src="${articleData.imgSrc}" alt="" />
+          </div>
+          <div class="card">
+            <div class="content">
+              <h3>${articleData.title}</h3>
+              <div class="icons">
+                <ul class="font-share-icons">
+                  <li>
+                    <a href="" target="_blank"
+                      ><i class="fa-brands fa-whatsapp whatsapp"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="" target="_blank"
+                      ><i class="fa-brands fa-facebook-messenger"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="" target="_blank"
+                      ><i class="fa-brands fa-telegram telegram"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="" target="_blank"
+                      ><i class="fa-brands fa-facebook-f facebook"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="" target="_blank"
+                      ><i class="fa-brands fa-instagram instagram"></i
+                    ></a>
+                  </li>
+                </ul>
+                <button class="share-btn">
+                  <i class="fa-solid fa-share share"></i>
+                </button>
+              </div>
+              <p>
+              ${articleData.descreption}
+              </p>
+              <a href="" class="read"> Read More </a>
+            </div>
+          </div>
+        </div>
+            `;
+          articles.innerHTML += articleCon;
+        });
 
-buttons.forEach((button, index) => {
-  button.addEventListener("click", function () {
-    let span = this.querySelector("span");
-    let paragraph = this.nextElementSibling;
+        carouselSplide(carouselSelector);
 
-    paragraph.classList.toggle("show");
+        //share icon in article
+        const shareIcons = document.querySelectorAll(".share-btn"),
+          shareLists = document.querySelectorAll(".icons .font-share-icons");
 
-    if (paragraph.classList.contains("show")) {
-      span.textContent = "";
-    } else {
-      span.textContent = "More";
-    }
-    removeOpen(index);
-  });
-});
+        shareIcons.forEach((shareIcon, index) => {
+          shareIcon.addEventListener("click", () => {
+            if (shareLists[index].style.display != "grid") {
+              shareLists[index].style.display = "grid";
+              shareLists[index].style.animation = "appear 0.2s linear forwards";
+            } else {
+              shareLists[index].style.animation =
+                "hidden var(--main-transition) linear forwards";
+              setTimeout(() => {
+                shareLists[index].style.display = "none";
+              }, 300);
+            }
+          });
+          shareIcon.addEventListener("blur", () => {
+            shareLists[index].style.animation =
+              "hidden var(--main-transition) linear forwards";
+            setTimeout(() => {
+              shareLists[index].style.display = "none";
+            }, 300);
+          });
+        });
 
-function removeOpen(clickedIndex) {
-  buttons.forEach((button, index) => {
-    if (index !== clickedIndex) {
-      let paragraph = button.nextElementSibling;
-      let span = button.querySelector("span");
+        //redirect
+        document
+          .querySelectorAll(".articles .container .article .card .read")
+          .forEach((button) => {
+            button.href = redirect;
+          });
+      });
+  }
 
-      paragraph.classList.remove("show");
-      span.textContent = "More";
-    }
-  });
-}
-
-//add to cart
-var modal = document.getElementById("myModal");
-
-var btns = document.querySelectorAll(".pckbtn");
-
-function handleClick() {
-  modal.classList.add("active");
-  document.body.classList.add("fix");
-}
-
-btns.forEach((button) => button.addEventListener("click", handleClick));
-
-document.querySelector(".x").addEventListener("click", function () {
-  modal.classList.remove("active");
-  document.body.classList.remove("fix");
-});
-
-document.querySelector(".checkout-btn").addEventListener("click", function () {
-  modal.classList.remove("active");
-  document.body.classList.remove("fix");
+  articles(
+    "assets/json/newArticles.json",
+    "assets/html/article.html",
+    ".articles .splide",
+    ".articles .splide__track .container.splide__list"
+  );
 });
