@@ -438,7 +438,7 @@ textarea {
 .targets .details .progress > span span {
   position: absolute;
   bottom: -36px;
-  right: -16px;
+  right: -30px;
   background-color: rgb(var(--row-color));
   padding: 2px 5px;
 }
@@ -956,7 +956,6 @@ textarea {
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
-
 }
 .profile-page .info-box .box:first-of-type {
   border-top: 1px solid #eee;

@@ -44,7 +44,7 @@
 
     <title>Balqan</title>
   </head>
-  <body class="dark-theme dash sidebar-250">
+  <body class="dash sidebar-250">
     <!-- Start Header -->
     <header class="main-header">
       <div class="container">
@@ -307,6 +307,20 @@
         var app = $.spapp({
           defaultView: "#profile",
           templateDir: "./profilePages/",
+        });
+
+        app.route({
+          view: "profile",
+          load: "profile.html",
+          onCreate: function () {
+            loadProfile()
+              .then(function (data) {
+                console.log("Profile data loaded:", data);
+              })
+              .catch(function (error) {
+                console.error("Error loading profile data:", error);
+              });
+          },
         });
 
         app.run();
