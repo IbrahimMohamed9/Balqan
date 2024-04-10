@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
   }
 
-  var previous;
+  let previous;
   //dashboard
   function switchButton(clickedIndex) {
     if (
@@ -78,33 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
     previous = clickedIndex;
   }
 
-  window.onhashchange = () => {
-    switch (true) {
-      case window.location.hash === "#profile" ||
-        window.location.pathname.split("/").pop() === "":
-        switchButton(0);
-        break;
-      case window.location.hash === "#dashboard":
-        switchButton(1);
-        break;
-      case window.location.hash === "#settings":
-        switchButton(2);
-        break;
-      case window.location.hash === "#projects":
-        switchButton(3);
-        break;
-      case window.location.hash === "#friends":
-        switchButton(4);
-        break;
-      case window.location.hash === "#files":
-        switchButton(5);
-        break;
-      default:
-        console.log("New Section added");
-        alert("New Section added");
-    }
-  };
-
   var app = $.spapp({
     defaultView: "#profile",
     templateDir: "./profilePages/",
@@ -114,40 +87,50 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "profile",
     load: "profile.html",
     onCreate: function () {
+      loadProfile("../assets/json/profile.json");
+    },
+    onReady: function () {
       switchButton(0);
-      loadProfile("../json/profile.json");
     },
   });
   app.route({
     view: "dashboard",
     load: "dashboard.html",
     onCreate: function () {
+      loadDashboard("../assets/json/dashboard.json");
+    },
+    onReady: function () {
       switchButton(1);
-      loadDashboard("../json/dashboard.json");
     },
   });
   app.route({
     view: "settings",
     load: "settings.html",
     onCreate: function () {
+      loadSettings("../assets/json/profile.json");
+    },
+    onReady: function () {
       switchButton(2);
-      loadSettings("../json/profile.json");
     },
   });
   app.route({
     view: "projects",
     load: "projects.html",
     onCreate: function () {
+      loadProjects("../assets/json/projects.json");
+    },
+    onReady: function () {
       switchButton(3);
-      loadProjects("../json/projects.json");
     },
   });
   app.route({
     view: "friends",
     load: "friends.html",
     onCreate: function () {
+      loadFriends("../assets/json/friends.json");
+    },
+    onReady: function () {
       switchButton(4);
-      loadFriends("../json/friends.json");
     },
   });
 
@@ -288,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <h2 class="m-0">Welcom</h2>
               <p class="c-grey mt-5 txt-c-f">${data.name}</p>
             </div>
-            <img src="../images/profile/welcome.png" alt="" />
+            <img src="../assets/images/profile/welcome.png" alt="" />
           </div>
           <img src="${data.imgSrc}" alt="Profile image" class="avatar" />
           <div class="body txt-c d-flex p-20 mt-20 mb-20 bg-fourth pl-10-f pr-10-f">
