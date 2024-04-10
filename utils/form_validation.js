@@ -8,8 +8,6 @@ var FormValidation = {
   },
   validate: function (form_selector, form_rules, form_submit_handler_callback) {
     var form_object = $(form_selector);
-    // var error = $(".alert-danger", form_object);
-    // var success = $(".alert-success", form_object);
 
     $(form_object).validate({
       rules: form_rules,
