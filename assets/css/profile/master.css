@@ -438,7 +438,7 @@ textarea {
 .targets .details .progress > span span {
   position: absolute;
   bottom: -36px;
-  right: -30px;
+  right: -16px;
   background-color: rgb(var(--row-color));
   padding: 2px 5px;
 }

@@ -303,28 +303,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/jquery.spapp.min.js"></script>
     <script>
-      $(document).ready(function () {
-        var app = $.spapp({
-          defaultView: "#profile",
-          templateDir: "./profilePages/",
-        });
-
-        app.route({
-          view: "profile",
-          load: "profile.html",
-          onCreate: function () {
-            loadProfile()
-              .then(function (data) {
-                console.log("Profile data loaded:", data);
-              })
-              .catch(function (error) {
-                console.error("Error loading profile data:", error);
-              });
-          },
-        });
-
-        app.run();
-      });
+      
     </script>
   </body>
 </html>
