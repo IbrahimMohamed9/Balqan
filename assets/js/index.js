@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var app = $.spapp({
     defaultView: "#home",
-    templateDir: "./pages/",
+    templateDir: "pages/homePages",
   });
 
   app.route({
@@ -380,17 +380,17 @@ document.addEventListener("DOMContentLoaded", () => {
     load: "articles.html",
     onCreate: function () {
       articlesArticle(
-        "../assets/json/articlesCities.json",
+        "assets/json/articlesCities.json",
         "pages/article.html",
         ".articles.first .container .row"
       );
       articlesArticle(
-        "../assets/json/articlesHotels.json",
+        "assets/json/articlesHotels.json",
         "pages/article.html",
         ".articles.second .container .row"
       );
       articlesArticle(
-        "../assets/json/articlesTourism.json",
+        "assets/json/articlesTourism.json",
         "pages/article.html",
         ".articles.third .container .row"
       );
@@ -406,14 +406,14 @@ document.addEventListener("DOMContentLoaded", () => {
       mainTitleAnimation();
       Utils.setupModalActions();
       Utils.packages(
-        "../assets/json/packages.json",
+        "assets/json/packages.json",
         "pages/item.html",
         ".items.packages .container",
         ".splide.packages-carousel",
         20
       );
       Utils.loadItems(
-        "../assets/json/cars.json",
+        "assets/json/cars.json",
         '<div class="item splide__slide"><div class="image item-img "><img src="',
         '" alt="" /></div><div class="text"><h3>',
         "</h3><p>Price: ",
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "cars"
       );
       Utils.loadItems(
-        "../assets/json/hotels.json",
+        "assets/json/hotels.json",
         '<div class="item splide__slide"><div class="image item-img "><img src="',
         '" alt="" /></div><div class="text"><h3>',
         "</h3><p>Price: ",
@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       }
 
-      loadItems("../assets/json/cart.json");
+      loadItems("assets/json/cart.json");
 
       //change the quantity and prices in modal and page
       function cartQuantityBtn(min, max, plus, price, index) {
