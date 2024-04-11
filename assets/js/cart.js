@@ -1,18 +1,9 @@
-import {
-  modal,
-  appearQuantityAlert,
-  checkDec,
-  body,
-  setupModalActions,
-} from "./component.js";
-
 document.addEventListener("DOMContentLoaded", () => {
   const modalProducts = modal.querySelector(".products"),
     sumOfTotalModal = modal.querySelector(
       ".checkout .checkout--footer .price"
     ).children;
   let totalPricesCart,
-    totalPricesModal,
     quantitiesCart,
     quantitiesModal,
     sumOfTotalPrices = 0;
@@ -248,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  loadItems("../json/cart.json");
+  loadItems("../assets/json/cart.json");
 
   //change the quantity and prices in modal and page
   function cartQuantityBtn(min, max, plus, price, index) {
@@ -283,13 +274,11 @@ document.addEventListener("DOMContentLoaded", () => {
     sumOfTotalModal[2].innerHTML = checkDec(sumOfTotalPrices);
   }
   let masterContainer;
-  document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       // body = document.body;
       // modal = document.getElementById("myModal");
       masterContainer = modal.querySelector(".master-container");
     }, 1000);
-  });
   function itemModal() {
     const selectedOptions = document.querySelectorAll(
       ".cart .containerr .products .row .select-container select option:checked"

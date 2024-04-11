@@ -10,20 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ".splide.packages-carousel",
     20
   );
-
-  //cars
-  //   `
-  //   <div class="item splide__slide">
-  //   <div class="image car">
-  //     <img src="${itemData.imgSrc}" alt="" />
-  //   </div>
-  //   <div class="text">
-  //     <h3>${itemData.name}</h3>
-  //     <p>Price: ${itemData.price} KM/day</p>
-  //   </div>
-  //   <button class="pckbtn"></button>
-  // </div>
-  // `;
   loadItems(
     "../json/cars.json",
     '<div class="item splide__slide"><div class="image item-img "><img src="',
@@ -32,20 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ' KM/day</p></div><button class="pckbtn"></button></div>',
     "cars"
   );
-
-  //Hotels
-  // `
-  // <div class="item splide__slide">
-  // <div class="image car">
-  // <img src="${itemData.imgSrc}" alt="" />
-  //       </div>
-  //       <div class="text">
-  // <h3>${itemData.name}</h3>
-  // <p>Price: ${itemData.price} KM/day</p>
-  //       </div>
-  //       <button class="pckbtn"></button>
-  //     </div>
-  //`;
   loadItems(
     "../json/hotels.json",
     '<div class="item splide__slide"><div class="image item-img "><img src="',
