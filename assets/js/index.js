@@ -506,15 +506,87 @@ document.addEventListener("DOMContentLoaded", () => {
                 totalDecimalPart = Utils.checkDec(totalPrice);
               sumOfTotalPrices = totalPrice + parseFloat(sumOfTotalPrices);
 
-              if (itemData.category == "package") {
-                modalContent = `      
+              //   if (itemData.category == "package") {
+              //     modalContent = `
+              //   <div class="products">
+              //     <div class="product">
+              //       <img src="${itemData.imgSrc}" alt="" />
+              //       <div>
+              //         <span>${itemData.category}</span>
+              //         <p>${itemData.name}</p>
+              //         <p class="plan">${itemData.plan}</p>
+              //       </div>
+              //       <div class="quantity">
+              //         <button>
+              //           <i class="fa-solid fa-minus"></i>
+              //         </button>
+              //         <span>${itemData.quantity}</span>
+              //         <button>
+              //           <i class="fa-solid fa-plus"></i>
+              //         </button>
+              //       </div>
+              //       <span class="price small">
+              //         <sup>KM</sup>
+              //         <span>${Math.floor(price)}</span>
+              //         <sub>${decimalPart}</sub>
+              //       </span>
+              //     </div>
+              //   </div>
+              // `;
+              //     content = `
+              //     <div class="row">
+              //       <div class="image">
+              //         <img src="${itemData.imgSrc}" alt="" />
+              //       </div>
+              //       <div class="name-plan">
+              //         <h2>${itemData.name}</h2>
+              //         <div class="select-container">
+              //           <select name="plans">
+              //             <option value="plan1">Plan 1</option>
+              //             <option value="plan2">Plan 2</option>
+              //             <option value="plan3">Plan 3</option>
+              //             <option value="plan4">Plan 4</option>
+              //           </select>
+              //           <i class="fa-solid fa-chevron-down"></i>
+              //         </div>
+              //       </div>
+              //       <div class="price">
+              //         <p>
+              //           <span class="price small">
+              //             <sup>KM</sup>
+              //             <span>${Math.floor(price)}</span>
+              //             <sub>${decimalPart}</sub>
+              //           </span>
+              //         </p>
+              //       </div>
+              //       <div class="quantity">
+              //         <button>
+              //           <i class="fa-solid fa-minus"></i>
+              //         </button>
+              //         <span>${itemData.quantity}</span>
+              //         <button>
+              //           <i class="fa-solid fa-plus"></i>
+              //         </button>
+              //       </div>
+              //       <div class="total">
+              //         <p>
+              //           <sup>KM</sup>
+              //           <span class="totalInt">${Math.floor(totalPrice)}</span>
+              //           <sup class="down">${totalDecimalPart}</sup>
+              //           <i class="fa-solid fa-trash trash"></i>
+              //           <i class="fa-solid fa-circle-minus circle-minus"></i>
+              //         </p>
+              //       </div>
+              //     </div>
+              //   `;
+              //   } else {
+              modalContent = `      
               <div class="products">
                 <div class="product">
                   <img src="${itemData.imgSrc}" alt="" />
                   <div>
                     <span>${itemData.category}</span>
                     <p>${itemData.name}</p>
-                    <p class="plan">${itemData.plan}</p>
                   </div>
                   <div class="quantity">
                     <button>
@@ -533,79 +605,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
               </div>
             `;
-                content = `
-                <div class="row">
-                  <div class="image">
-                    <img src="${itemData.imgSrc}" alt="" />
-                  </div>
-                  <div class="name-plan">
-                    <h2>${itemData.name}</h2>
-                    <div class="select-container">
-                      <select name="plans">
-                        <option value="plan1">Plan 1</option>
-                        <option value="plan2">Plan 2</option>
-                        <option value="plan3">Plan 3</option>
-                        <option value="plan4">Plan 4</option>
-                      </select>
-                      <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                  </div>
-                  <div class="price">
-                    <p>
-                      <span class="price small">
-                        <sup>KM</sup>
-                        <span>${Math.floor(price)}</span>
-                        <sub>${decimalPart}</sub>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="quantity">
-                    <button>
-                      <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <span>${itemData.quantity}</span>
-                    <button>
-                      <i class="fa-solid fa-plus"></i>
-                    </button>
-                  </div>
-                  <div class="total">
-                    <p>
-                      <sup>KM</sup>
-                      <span class="totalInt">${Math.floor(totalPrice)}</span>
-                      <sup class="down">${totalDecimalPart}</sup>
-                      <i class="fa-solid fa-trash trash"></i>
-                      <i class="fa-solid fa-circle-minus circle-minus"></i>
-                    </p>
-                  </div>
-                </div>
-              `;
-              } else {
-                modalContent = `      
-              <div class="products">
-                <div class="product">
-                  <img src="${itemData.imgSrc}" alt="" />
-                  <div>
-                    <span>${itemData.category}</span>
-                    <p>${itemData.name}</p>
-                  </div>
-                  <div class="quantity">
-                    <button>
-                      <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <span>${itemData.quantity}</span>
-                    <button>
-                      <i class="fa-solid fa-plus"></i>
-                    </button>
-                  </div>
-                  <span class="price small">
-                    <sup>KM</sup>
-                    <span>${Math.floor(price)}</span>
-                    <sub>${decimalPart}</sub>
-                  </span>
-                </div>
-              </div>
-            `;
-                content = `
+              content = `
               <div class="row">
                 <div class="image">
                   <img src="${itemData.imgSrc}" alt="" />
@@ -640,7 +640,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
               </div>
             `;
-              }
+              // }
               items.innerHTML += content;
               modalProducts.innerHTML += modalContent;
             });
@@ -729,10 +729,10 @@ document.addEventListener("DOMContentLoaded", () => {
         plus
           ? parseInt(quantityCart.textContent) < max
             ? buttomFunction(plus, price, index)
-            : appearQuantityAlert("This is the maximum number")
+            : Utils.appearQuantityAlert("This is the maximum number")
           : parseInt(quantityCart.textContent) > min
           ? buttomFunction(plus, price, index)
-          : appearQuantityAlert("This is the minimum number");
+          : Utils.appearQuantityAlert("This is the minimum number");
       }
 
       function buttomFunction(plus, price, index) {

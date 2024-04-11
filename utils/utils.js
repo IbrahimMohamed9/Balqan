@@ -113,26 +113,38 @@ var Utils = {
       .then((data) => {
         const packages = document.querySelector(sectionSelector);
         data.map((packageData) => {
+          // Origin
+          // `
+          //     <div class="item splide__slide">
+          //     <div class="box">
+          //       <div class="back face">
+          //         <button class="button" id="${packageData.id}-1">plan 1</button>
+          //         <button class="button" id="${packageData.id}-2">plan 2</button>
+          //         <button class="button" id="${packageData.id}-3">plan 3</button>
+          //         <button class="button" id="${packageData.id}-4">plan 4</button>
+          //       </div>
+          //       <div class="image face">
+          //         <img src="${packageData.imgSrc}" alt="" />
+          //       </div>
+          //     </div>
+          //     <div class="text">
+          //       <h3>${packageData.name}</h3>
+          //       <p>Price: ${packageData.price} KM</p>
+          //     </div>
+          //     <button class="pckbtn"></button>
+          //   </div>
+          //   `;
           const packageCon = `
-              <div class="item splide__slide">
-              <div class="box">
-                <div class="back face">
-                  <button class="button" id="${packageData.id}-1">plan 1</button>
-                  <button class="button" id="${packageData.id}-2">plan 2</button>
-                  <button class="button" id="${packageData.id}-3">plan 3</button>
-                  <button class="button" id="${packageData.id}-4">plan 4</button>
-                </div>
-                <div class="image face">
+            <div class="item splide__slide">
+                <div class="image item-img">
                   <img src="${packageData.imgSrc}" alt="" />
                 </div>
-              </div>
               <div class="text">
                 <h3>${packageData.name}</h3>
                 <p>Price: ${packageData.price} KM</p>
               </div>
               <button class="pckbtn"></button>
-            </div>
-            `;
+            </div>`;
           packages.innerHTML += packageCon;
         });
 
@@ -268,15 +280,15 @@ var Utils = {
       );
     });
 
-    if (plans) {
-      modal.querySelector(".select-container").style.display = "block";
-      modal
-        .querySelector(".cart .products .product p")
-        .classList.remove("active");
-    } else {
-      modal.querySelector(".select-container").style.display = "none";
-      modal.querySelector(".cart .products .product p").classList.add("active");
-    }
+    // if (plans) {
+    //   modal.querySelector(".select-container").style.display = "block";
+    //   modal
+    //     .querySelector(".cart .products .product p")
+    //     .classList.remove("active");
+    // } else {
+    modal.querySelector(".select-container").style.display = "none";
+    modal.querySelector(".cart .products .product p").classList.add("active");
+    // }
 
     modal.classList.add("d-block");
     body.classList.add("fix");

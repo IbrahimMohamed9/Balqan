@@ -133,6 +133,22 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(4);
     },
   });
+  app.route({
+    view: "tables",
+    load: "tables.html",
+    onCreate: function () {},
+    onReady: function () {
+      switchButton(5);
+    },
+  });
+  app.route({
+    view: "files",
+    load: "files.html",
+    onCreate: function () {},
+    onReady: function () {
+      switchButton(6);
+    },
+  });
 
   app.run();
 
@@ -291,7 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a
             href="#profile"
             id="profile-btn"
-            class="vistit d-block fs-15 rad-6 bg-main-color c-white btn-position w-fit btn-shape"
+            class="d-block fs-15 rad-6 bg-main-color c-white btn-position w-fit btn-shape"
           >
             Profile
           </a>
@@ -360,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${row.finish}</td>
                 <td>${row.client}</td>
                 <td>${row.price}</td>
-                <td>
+                <td class="team">
                   ${row.team
                     .map((image) => `<img src="${image}" alt="person image" />`)
                     .join("")}
@@ -385,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".screen.wrapper .reminders ul").innerHTML =
           remindersWidget;
         document.querySelector(
-          ".screen.wrapper .projects .table-container table tbody"
+          ".screen.wrapper .table-holder .table-container table tbody"
         ).innerHTML = tableRows;
 
         document.getElementById("profile-btn").addEventListener("click", () => {
