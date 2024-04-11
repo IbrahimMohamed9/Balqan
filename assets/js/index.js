@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var app = $.spapp({
     defaultView: "#home",
-    templateDir: "pages/",
+    templateDir: "pages/homePages/",
   });
 
   app.route({
