@@ -305,7 +305,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "assets/html/item.html",
         ".items .container.holder",
         ".items .items-carousel",
-        20
+        20,
+        "home"
       );
       mainTitleAnimation();
       expandGraph();
@@ -316,9 +317,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ".articles .splide__track .container.splide__list"
       );
       mainVideoSrc("assets/json/video.json");
-      Utils.setupModalActions();
     },
     onReady: function () {
+      Utils.setupModalActions();
       switchButton(0);
     },
   });
@@ -399,6 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(2);
     },
   });
+
   app.route({
     view: "shop",
     load: "shop.html",
@@ -410,7 +412,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "pages/item.html",
         ".items.packages .container",
         ".splide.packages-carousel",
-        20
+        20,
+        "shop"
       );
       Utils.loadItems(
         "assets/json/cars.json",
@@ -433,21 +436,56 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(4);
     },
   });
+
+  function appearModal() {
+    const selectedOptions = document.querySelectorAll(
+        ".cart .containerr .products .row .select-container select option:checked"
+      ),
+      modal = document.getElementById("cartModal"),
+      masterContainer = modal.querySelector(".master-container");
+    let selectedText = [];
+    selectedOptions.forEach((option) => {
+      if (option.selected) {
+        selectedText.push(option.textContent.trim());
+      }
+    });
+    document
+      .querySelectorAll(".cart .products .product p.plan")
+      .forEach((element, index) => {
+        element.textContent = selectedText[index];
+      });
+
+    modal.classList.add("d-block");
+    document.body.classList.add("fix");
+    setTimeout(() => {
+      modal.classList.add("active");
+
+      // Check if the height of master container is more than the height of the customer
+      const masterContainerHeight = masterContainer.offsetHeight,
+        customerHeight = window.innerHeight;
+
+      if (masterContainerHeight > customerHeight) {
+        masterContainer.style.marginTop = "115px";
+        masterContainer.style.paddingBottom = "50px";
+      }
+    }, 1);
+  }
+
   app.route({
     view: "cart",
     load: "cart.html",
     onCreate: function () {
-      const modal = document.getElementById("myModal");
-      (modalProducts = modal.querySelector(".products")),
-        (sumOfTotalModal = modal.querySelector(
+      const modal = document.getElementById("cartModal"),
+        modalProducts = modal.querySelector(".products"),
+        sumOfTotalModal = modal.querySelector(
           ".checkout .checkout--footer .price"
-        ).children);
+        ).children;
       let totalPricesCart,
         quantitiesCart,
         quantitiesModal,
         sumOfTotalPrices = 0;
 
-      Utils.setupModalActions("Items Registered Successfully!", false);
+      Utils.setupModalActions("Items Registered Successfully!", false, true);
 
       //load the items of shopping cart
       function loadItems(src) {
@@ -677,6 +715,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
               });
             });
+            document
+              .querySelector(".btn-pay")
+              .addEventListener("click", appearModal);
           });
       }
 
@@ -714,43 +755,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         sumOfTotalModal[1].innerHTML = Math.floor(sumOfTotalPrices);
         sumOfTotalModal[2].innerHTML = Utils.checkDec(sumOfTotalPrices);
-      }
-      let masterContainer;
-      setTimeout(() => {
-        // body = document.body;
-        // modal = document.getElementById("myModal");
-        masterContainer = modal.querySelector(".master-container");
-      }, 1000);
-      function itemModal() {
-        const selectedOptions = document.querySelectorAll(
-          ".cart .containerr .products .row .select-container select option:checked"
-        );
-        let selectedText = [];
-        selectedOptions.forEach((option) => {
-          if (option.selected) {
-            selectedText.push(option.textContent.trim());
-          }
-        });
-        document
-          .querySelectorAll(".cart .products .product p.plan")
-          .forEach((element, index) => {
-            element.textContent = selectedText[index];
-          });
-
-        modal.classList.add("d-block");
-        body.classList.add("fix");
-        setTimeout(() => {
-          modal.classList.add("active");
-
-          // Check if the height of master container is more than the height of the customer
-          const masterContainerHeight = masterContainer.offsetHeight,
-            customerHeight = window.innerHeight;
-
-          if (masterContainerHeight > customerHeight) {
-            masterContainer.style.marginTop = "115px";
-            masterContainer.style.paddingBottom = "50px";
-          }
-        }, 1);
       }
     },
     onReady: function () {
