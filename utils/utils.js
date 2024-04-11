@@ -30,14 +30,18 @@ var Utils = {
   },
   setupModalActions: function (
     message = "Cart: Item Added!",
-    removeeBtn = true
+    removeeBtn = true,
+    cartModal = false
   ) {
-    document.querySelector(".x").addEventListener("click", () => {
-      Utils.removeItemModal(removeeBtn);
+    const modal = cartModal
+      ? document.getElementById("cartModal")
+      : document.getElementById("myModal");
+    modal.querySelector(".x").addEventListener("click", () => {
+      Utils.removeItemModal(removeeBtn, modal);
     });
 
-    document.querySelector(".checkout-btn").addEventListener("click", () => {
-      Utils.removeItemModal(removeeBtn);
+    modal.querySelector(".checkout-btn").addEventListener("click", () => {
+      Utils.removeItemModal(removeeBtn, modal);
       Utils.appearSuccAlert(message);
     });
   },
@@ -91,7 +95,14 @@ var Utils = {
         Utils.carouselSplide(`.splide.${modalTitle}-carousel`, 20);
       });
   },
-  packages: function (src, redirect, sectionSelector, carouselSelector, gap) {
+  packages: function (
+    src,
+    redirect,
+    sectionSelector,
+    carouselSelector,
+    gap,
+    sectionName
+  ) {
     fetch(src)
       .then((response) => {
         if (!response.ok) {
@@ -125,22 +136,23 @@ var Utils = {
           packages.innerHTML += packageCon;
         });
 
-        document.querySelectorAll(".pckbtn").forEach((button, index) =>
-          button.addEventListener("click", () => {
-            const packageData = data[index];
-
-            Utils.itemModal(
-              "Package",
-              packageData.name,
-              packageData.imgSrc,
-              packageData.min,
-              packageData.max,
-              packageData.price,
-              packageData.quantity,
-              true
-            );
-          })
-        );
+        document
+          .querySelectorAll(`section#${sectionName} .pckbtn`)
+          .forEach((button, index) =>
+            button.addEventListener("click", () => {
+              const packageData = data[index];
+              Utils.itemModal(
+                "Package",
+                packageData.name,
+                packageData.imgSrc,
+                packageData.min,
+                packageData.max,
+                packageData.price,
+                packageData.quantity,
+                true
+              );
+            })
+          );
 
         Utils.carouselSplide(carouselSelector, gap);
 
@@ -168,19 +180,17 @@ var Utils = {
       splideTrack.parentElement.parentElement.classList.add("overflow");
 
       //arrow design
-      setTimeout(() => {
-        const arrows = document.querySelectorAll(
-          ".splide__arrows.splide__arrows--ltr .arrow"
-        );
-        arrows.forEach((arrow) => {
-          arrow.addEventListener("focus", () => {
-            arrow.classList.add("active");
-          });
-          arrow.addEventListener("blur", () => {
-            arrow.classList.remove("active");
-          });
+      const arrows = document.querySelectorAll(
+        ".splide__arrows.splide__arrows--ltr .arrow"
+      );
+      arrows.forEach((arrow) => {
+        arrow.addEventListener("focus", () => {
+          arrow.classList.add("active");
         });
-      }, 100);
+        arrow.addEventListener("blur", () => {
+          arrow.classList.remove("active");
+        });
+      });
 
       var splide = new Splide(carousel, {
         type: "loop",
@@ -327,11 +337,10 @@ var Utils = {
     sumOfTotalModal[1].textContent = Math.floor(total);
     sumOfTotalModal[2].textContent = Utils.checkDec(total);
   },
-  removeItemModal: function (removeeBtn) {
-    const modal = document.querySelector("#myModal"),
-      quantityBtns = Array.from(
-        modal.querySelector(".master-container .cart .quantity").children
-      );
+  removeItemModal: function (removeeBtn, modal) {
+    const quantityBtns = Array.from(
+      modal.querySelector(".master-container .cart .quantity").children
+    );
 
     if (removeeBtn) {
       Utils.removeAllEventListeners(quantityBtns[0]);
