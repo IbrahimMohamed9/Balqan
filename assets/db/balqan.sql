@@ -30,9 +30,11 @@ CREATE TABLE `items` (
     `stock_quantity` INT,
     `imgs` JSON,
     `max_days` INT,
+    `days` INT,
     `min_days` INT,
-    `max_persons` INT,
-    `max_persons` INT,
+    `min_persons` VARCHAR(255),
+    `persons` VARCHAR(255),
+    `max_persons` VARCHAR(255),
     `category` VARCHAR(255),
     `title` VARCHAR(255),
     `intro` VARCHAR(255),
@@ -61,7 +63,8 @@ CREATE TABLE `articles` (
     `category` VARCHAR(255),
     `title` VARCHAR(255),
     `country` VARCHAR(255),
-    `date` DATE,
+    time DATETIME DEFAULT CURRENT_TIMESTAMP
+,
     `description` TEXT,
     `content` TEXT
 );

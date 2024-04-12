@@ -417,16 +417,16 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       Utils.loadItems(
         "assets/json/cars.json",
-        '<div class="item splide__slide"><div class="image item-img "><img src="',
-        '" alt="" /></div><div class="text"><h3>',
+        '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
+        '" alt="Car Image" /></div></a><div class="text"><h3>',
         "</h3><p>Price: ",
         ' KM/day</p></div><button class="pckbtn"></button></div>',
         "cars"
       );
       Utils.loadItems(
         "assets/json/hotels.json",
-        '<div class="item splide__slide"><div class="image item-img "><img src="',
-        '" alt="" /></div><div class="text"><h3>',
+        '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
+        '" alt="" /></div></a><div class="text"><h3>',
         "</h3><p>Price: ",
         ' KM/day</p></div><button class="pckbtn"></button></div>',
         "hotels"
