@@ -1367,6 +1367,9 @@ textarea {
 ====================================================================
 ====================================================================
 */
+.modal .master-container {
+  transform: translate(-50%, calc(-50% - 25px));
+}
 .modal .master-container .form form {
   overflow: auto;
   max-height: calc(85vh - 50px);
@@ -1379,20 +1382,19 @@ textarea {
   justify-content: center;
   margin: 20px 0;
 }
-.modal .master-container .form form .inputs .full {
-  grid-column: 2 span;
+@media (min-width: 360px) {
+  .modal .master-container .form form .inputs .full {
+    grid-column: 2 span;
+  }
 }
 @media (max-width: 360px) {
-  .modal .master-container .form form .inputs,
-  .modal .master-container .form form .textareas {
+  .modal .master-container .form form .inputs {
     grid-template-columns: calc(100% - 10px);
-  }
-  .modal .master-container .form form .inputs .full {
-    grid-column: 1 span;
   }
 }
 .modal .master-container .form form .textareas {
   margin-bottom: 10px;
+  grid-template-columns: calc(100% - 10px);
 }
 .textarea {
   max-height: 205px;
