@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(4);
     },
   });
+  let modal;
   function setupModalActions(
     message = "Added To DB Successfully",
     removeeBtn = true
   ) {
-    const modal = document.getElementById("myModal");
     modal.querySelector(".x").addEventListener("click", () => {
       Utils.removeItemModal(false, modal);
     });
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   function packageModal() {
-    document.getElementById("myModal").innerHTML = `
+    modal.innerHTML = `
       <div class="master-container">
           <div class="card cart">
             <div class="top-title">
@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Utils.appearModal(false);
   }
   function carModal() {
-    document.getElementById("myModal").innerHTML = `
+    modal.innerHTML = `
       <div class="master-container">
         <div class="card cart">
           <div class="top-title">
@@ -609,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Utils.appearModal(false);
   }
   function hotelModal() {
-    document.getElementById("myModal").innerHTML = `
+    modal.innerHTML = `
       <div class="master-container">
         <div class="card cart">
           <div class="top-title">
@@ -846,7 +846,7 @@ document.addEventListener("DOMContentLoaded", () => {
     Utils.appearModal(false);
   }
   function articleModal() {
-    document.getElementById("myModal").innerHTML = `
+    modal.innerHTML = `
       <div class="master-container">
         <div class="card cart">
           <div class="top-title">
@@ -1020,7 +1020,9 @@ document.addEventListener("DOMContentLoaded", () => {
   app.route({
     view: "tables",
     load: "tables.html",
-    onCreate: function () {},
+    onCreate: function () {
+      modal = document.getElementById("myModal");
+    },
     onReady: function () {
       switchButton(5);
       document
