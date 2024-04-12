@@ -647,6 +647,11 @@ textarea {
   padding: 5px 10px;
   background-color: #d7a120;
 }
+@media (max-width: 300px) {
+  .table-holder .data-table-header .add-btn {
+    font-size: 13px;
+  }
+}
 .table-holder .table-container {
   overflow: hidden;
 }
@@ -1435,7 +1440,6 @@ form .submit {
     transform: translateY(-5px);
   }
 }
-/* End Animation */
 /* 
 ====================================================================
 ====================================================================
