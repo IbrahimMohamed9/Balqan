@@ -183,6 +183,37 @@ document.addEventListener("DOMContentLoaded", () => {
       fieldAnimation(inputs[0]);
     });
   }
+  function submit(id, to = "add_item.php", tableId) {
+    FormValidation.validate("#" + id, {}, (data) => {
+      Utils.block_ui("#myModal");
+      $("#myModal .x").trigger("click");
+      console.log(data);
+      $.post(Constants.API_BASE_URL + to, data)
+        .done(function (data) {
+          Utils.unblock_ui("#myModal");
+          Utils.removeItemModal(false, modal);
+          Utils.appearSuccAlert("Item added successfully");
+
+          // ItemService.loadTable(tableId);
+        })
+        .fail(function (xhr) {
+          //remove modal here and appear message
+          Utils.removeItemModal(false, modal);
+          Utils.appearFailAlert(xhr.responseText);
+        });
+    });
+  }
+  // //fix
+  // function open_edit_modal(patient_id) {
+  //   RestClient.get("get_patient.php?id=" + patient_id, function (data) {
+  //     $("#add-patient-modal").modal("toggle");
+  //     $("#add-patient-form input[name='id']").val(data.id);
+  //     $("#add-patient-form input[name='first_name']").val(data.first_name);
+  //     $("#add-patient-form input[name='last_name']").val(data.last_name);
+  //     $("#add-patient-form input[name='email']").val(data.email);
+  //     $("#add-patient-form input[name='created_at']").val(data.created_at);
+  //   });
+  // }
   function packageModal() {
     modal.innerHTML = `
       <div class="master-container">
@@ -192,8 +223,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <i class="fa-solid fa-xmark x"></i>
             </div>
             <div class="form">
-              <form action="" method="post">
-                <div class="inputs">
+              <form id="package-form" method="POST">
+              <div class="inputs">
+              <input type="hidden" name="category" id="category" value="package">
                   <div class="form-control">
                     <input
                       type="text"
@@ -290,10 +322,10 @@ document.addEventListener("DOMContentLoaded", () => {
                       type="number"
                       class="field"
                       required
-                      id="Price"
-                      name="Price"
+                      id="price"
+                      name="price"
                     />
-                    <label for="Price">
+                    <label for="price">
                       <span>P</span>
                       <span>r</span>
                       <span>i</span>
@@ -301,6 +333,22 @@ document.addEventListener("DOMContentLoaded", () => {
                       <span>e</span>
                     </label>
                   </div>
+                  <div class="form-control">
+                  <input
+                    type="number"
+                    class="field"
+                    required
+                    id="stock_quantity"
+                    name="stock_quantity"
+                  />
+                  <label for="stock_quantity">
+                    <span>S</span>
+                    <span>t</span>
+                    <span>o</span>
+                    <span>c</span>
+                    <span>k</span>
+                  </label>
+                </div>
                   <div class="form-control">
                     <input
                       type="text"
@@ -396,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formAnimation();
     setupModalActions();
     Utils.appearModal(false);
+    submit("package-form", "add_item.php", "tbl_packages");
   }
   function carModal() {
     modal.innerHTML = `
@@ -406,7 +455,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <i class="fa-solid fa-xmark x"></i>
           </div>
           <div class="form">
-            <form action="" method="post">
+            <form id="car-form">
+            <input type="hidden" name="category" value="car">
               <div class="inputs">
                 <div class="form-control">
                   <input
@@ -446,7 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     class="field"
                     required
                     id="min_days"
-                    name="days"
+                    name="min_days"
                   />
                   <label for="min_days">
                     <span>M</span>
@@ -501,15 +551,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     type="number"
                     class="field"
                     required
-                    id="Price"
-                    name="Price"
+                    id="price"
+                    name="price"
                   />
-                  <label for="Price">
+                  <label for="price">
                     <span>P</span>
                     <span>r</span>
                     <span>i</span>
                     <span>c</span>
                     <span>e</span>
+                  </label>
+                </div>
+                <div class="form-control">
+                  <input
+                    type="number"
+                    class="field"
+                    required
+                    id="stock_quantity"
+                    name="stock_quantity"
+                  />
+                  <label for="stock_quantity">
+                    <span>S</span>
+                    <span>t</span>
+                    <span>o</span>
+                    <span>c</span>
+                    <span>k</span>
                   </label>
                 </div>
                 <div class="form-control">
@@ -607,6 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formAnimation();
     setupModalActions();
     Utils.appearModal(false);
+    submit("car-form", "add_item.php", "tbl_cars");
   }
   function hotelModal() {
     modal.innerHTML = `
@@ -617,8 +684,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <i class="fa-solid fa-xmark x"></i>
           </div>
           <div class="form">
-            <form action="" method="post">
-              <div class="inputs">
+          <form id="hotel-form">
+          <div class="inputs">
+          <input type="hidden" id="category" name="category" value="hotel">
                 <div class="form-control">
                   <input
                     type="text"
@@ -657,7 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     class="field"
                     required
                     id="min_days"
-                    name="days"
+                    name="min_days"
                   />
                   <label for="min_days">
                     <span>M</span>
@@ -738,15 +806,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     type="number"
                     class="field"
                     required
-                    id="Price"
-                    name="Price"
+                    id="price"
+                    name="price"
                   />
-                  <label for="Price">
+                  <label for="price">
                     <span>P</span>
                     <span>r</span>
                     <span>i</span>
                     <span>c</span>
                     <span>e</span>
+                  </label>
+                </div>
+                <div class="form-control">
+                  <input
+                    type="number"
+                    class="field"
+                    required
+                    id="stock_quantity"
+                    name="stock_quantity"
+                  />
+                  <label for="stock_quantity">
+                    <span>S</span>
+                    <span>t</span>
+                    <span>o</span>
+                    <span>c</span>
+                    <span>k</span>
                   </label>
                 </div>
                 <div class="form-control">
@@ -844,6 +928,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formAnimation();
     setupModalActions();
     Utils.appearModal(false);
+    submit("hotel-form", "add_item.php", "tbl_hotels");
   }
   function articleModal() {
     modal.innerHTML = `
@@ -854,7 +939,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <i class="fa-solid fa-xmark x"></i>
           </div>
           <div class="form">
-            <form action="" method="post">
+            <form id="article-form">
               <div class="inputs">
                 <div class="form-control">
                   <input
@@ -1015,12 +1100,16 @@ document.addEventListener("DOMContentLoaded", () => {
     formAnimation();
     setupModalActions();
     Utils.appearModal(false);
+    submit("article-form", "add_article.php", "tbl_articles");
   }
 
   app.route({
     view: "tables",
     load: "tables.html",
     onCreate: function () {
+      // ItemService.loadTable("tbl_packages");
+      // ItemService.loadTable("tbl_cars");
+      // ItemService.loadTable("tbl_hotels");
       modal = document.getElementById("myModal");
     },
     onReady: function () {

@@ -3,8 +3,11 @@
 require_once __DIR__ . '/../dao/ItemDao.class.php';
 
 class ItemService {
-  private $patient_dao;
+  private $item_dao;
   public function __construct() {
-      $this->patient_dao = new ItemService();
+      $this->item_dao = new ItemDao();
+  }
+  public function add_item($item){
+    return $this->item_dao->add_item($item);
   }
 }

@@ -729,10 +729,10 @@ document.addEventListener("DOMContentLoaded", () => {
         plus
           ? parseInt(quantityCart.textContent) < max
             ? buttomFunction(plus, price, index)
-            : Utils.appearQuantityAlert("This is the maximum number")
+            : Utils.appearFailAlert("This is the maximum number")
           : parseInt(quantityCart.textContent) > min
           ? buttomFunction(plus, price, index)
-          : Utils.appearQuantityAlert("This is the minimum number");
+          : Utils.appearFailAlert("This is the minimum number");
       }
 
       function buttomFunction(plus, price, index) {

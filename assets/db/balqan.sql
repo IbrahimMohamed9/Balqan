@@ -28,7 +28,7 @@ CREATE TABLE `items` (
     `description` TEXT,
     `price` DECIMAL(10, 2),
     `stock_quantity` INT,
-    `imgs` JSON,
+    `imgsSrcs` VARCHAR(255),
     `max_days` INT,
     `days` INT,
     `min_days` INT,
@@ -63,8 +63,7 @@ CREATE TABLE `articles` (
     `category` VARCHAR(255),
     `title` VARCHAR(255),
     `country` VARCHAR(255),
-    time DATETIME DEFAULT CURRENT_TIMESTAMP
-,
+    `time` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `description` TEXT,
     `content` TEXT
 );
@@ -72,8 +71,8 @@ CREATE TABLE `articles` (
 CREATE TABLE `projects` (
     `project_id` INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255),
-    `start_date` DATE,
-    `end_date` DATE,
+    `start_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `end_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `team` JSON,
     `tasks` JSON,
     `progressPersent` INT,
@@ -107,12 +106,4 @@ CREATE TABLE `friends`(
 	`user_id` INT,
     `friends` JSON,
 	CONSTRAINT `fk_friends_user_id` FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
-);
-
-CREATE TABLE `contact_us`(
-	`contact_id` INT AUTO_INCREMENT PRIMARY KEY,
-	`user_name` VARCHAR(255),
-    `user_surname` VARCHAR(255),
-	`email` VARCHAR(255),
-    `message` TEXT
 );

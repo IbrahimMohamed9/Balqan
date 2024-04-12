@@ -325,12 +325,12 @@ var Utils = {
     plus
       ? parseInt(quantityNumber.textContent) < max
         ? Utils.buttomFunction(plus, price, quantityNumber, sumOfTotalModal)
-        : Utils.appearQuantityAlert("This is the maximum number")
+        : Utils.appearFailAlert("This is the maximum number")
       : parseInt(quantityNumber.textContent) > min
       ? Utils.buttomFunction(plus, price, quantityNumber, sumOfTotalModal)
-      : Utils.appearQuantityAlert("This is the minimum number");
+      : Utils.appearFailAlert("This is the minimum number");
   },
-  appearQuantityAlert: function (message) {
+  appearFailAlert: function (message) {
     const quantityAlert = document.querySelector(
       ".alert.alert-danger.decrease"
     );
