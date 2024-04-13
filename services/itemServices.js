@@ -1,6 +1,6 @@
 var ItemService = {
-  loadTable: function (id, from) {
-    fetch(src)
+  loadTable: function (id, category) {
+    fetch(Constants.API_BASE_URL + "get_items.php?category=" + category)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -11,12 +11,12 @@ var ItemService = {
         const tableBody = document.querySelector("#" + id + " tbody");
         data.map((itemData) => {
           id === "tbl_packages"
-            ? packageContent(tableBody, itemData)
+            ? ItemService.packageContent(tableBody, itemData)
             : id === "tbl_cars"
-            ? carsContent(tableBody, itemData)
+            ? ItemService.carsContent(tableBody, itemData)
             : id === "tbl_hotels"
-            ? hotelsContent(tableBody, itemData)
-            : alert("ceck the id");
+            ? ItemService.hotelsContent(tableBody, itemData)
+            : alert("check the id");
         });
       });
   },
@@ -25,7 +25,7 @@ var ItemService = {
               <tr>
                 <td class="item-image">
                   <img
-                    src="${itemData.imgSrc}"
+                    src="https${itemData.imgs_srcs.trim().split("https")[1]}"
                     alt="Package Image"
                   />
                 </td>
@@ -54,7 +54,9 @@ var ItemService = {
     tableBody.innerHTML += `
       <tr>
         <td class="item-image">
-          <img src="${itemData.imgSrc}" alt="Car Image" />
+          <img src="https${
+            itemData.imgs_srcs.trim().split("https")[1]
+          }" alt="Car Image" />
         </td>
         <td>${itemData.name}</td>
         <td>${itemData.min_days}</td>
@@ -81,7 +83,9 @@ var ItemService = {
     tableBody.innerHTML += `
       <tr>
         <td class="item-image">
-        <img src="${itemData.imgSrc}" alt="Car Image" />
+        <img src="https${
+          itemData.imgs_srcs.trim().split("https")[1]
+        }" alt="Car Image" />
         <td>${itemData.name}</td>
           <td>${itemData.min_days}</td>
           <td>${itemData.max_days}</td>

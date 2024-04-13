@@ -4,7 +4,6 @@ var FormValidation = {
     $.each(form.serializeArray(), function () {
       result[this.name] = this.value;
     });
-    console.log(result);
     return result;
   },
   validate: function (form_selector, form_rules, form_submit_handler_callback) {
