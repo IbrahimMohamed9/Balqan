@@ -38,7 +38,8 @@ CREATE TABLE `items` (
     `category` VARCHAR(255),
     `title` VARCHAR(255),
     `intro` VARCHAR(255),
-    `status` VARCHAR(255)
+    `status` VARCHAR(255),
+	`added_time` DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO items (imgs_srcs, name, intro, title, description, price, stock_quantity, days, min_persons, max_persons, category, status) 

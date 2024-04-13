@@ -16,4 +16,13 @@ class ItemService {
   public function get_item_by_id($item_id) {
     return $this->item_dao->get_item_by_id($item_id);
   }
+  public function delete_item($item_id) {
+    return $this->item_dao->delete_item($item_id);
+  }
+  public function edit_item($item) {
+    $item_id = $item['item_id'];
+    unset($item['item_id']);
+
+    $this->item_dao->edit_item($item_id, $item);
+  }
 }

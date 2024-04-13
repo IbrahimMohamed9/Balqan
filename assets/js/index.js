@@ -407,30 +407,33 @@ document.addEventListener("DOMContentLoaded", () => {
     onCreate: function () {
       mainTitleAnimation();
       Utils.setupModalActions();
-      Utils.packages(
-        "assets/json/packages.json",
-        "pages/item.html",
-        ".items.packages .container",
-        ".splide.packages-carousel",
-        20,
-        "shop"
-      );
-      Utils.loadItems(
-        "assets/json/cars.json",
-        '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
-        '" alt="Car Image" /></div></a><div class="text"><h3>',
-        "</h3><p>Price: ",
-        ' KM/day</p></div><button class="pckbtn"></button></div>',
-        "cars"
-      );
-      Utils.loadItems(
-        "assets/json/hotels.json",
-        '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
-        '" alt="" /></div></a><div class="text"><h3>',
-        "</h3><p>Price: ",
-        ' KM/day</p></div><button class="pckbtn"></button></div>',
-        "hotels"
-      );
+      ItemService.loadCards("package");
+      // Utils.packages(
+      //   "assets/json/packages.json",
+      //   "pages/item.html",
+      //   ".items.packages .container",
+      //   ".splide.packages-carousel",
+      //   20,
+      //   "shop"
+      // );
+      ItemService.loadCards("car");
+      // Utils.loadItems(
+      //   "assets/json/cars.json",
+      //   '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
+      //   '" alt="Car Image" /></div></a><div class="text"><h3>',
+      //   "</h3><p>Price: ",
+      //   ' KM/day</p></div><button class="pckbtn"></button></div>',
+      //   "cars"
+      // );
+      ItemService.loadCards("hotel");
+      // Utils.loadItems(
+      //   "assets/json/hotels.json",
+      //   '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
+      //   '" alt="" /></div></a><div class="text"><h3>',
+      //   "</h3><p>Price: ",
+      //   ' KM/day</p></div><button class="pckbtn"></button></div>',
+      //   "hotels"
+      // );
     },
     onReady: function () {
       switchButton(4);

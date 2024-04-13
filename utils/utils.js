@@ -1,16 +1,3 @@
-// const modal = document.getElementById("myModal"),
-//   addItemAlert = document.querySelector(".alert.alert-success.add-item"),
-//   quantityAlert = document.querySelector(".alert.alert-danger.decrease"),
-//   modalName = modal.querySelector(".item-name"),
-//   modalImage = modal.querySelector(".modal-img"),
-//   modalPrice = modal.querySelector(".price.small"),
-//   body = document.body,
-//   modalQuantity = modal.querySelector(".master-container .cart .quantity"),
-//   modalType = modal.querySelector(".top-title .title"),
-// sumOfTotalModal = modal.querySelector(
-//   ".checkout .checkout--footer .price"
-// ).children;
-
 var Utils = {
   block_ui: function (element) {
     $(element).block({
@@ -415,5 +402,52 @@ var Utils = {
         masterContainer.style.paddingBottom = "50px";
       }
     }, 1);
+  },
+  fieldAnimation: function (field) {
+    if (field.value.trim() !== "") {
+      field.classList.add("active", "delay");
+    }
+    field.addEventListener("focus", (input) => {
+      input.target.classList.add("active", "delay");
+    });
+    field.addEventListener("blur", (input) => {
+      if (input.target.value.trim() == "") {
+        input.target.classList.remove("active");
+        input.target.value = input.target.value.trim();
+        setTimeout(() => {
+          input.target.classList.remove("delay");
+        }, 500);
+      }
+    });
+  },
+  formAnimation: function () {
+    const textareas = document.querySelectorAll("textarea.field"),
+      fields = document.querySelectorAll(".form-control input"),
+      txtarLabels = document.querySelectorAll(".txtar-la");
+
+    textareas.forEach((textarea, index) => {
+      if (textarea.value.trim() !== "") {
+        txtarLabels[index].classList.add("active", "delay");
+        textarea.classList.add("active");
+      }
+      textarea.addEventListener("focus", () => {
+        txtarLabels[index].classList.add("active", "delay");
+        textarea.classList.add("active");
+      });
+      textarea.addEventListener("blur", () => {
+        if (textarea.value.trim() == "") {
+          txtarLabels[index].classList.remove("active");
+          textarea.classList.remove("active");
+          textarea.value = textarea.value.trim();
+          setTimeout(() => {
+            txtarLabels[index].classList.remove("delay");
+          }, 900);
+        }
+      });
+    });
+
+    fields.forEach((field) => {
+      Utils.fieldAnimation(field);
+    });
   },
 };

@@ -20,7 +20,7 @@ var RestClient = {
       .done(function (response, status, jqXHR) {
         if (callback) callback(response);
       })
-      .error(function (jqXHR, textStatus, errorThrown) {
+      .fail(function (jqXHR, textStatus, errorThrown) {
         if (error_callback) {
           error_callback(jqXHR);
         } else {
