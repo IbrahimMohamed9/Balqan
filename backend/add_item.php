@@ -5,8 +5,7 @@ $payload = $_REQUEST;
 
 $item_service = new itemService();
 
-if($payload['id'] != NULL && $payload['id'] != ''){
-  unset($payload['id']);
+if($payload['item_id'] != NULL && $payload['item_id'] != ''){
   $item = $item_service->edit_item($payload);
 } else {
   $item = $item_service->add_item($payload);
