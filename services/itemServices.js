@@ -515,6 +515,7 @@ var ItemService = {
       $("#myModal input[name='min_days']").val(data.min_days);
       $("#myModal input[name='max_days']").val(data.max_days);
 
+      $("#myModal input[name='persons']").val(data.persons);
       $("#myModal input[name='max_persons']").val(data.max_persons);
       $("#myModal input[name='min_persons']").val(data.min_persons);
       Utils.formAnimation();
