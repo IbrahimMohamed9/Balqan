@@ -329,47 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     load: "contact-us.html",
     onCreate: function () {
       mainTitleAnimation();
-
-      const textarea = document.getElementById("message"),
-        fields = document.querySelectorAll(".form-control"),
-        label = document.getElementById("txtar-la");
-      if (textarea) {
-        textarea.addEventListener("focus", () => {
-          label.classList.add("active", "delay");
-          textarea.classList.add("active");
-        });
-
-        textarea.addEventListener("blur", () => {
-          if (textarea.value.trim() == "") {
-            label.classList.remove("active");
-            textarea.classList.remove("active");
-            textarea.value = textarea.value.trim();
-            setTimeout(() => {
-              label.classList.remove("delay");
-            }, 500);
-          }
-        });
-      }
-
-      fields.forEach((field) => {
-        inputs = field.children;
-        fieldAnimation(inputs[0]);
-      });
-
-      function fieldAnimation(field) {
-        field.addEventListener("focus", (input) => {
-          input.target.classList.add("active", "delay");
-        });
-        field.addEventListener("blur", (input) => {
-          if (input.target.value.trim() == "") {
-            input.target.classList.remove("active");
-            input.target.value = input.target.value.trim();
-            setTimeout(() => {
-              input.target.classList.remove("delay");
-            }, 500);
-          }
-        });
-      }
+      Utils.formAnimation();
     },
     onReady: function () {
       switchButton(1);
@@ -408,32 +368,8 @@ document.addEventListener("DOMContentLoaded", () => {
       mainTitleAnimation();
       Utils.setupModalActions();
       ItemService.loadCards("package");
-      // Utils.packages(
-      //   "assets/json/packages.json",
-      //   "pages/item.html",
-      //   ".items.packages .container",
-      //   ".splide.packages-carousel",
-      //   20,
-      //   "shop"
-      // );
       ItemService.loadCards("car");
-      // Utils.loadItems(
-      //   "assets/json/cars.json",
-      //   '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
-      //   '" alt="Car Image" /></div></a><div class="text"><h3>',
-      //   "</h3><p>Price: ",
-      //   ' KM/day</p></div><button class="pckbtn"></button></div>',
-      //   "cars"
-      // );
       ItemService.loadCards("hotel");
-      // Utils.loadItems(
-      //   "assets/json/hotels.json",
-      //   '<div class="item splide__slide"><a href="pages/item.html"><div class="image item-img "><img src="',
-      //   '" alt="" /></div></a><div class="text"><h3>',
-      //   "</h3><p>Price: ",
-      //   ' KM/day</p></div><button class="pckbtn"></button></div>',
-      //   "hotels"
-      // );
     },
     onReady: function () {
       switchButton(4);

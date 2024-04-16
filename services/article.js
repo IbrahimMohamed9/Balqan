@@ -55,91 +55,7 @@ var ArticleService = {
   </tr>
     `;
   },
-  // loadCards: function (category) {
-  //   fetch(Constants.API_BASE_URL + "get_articles.php?category=" + category)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       data.map((articleData) => {
-  //         category === "car" || category === "hotel" || category === "package"
-  //           ? ArticleService.loadCard(articleData)
-  //           : alert("check the category");
-  //       });
-  //       Utils.carouselSplide(`.splide.${category}s-carousel`, 20);
-  //     });
-  // },
-  // loadCard: function (articleData) {
-  //   // Package design
-  //   // `
-  //   //     <div class="article splide__slide">
-  //   //     <div class="box">
-  //   //       <div class="back face">
-  //   //         <button class="button" id="${articleData.id}-1">plan 1</button>
-  //   //         <button class="button" id="${articleData.id}-2">plan 2</button>
-  //   //         <button class="button" id="${articleData.id}-3">plan 3</button>
-  //   //         <button class="button" id="${articleData.id}-4">plan 4</button>
-  //   //       </div>
-  //   //       <div class="image face">
-  //   //         <img src="https${
-  //   //           articleData.imgs_srcs.trim().split("https")[1]
-  //   //         }" alt="${articleData.category} Image" /></div>
-  //   //       </div>
-  //   //     </div>
-  //   //     <div class="text">
-  //   //       <h3>${articleData.name}</h3>
-  //   //       <p>Price: ${intP}${decP} KM/day</p>
-  //   //     </div>
-  //   //     <button class="pckbtn"></button>
-  //   //   </div>
-  //   //   `;
-  //   const intP = String(articleData.price).substring(
-  //       0,
-  //       String(articleData.price).indexOf(".")
-  //     ),
-  //     decP = Utils.checkDec(articleData.price);
-  //   const content = `
-  //     <div class="article splide__slide">
-  //       <a href="pages/article.html"
-  //         ><div class="image article-img">
-  //           <img src="https${
-  //             articleData.imgs_srcs.trim().split("https")[1]
-  //           }" alt="${articleData.category} Image" /></div
-  //       ></a>
-  //       <div class="text">
-  //         <h3>${articleData.name}</h3>
-  //         <p>Price: ${intP}${decP} KM/day</p>
-  //       </div>
-  //       <button class="pckbtn"></button>
-  //     </div>
-  //   `;
-  //   const articles = document.querySelector(
-  //     `.articles.${articleData.category}s .container`
-  //   );
-  //   articles.innerHTML += content;
-
-  //   // document
-  //   //   .querySelectorAll(`.articles.${modalTitle} .container .pckbtn`)
-  //   //   .forEach((button, index) =>
-  //   //     button.addEventListener("click", () => {
-  //   //       const articleData = data[index];
-  //   //       Utils.articleModal(
-  //   //         modalTitle,
-  //   //         articleData.name,
-  //   //         articleData.imgSrc,
-  //   //         articleData.min,
-  //   //         articleData.max,
-  //   //         articleData.price,
-  //   //         articleData.quantity,
-  //   //         false
-  //   //       );
-  //   //     })
-  //   //   );
-  // },
-  addArticleModal: function (category) {
+  addArticleModal: function () {
     const modal = document.getElementById("myModal");
     modal.innerHTML = `
     <div class="master-container">
@@ -360,21 +276,30 @@ var ArticleService = {
     });
   },
   openEditItemModal: function (id) {
-    RestClient.get("get_article.php?article_id=" + id, function (data) {
-      ArticleService.addArticleModal(data.category, true);
+    console.log("data");
+    RestClient.get(
+      "get_article.php?article_id=" + id,
+      function (data) {
+        console.log(data);
 
-      $("#myModal input[name='article_id']").val(data.article_id);
-      $("#myModal input[name='img_src']").val(data.img_src);
-      $("#myModal input[name='title']").val(data.title);
-      $("#myModal input[name='status']").val(data.status);
-      $("#myModal input[name='category']").val(data.category);
-      $("#myModal input[name='country']").val(data.country);
-      $("#myModal input[name='added_time']").val(data.added_time);
-      $("#myModal textarea[name='img_desc']").val(data.img_desc);
-      $("#myModal textarea[name='description']").val(data.description);
-      $("#myModal textarea[name='content']").val(data.content);
-      Utils.formAnimation();
-    });
+        ArticleService.addArticleModal();
+
+        $("#myModal input[name='article_id']").val(data.article_id);
+        $("#myModal input[name='img_src']").val(data.img_src);
+        $("#myModal input[name='title']").val(data.title);
+        $("#myModal input[name='status']").val(data.status);
+        $("#myModal input[name='category']").val(data.category);
+        $("#myModal input[name='country']").val(data.country);
+        $("#myModal input[name='added_time']").val(data.added_time);
+        $("#myModal textarea[name='img_desc']").val(data.img_desc);
+        $("#myModal textarea[name='description']").val(data.description);
+        $("#myModal textarea[name='content']").val(data.content);
+        Utils.formAnimation();
+      },
+      function (error) {
+        console.error(error);
+      }
+    );
   },
   removeItem: function (id) {
     if (

@@ -134,9 +134,34 @@ var ItemService = {
           <h3>${itemData.name}</h3>
           <p>Price: ${intP}${decP} KM/day</p>
         </div>
-        <button class="pckbtn"></button>
+        <button class="pckbtn" 
+        onClick="Utils.itemModal(
+        '${itemData.category}',
+        '${itemData.name}',
+        'https${itemData.imgs_srcs.trim().split("https")[1]}',
+        '1',
+        '12',
+        '${itemData.price}',
+        '3',
+        '${itemData.category == "car" ? "Persons: " + itemData.persons : ""}',
+        '${
+          itemData.category == "car"
+            ? "Days"
+            : itemData.category == "package"
+            ? "persons"
+            : ""
+        }'
+        )"
+        ></button>
       </div>
     `;
+    // imgSrc,
+    // min,
+    // max,
+    // price,
+    // quantity,
+    // plans = true
+
     const items = document.querySelector(
       `.items.${itemData.category}s .container`
     );

@@ -125,7 +125,7 @@ VALUES ("https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduct
         "100",
         "14",
         "1",
-        "5",
+        "3",
         "car",
         "available"),
        ("https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/cars/car.jpg https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-10.webp https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-9.webp https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-2.jpg https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-3.jpg https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-4.jpg https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-5.jpg https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/tourist-places/tourist-places-6.jpg",
@@ -161,7 +161,7 @@ VALUES ("https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduct
         "100",
         "4",
         "1",
-        "5",
+        "2",
         "car",
         "available");
 INSERT

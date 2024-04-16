@@ -217,32 +217,38 @@ var Utils = {
     }
   },
   itemModal: function (
-    type,
+    category,
     name,
     imgSrc,
     min,
     max,
     price,
     quantity,
-    plans = true
+    nameDescription,
+    quantityDescription
+    //plans
   ) {
     const modal = document.getElementById("myModal"),
       sumOfTotalModal = modal.querySelector(
         ".checkout .checkout--footer .price"
       ).children,
       body = document.body,
-      modalName = modal.querySelector(".item-name"),
-      modalImage = modal.querySelector(".modal-img"),
-      modalPrice = modal.querySelector(".price.small"),
-      modalType = modal.querySelector(".top-title .title"),
+      itemName = modal.querySelector(".item-name"),
+      itemDescription = itemName.nextElementSibling,
+      quantityLabel = modal.querySelector(".quantity-label"),
+      itemImage = modal.querySelector(".modal-img"),
+      itemPrice = modal.querySelector(".price.small"),
+      itemCategory = modal.querySelector(".top-title .title"),
       modalQuantity = modal.querySelector(".master-container .cart .quantity"),
       quantityBtns = Array.from(modalQuantity.children);
-    modalType.textContent = type;
+    itemDescription.textContent = nameDescription;
+    itemCategory.textContent = category;
     quantityNumber = quantityBtns[1];
-    modalName.textContent = name;
-    modalImage.src = imgSrc;
-    modalPrice.textContent = `${price} KM`;
+    itemName.textContent = name;
+    itemImage.src = imgSrc;
+    itemPrice.textContent = `${price} KM`;
     quantityNumber.textContent = quantity;
+    quantityLabel.textContent = quantityDescription;
 
     const total = parseInt(quantityNumber.textContent) * Number(price);
     sumOfTotalModal[1].textContent = Math.floor(total);
