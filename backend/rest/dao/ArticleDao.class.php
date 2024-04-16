@@ -15,7 +15,7 @@ class ArticleDao extends BaseDao {
 
     public function get_articles() {
         $query = "SELECT * FROM articles";
-        return $this->query($query);
+        return $this->query($query, []);
     }
 
     public function get_articles_by_category($category) {
@@ -35,18 +35,17 @@ class ArticleDao extends BaseDao {
     
     public function edit_article($article_id, $article) {
         
-        $query = "UPDATE items SET 
-            article_id = :article_id, 
-            img = :img, 
-            imgDesc = :imgDesc, 
-            stock_quantity = :stock_quantity, 
-            imgs_srcs = :imgs_srcs, 
+        $query = "UPDATE articles SET 
+            img_src = :img_src, 
+            img_desc = :img_desc, 
             category = :category, 
             title = :title, 
             country = :country, 
-            time = :time, 
+            added_time = :added_time, 
             description = :description, 
-            content = :content";
+            content = :content 
+            status = :status 
+            WHERE article_id = :article_id";
     
         $this->execute($query, $article);
     }

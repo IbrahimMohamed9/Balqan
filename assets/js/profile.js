@@ -137,235 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupModalActions(
     message = "Added To DB Successfully",
     removeeBtn = true
-  ) {
-    
-  }
-  function fieldAnimation(field) {
-    field.addEventListener("focus", (input) => {
-      input.target.classList.add("active", "delay");
-    });
-    field.addEventListener("blur", (input) => {
-      if (input.target.value.trim() == "") {
-        input.target.classList.remove("active");
-        input.target.value = input.target.value.trim();
-        setTimeout(() => {
-          input.target.classList.remove("delay");
-        }, 500);
-      }
-    });
-  }
-  function formAnimation() {
-    const textareas = document.querySelectorAll("textarea.field"),
-      fields = document.querySelectorAll(".form-control"),
-      txtarLabels = document.querySelectorAll(".txtar-la");
-
-    textareas.forEach((textarea, index) => {
-      textarea.addEventListener("focus", () => {
-        txtarLabels[index].classList.add("active", "delay");
-        textarea.classList.add("active");
-      });
-      textarea.addEventListener("blur", () => {
-        if (textarea.value.trim() == "") {
-          txtarLabels[index].classList.remove("active");
-          textarea.classList.remove("active");
-          textarea.value = textarea.value.trim();
-          setTimeout(() => {
-            txtarLabels[index].classList.remove("delay");
-          }, 900);
-        }
-      });
-    });
-
-    fields.forEach((field) => {
-      inputs = field.children;
-      fieldAnimation(inputs[0]);
-    });
-  }
-  
-  // //fix
-  // function open_edit_modal(patient_id) {
-  //   RestClient.get("get_patient.php?id=" + patient_id, function (data) {
-  //     $("#add-patient-modal").modal("toggle");
-  //     $("#add-patient-form input[name='id']").val(data.id);
-  //     $("#add-patient-form input[name='first_name']").val(data.first_name);
-  //     $("#add-patient-form input[name='last_name']").val(data.last_name);
-  //     $("#add-patient-form input[name='email']").val(data.email);
-  //     $("#add-patient-form input[name='created_at']").val(data.created_at);
-  //   });
-  // }
-  function articleModal() {
-    modal.innerHTML = `
-      <div class="master-container">
-        <div class="card cart">
-          <div class="top-title">
-            <span class="title">Add Article</span>
-            <i class="fa-solid fa-xmark x"></i>
-          </div>
-          <div class="form">
-            <form id="article-form">
-              <div class="inputs">
-                <div class="form-control">
-                  <input
-                    type="text"
-                    class="field"
-                    required
-                    id="title"
-                    name="title"
-                  />
-                  <label for="title">
-                    <span>T</span>
-                    <span>i</span>
-                    <span>t</span>
-                    <span>l</span>
-                    <span>e</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <input
-                    type="text"
-                    id="img_src"
-                    name="img_src"
-                    class="field"
-                    required
-                  />
-                  <label for="img_src">
-                    <span>I</span>
-                    <span>m</span>
-                    <span>a</span>
-                    <span>g</span>
-                    <span>e</span>
-                    <span>&nbsp;</span>
-                    <span>S</span>
-                    <span>o</span>
-                    <span>u</span>
-                    <span>r</span>
-                    <span>c</span>
-                    <span>e</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <input
-                    type="text"
-                    class="field"
-                    required
-                    id="category"
-                    name="category"
-                  />
-                  <label for="category">
-                    <span>C</span>
-                    <span>a</span>
-                    <span>t</span>
-                    <span>e</span>
-                    <span>g</span>
-                    <span>o</span>
-                    <span>r</span>
-                    <span>y</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <input
-                    type="text"
-                    class="field"
-                    required
-                    id="status"
-                    name="status"
-                  />
-                  <label for="status">
-                    <span>S</span>
-                    <span>t</span>
-                    <span>a</span>
-                    <span>t</span>
-                    <span>u</span>
-                    <span>s</span>
-                  </label>
-                </div>
-                <div class="form-control full">
-                  <input type="datetime-local" id="datetime" name="datetime" />
-                </div>
-              </div>
-              <div class="textareas">
-                <div class="form-control">
-                  <div class="textarea">
-                    <textarea
-                      id="content"
-                      name="content"
-                      required
-                      class="field"
-                    ></textarea>
-                  </div>
-                  <label for="content" class="txtar-la">
-                    <span>C</span>
-                    <span>o</span>
-                    <span>n</span>
-                    <span>t</span>
-                    <span>e</span>
-                    <span>n</span>
-                    <span>t</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <div class="textarea">
-                    <textarea
-                      id="description"
-                      name="description"
-                      required
-                      class="field"
-                    ></textarea>
-                  </div>
-                  <label for="description" class="txtar-la">
-                    <span>D</span>
-                    <span>e</span>
-                    <span>s</span>
-                    <span>c</span>
-                    <span>r</span>
-                    <span>i</span>
-                    <span>p</span>
-                    <span>t</span>
-                    <span>i</span>
-                    <span>o</span>
-                    <span>n</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <div class="textarea">
-                    <textarea
-                      id="img_desc"
-                      name="img_desc"
-                      required
-                      class="field"
-                    ></textarea>
-                  </div>
-                  <label for="img_desc" class="txtar-la">
-                    <span>I</span>
-                    <span>m</span>
-                    <span>g</span>
-                    <span>&nbsp;</span>
-                    <span>D</span>
-                    <span>e</span>
-                    <span>s</span>
-                    <span>c</span>
-                    <span>r</span>
-                    <span>i</span>
-                    <span>p</span>
-                    <span>t</span>
-                    <span>i</span>
-                    <span>o</span>
-                    <span>n</span>
-                  </label>
-                </div>
-              </div>
-              <input type="submit" class="submit" value="Submit" />
-            </form>
-          </div>
-        </div>
-      </div>
-      `;
-    formAnimation();
-    setupModalActions();
-    Utils.appearModal(false);
-    submit("article-form", "add_article.php", "tbl_articles");
-  }
-
+  ) {}
   app.route({
     view: "tables",
     load: "tables.html",
@@ -373,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ItemService.loadTable("tbl_packages");
       ItemService.loadTable("tbl_cars");
       ItemService.loadTable("tbl_hotels");
+      ArticleService.loadTable("tbl_articles");
       modal = document.getElementById("myModal");
     },
     onReady: function () {
@@ -388,7 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       document
         .getElementById("add-article")
-        .addEventListener("click", articleModal);
+        .addEventListener("click", ()=>{
+          ArticleService.loadTable()
+        });
     },
   });
   app.route({

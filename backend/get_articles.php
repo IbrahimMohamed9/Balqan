@@ -5,8 +5,9 @@ $payload = $_REQUEST;
 
 $article_service = new ArticleService();
 
-$category = $payload['category'];
+$data = $article_service->get_articles();
 
-$data = $article_service->get_articles_by_category($category);
+print_r($data);
 
+header('Content-Type: application/json');
 echo json_encode($data);
