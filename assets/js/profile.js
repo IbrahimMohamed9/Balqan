@@ -133,11 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(4);
     },
   });
-  let modal;
-  function setupModalActions(
-    message = "Added To DB Successfully",
-    removeeBtn = true
-  ) {}
   app.route({
     view: "tables",
     load: "tables.html",
@@ -146,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ItemService.loadTable("tbl_cars");
       ItemService.loadTable("tbl_hotels");
       ArticleService.loadTable("tbl_articles");
-      modal = document.getElementById("myModal");
     },
     onReady: function () {
       switchButton(5);
@@ -159,11 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("add-hotel").addEventListener("click", () => {
         ItemService.addItemModal("hotel");
       });
-      document
-        .getElementById("add-article")
-        .addEventListener("click", ()=>{
-          ArticleService.loadTable()
-        });
+      document.getElementById("add-article").addEventListener("click", () => {
+        ArticleService.addArticleModal();
+      });
     },
   });
   app.route({

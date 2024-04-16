@@ -23,9 +23,9 @@ class ArticleService {
         return $this->article_dao->delete_article($article_id);
     }
     public function edit_article($article) {
-        $article_id = $article['article_id'];
-        unset($article['article_id']);
+        // $article_id = $article['article_id'];
+        // unset($article['article_id']);
 
-        $this->article_dao->edit_article($article_id, $article);
+        $this->article_dao->edit_article( $article);
     }
 }

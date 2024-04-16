@@ -34,7 +34,7 @@ var ItemService = {
       decP = Utils.checkDec(itemData.price);
     tableBody.innerHTML += `
     <tr>
-    <td class="item-image">
+    <td class="table-image">
       <img
         src="https${itemData.imgs_srcs.trim().split("https")[1]}"
         alt="Package Image"

@@ -2,14 +2,12 @@ var ArticleService = {
   loadTable: function (id) {
     fetch(Constants.API_BASE_URL + "get_articles.php")
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         const tableBody = document.querySelector("#" + id + " tbody");
 
         tableBody.innerHTML = "";
@@ -27,15 +25,15 @@ var ArticleService = {
   loadTableRow: function (tableBody, articleData) {
     tableBody.innerHTML += `
     <tr>
-    <td class="article-image">
+    <td class="table-image">
       <img
-        src="https${articleData.imgs_src}"
-        alt="Package Image"
+        src="${articleData.img_src}"
+        alt="Article Image"
       />
     </td>
     <td>${articleData.title}</td>
     <td>${articleData.description}</td>
-    <td>${articleData.content}</td>
+    <td class="content">${articleData.content}</td>
     <td>${articleData.img_desc}</td>
     <td>${articleData.category}</td>
     <td>${articleData.added_time}</td>
@@ -278,12 +276,9 @@ var ArticleService = {
     });
   },
   openEditItemModal: function (id) {
-    console.log("data");
     RestClient.get(
       "get_article.php?article_id=" + id,
       function (data) {
-        console.log(data);
-
         ArticleService.addArticleModal();
 
         $("#myModal input[name='article_id']").val(data.article_id);

@@ -694,7 +694,7 @@ textarea {
   padding: 2px;
   background-color: white;
 }
-.table-holder table tr td.item-image img {
+.table-holder table tr td.table-image img {
   position: relative;
   transform: translateX(-50%);
   left: 50%;
@@ -708,6 +708,14 @@ textarea {
 }
 .table-holder table .label {
   font-size: 13px;
+}
+.table-holder table tr td.content {
+  line-height: 2.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* 
 ====================================================================

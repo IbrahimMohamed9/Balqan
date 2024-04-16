@@ -8,5 +8,5 @@ $item_service = new ItemService();
 $category = $payload['category'];
 
 $data = $item_service->get_items_by_category($category);
-//print_r($data);
+
 echo json_encode($data);

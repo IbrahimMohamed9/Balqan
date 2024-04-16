@@ -33,20 +33,19 @@ class ArticleDao extends BaseDao {
         return $this->execute($query, ['article_id' => $article_id]);
     }
     
-    public function edit_article($article_id, $article) {
-        
+    public function edit_article($article) {
+        // print_r($article_id);
         $query = "UPDATE articles SET 
-            img_src = :img_src, 
-            img_desc = :img_desc, 
-            category = :category, 
             title = :title, 
+            img_src = :img_src, 
             country = :country, 
+            category = :category, 
+            img_desc = :img_desc, 
+            status = :status, 
             added_time = :added_time, 
             description = :description, 
             content = :content 
-            status = :status 
             WHERE article_id = :article_id";
-    
         $this->execute($query, $article);
     }
 }
