@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/rest/services/itemService.class.php';
+require_once __DIR__ . '/rest/services/ItemService.class.php';
 
 $payload = $_REQUEST;
 
-$item_service = new itemService();
+$item_service = new ItemService();
 
 if($payload['item_id'] != NULL && $payload['item_id'] != ''){
   $item = $item_service->edit_item($payload);

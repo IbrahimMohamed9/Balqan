@@ -18,6 +18,11 @@ class ArticleDao extends BaseDao {
         return $this->query($query);
     }
 
+    public function get_articles_by_category($category) {
+        $query = "SELECT * FROM articles WHERE category = :category";
+        return $this->query($query, ['category' => $category]);
+    }
+
     public function get_article_by_id($article_id) {
         $query = "SELECT * FROM articles WHERE article_id = :article_id";
         return $this->query_unique($query, ['article_id' => $article_id]);

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../dao/ArticleDao.class.php';
 
-class articleService {
+class ArticleService {
     private $article_dao;
     public function __construct() {
         $this->article_dao = new ArticleDao();
@@ -12,6 +12,9 @@ class articleService {
     }
     public function get_articles(){
         return $this->article_dao->get_articles();
+    }
+    public function get_articles_by_category($category){
+        return $this->article_dao->get_articles_by_category($category);
     }
     public function get_article_by_id($article_id) {
         return $this->article_dao->get_article_by_id($article_id);

@@ -1,8 +1,8 @@
 DROP
-    DATABASE IF EXISTS `balqan`;
-CREATE DATABASE `balqan`;
+    DATABASE IF EXISTS `sql11699000`;
+CREATE DATABASE `sql11699000`;
 USE
-    `balqan`;
+    `sql11699000`;
 CREATE TABLE `users`(
     `user_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_name` VARCHAR(255),
@@ -17,9 +17,9 @@ CREATE TABLE `users`(
     `YOE` INT,
     `gender` VARCHAR(15),
     `nationality` VARCHAR(255),
-    `skills` JSON,
-    `ratingsStar` JSON,
-    `activities` JSON
+    `skills` TEXT,
+    `ratingsStar` TEXT,
+    `activities` TEXT
 );
 CREATE TABLE `items`(
     `item_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +38,7 @@ CREATE TABLE `items`(
     `title` VARCHAR(255),
     `intro` VARCHAR(255),
     `status` VARCHAR(255),
-    `added_time` DATETIME DEFAULT CURRENT_TIMESTAMP
+    `added_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 INSERT
 INTO
@@ -272,22 +272,22 @@ CREATE TABLE `articles`(
     `category` VARCHAR(255),
     `title` VARCHAR(255),
     `country` VARCHAR(255),
-    `time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `description` TEXT,
     `content` TEXT
 );
 CREATE TABLE `projects`(
     `project_id` INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255),
-    `start_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `end_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `team` JSON,
-    `tasks` JSON,
+    `start_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `end_date` TIMESTAMP,
+    `team` TEXT,
+    `tasks` TEXT,
     `progressPersent` INT,
     `status` VARCHAR(255),
     `client` INT,
     `price` DECIMAL(10, 2),
-    `progress` JSON,
+    `progress` TEXT,
     CONSTRAINT `fk_project_client` FOREIGN KEY(`client`) REFERENCES `users`(`user_id`)
 );
 CREATE TABLE `targets`(
@@ -309,6 +309,6 @@ CREATE TABLE `tickets`(
 );
 CREATE TABLE `friends`(
     `user_id` INT,
-    `friends` JSON,
+    `friends` TEXT,
     CONSTRAINT `fk_friends_user_id` FOREIGN KEY(`user_id`) REFERENCES `users`(`user_id`)
 );

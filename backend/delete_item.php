@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/rest/services/itemService.class.php';
+require_once __DIR__ . '/rest/services/ItemService.class.php';
 
 $item_id = $_REQUEST['item_id'];
 
-$item_service = new itemService();
+$item_service = new ItemService();
 $item = $item_service->delete_item($item_id);
 
 echo json_encode($item);
