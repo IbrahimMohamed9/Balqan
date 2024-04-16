@@ -7,7 +7,8 @@ $article_service = new ArticleService();
 
 $data = $article_service->get_articles();
 
-print_r($data);
+$test['data']= $data[0]['article_id'];
+//unset($data[0]['img_desc']);
+//print_r($data);
 
-header('Content-Type: application/json');
 echo json_encode($data);

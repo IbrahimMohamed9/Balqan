@@ -2,12 +2,14 @@ var ArticleService = {
   loadTable: function (id) {
     fetch(Constants.API_BASE_URL + "get_articles.php")
       .then((response) => {
+        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         const tableBody = document.querySelector("#" + id + " tbody");
 
         tableBody.innerHTML = "";
