@@ -743,7 +743,7 @@ img {
   }
   .items .splide .splide__track,
   .items .not-overflow .splide__track {
-    min-height: 405px;
+    min-height: 380px;
   }
 }
 
@@ -1107,7 +1107,8 @@ img {
 .cart .products .product span.center {
   text-align: center;
 }
-.cart .products .product div span.quantity-label {
+.cart .products .product div span.quantity-label,
+.cart .products .product div span.quantity-label-2 {
   margin-bottom: 3px;
   margin-top: -2px;
 }
@@ -1181,7 +1182,8 @@ img {
     font-size: 10px;
   }
 }
-.cart .quantity {
+.cart .quantity,
+.cart .quantity-2 {
   height: var(--height);
   display: grid;
   grid-template-columns: 30px 20px 30px;
@@ -1191,11 +1193,13 @@ img {
   overflow: hidden;
 }
 @media (max-width: 315px) {
-  .cart .quantity {
+  .cart .quantity,
+  .cart .quantity-2 {
     grid-template-columns: 15px 20px 15px;
   }
 }
-.cart .quantity span {
+.cart .quantity span,
+.cart .quantity-2 span {
   height: 30px;
   display: flex !important;
   align-items: center;
@@ -1206,7 +1210,8 @@ img {
   color: black !important;
   background-color: var(--main-color);
 }
-.cart .quantity button {
+.cart .quantity button,
+.cart .quantity-2 button {
   height: 30px;
   display: flex;
   align-items: center;
@@ -1218,7 +1223,8 @@ img {
   background-color: var(--secondary-color);
 }
 @media (max-width: 315px) {
-  .cart .quantity button {
+  .cart .quantity button,
+  .cart .quantity-2 button {
     font-size: 12px;
   }
 }

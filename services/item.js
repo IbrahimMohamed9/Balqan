@@ -155,35 +155,11 @@ var ItemService = {
         ></button>
       </div>
     `;
-    // imgSrc,
-    // min,
-    // max,
-    // price,
-    // quantity,
-    // plans = true
 
     const items = document.querySelector(
       `.items.${itemData.category}s .container`
     );
     items.innerHTML += content;
-
-    // document
-    //   .querySelectorAll(`.items.${modalTitle} .container .pckbtn`)
-    //   .forEach((button, index) =>
-    //     button.addEventListener("click", () => {
-    //       const itemData = data[index];
-    //       Utils.itemModal(
-    //         modalTitle,
-    //         itemData.name,
-    //         itemData.imgSrc,
-    //         itemData.min,
-    //         itemData.max,
-    //         itemData.price,
-    //         itemData.quantity,
-    //         false
-    //       );
-    //     })
-    //   );
   },
   addItemModal: function (category) {
     const modal = document.getElementById("myModal");

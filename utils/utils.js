@@ -281,8 +281,8 @@ var Utils = {
     //     .querySelector(".cart .products .product p")
     //     .classList.remove("active");
     // } else {
-    modal.querySelector(".select-container").style.display = "none";
-    modal.querySelector(".cart .products .product p").classList.add("active");
+    // modal.querySelector(".select-container").style.display = "none";
+    // modal.querySelector(".cart .products .product p").classList.add("active");
     // }
 
     modal.classList.add("d-block");
