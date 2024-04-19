@@ -36,7 +36,7 @@ var ItemService = {
     <tr>
     <td class="table-image">
       <img
-        src="https${itemData.imgs_srcs.trim().split("https")[1]}"
+        src="${ItemService.firstLink(itemData.imgs_srcs)}"
         alt="Package Image"
       />
     </td>
@@ -108,8 +108,7 @@ var ItemService = {
     //         <button class="button" id="${itemData.id}-4">plan 4</button>
     //       </div>
     //       <div class="image face">
-    //         <img src="https${
-    //           itemData.imgs_srcs.trim().split("https")[1]
+    //         <img src="${ItemService.firstLink(itemData.imgs_srcs)
     //         }" alt="${itemData.category} Image" /></div>
     //       </div>
     //     </div>
@@ -129,9 +128,9 @@ var ItemService = {
       <div class="item splide__slide">
         <a href="pages/item.html?item_id=${itemData.item_id}"
           ><div class="image item-img">
-            <img src="https${
-              itemData.imgs_srcs.trim().split("https")[1]
-            }" alt="${itemData.category} Image" /></div
+            <img src="${ItemService.firstLink(itemData.imgs_srcs)}" alt="${
+      itemData.category
+    } Image" /></div
         ></a>
         <div class="text">
           <h3>${itemData.name}</h3>
@@ -141,7 +140,7 @@ var ItemService = {
         onClick="Utils.itemModal(
         '${itemData.category}',
         '${itemData.name}',
-        'https${itemData.imgs_srcs.trim().split("https")[1]}',
+        '${ItemService.firstLink(itemData.imgs_srcs)}',
         '1',
         '12',
         '${itemData.price}',
@@ -541,24 +540,17 @@ var ItemService = {
         return response.json();
       })
       .then((itemData) => {
-        const itemWrapper = document.querySelector(".cart.item"),
-          moreItemWrapper = itemWrapper.nextElementSibling.querySelector(
-            ".carousel.splide__list"
-          );
-        // data.map((itemData, index) => {
+        const itemWrapper = document.querySelector(".cart.item");
         let decimalPart = Utils.checkDec(parseFloat(itemData.price));
         const intPart = Math.floor(parseFloat(itemData.price));
-        // if (!index) {
-        if (decimalPart === "&emsp;") {
-          decimalPart = "";
-        }
+
         const itemCon1 = `
             <div class="cart item position-relative">
               <div class="containerr">
                 <div class="right-corner">
-                  <a href="../../index.html">Home</a>
+                  <a href="../index.html#home">Home</a>
                   <i class="fa-solid fa-chevron-right"></i>
-                  <a href="../html/shop.html">Shop</a>
+                  <a href="../index.html#shop">Shop</a>
                   <i class="fa-solid fa-chevron-right"></i>
                   <a href="#">${itemData.name}</a>
                 </div>
@@ -567,7 +559,9 @@ var ItemService = {
                 <!-- Start Item Images -->
                 <div class="images">
                   <div class="main position-relative p-relative-c-m">
-                    <img src="${itemData.imgSrc}" alt="" />
+                    <img src="${ItemService.firstLink(
+                      itemData.imgs_srcs
+                    )}" alt="" />
                     <div class="icons">
                       <ul class="font-share-icons">
                         <li>
@@ -661,35 +655,6 @@ var ItemService = {
           `;
 
         itemWrapper.innerHTML = itemCon1 + itemCon2 + itemCon3;
-        // } else {
-        //   const moreItemCon = `
-        //   <a
-        //     href="./item.html"
-        //     class="col splide__slide"
-        //     draggable="false"
-        //   >
-        //     <h2>${itemData.category}</h2>
-        //     <div class="image">
-        //       <img
-        //         src="${itemData.imgSrc}"
-        //         alt=""
-        //         draggable="false"
-        //       />
-        //     </div>
-        //     <div class="text">
-        //       <h3>${itemData.name}</h3>
-        //     </div>
-        //     <div class="footer">
-        //       <div class="price">Price: <sup>km</sup>${intPart}<sub>${decimalPart}</sub></div>
-        //     </div>
-        //   </a>
-        // `;
-
-        //   moreItemWrapper.innerHTML += moreItemCon;
-        // }
-        // });
-
-        // Utils.carouselSplide(".splide");
 
         // Main image
         let previous = 0;
@@ -757,20 +722,54 @@ var ItemService = {
             }, 300);
           }
         });
-
-        document.querySelector(".pckbtn").addEventListener("click", () => {
-          const i = data[0];
-          Utils.itemModal(
-            i.category,
-            i.name,
-            i.imgSrc,
-            i.min,
-            i.max,
-            i.price,
-            i.quantity,
-            false
-          );
-        });
       });
+  },
+  loadMoreItems: () => {
+    fetch(Constants.API_BASE_URL + "get_items.php")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const moreItemWrapper = document.querySelector(
+          ".more-items .splide .wrapper.splide__track .carousel.splide__list"
+        );
+        data.map((itemData) => {
+          let decimalPart = Utils.checkDec(parseFloat(itemData.price));
+          const intPart = Math.floor(parseFloat(itemData.price));
+
+          const moreItemCon = `
+          <a
+            href="./item.html?item_id=${itemData.item_id}"
+            class="col splide__slide"
+            draggable="false"
+          >
+            <h2>${itemData.category}</h2>
+            <div class="image">
+              <img
+              src="${ItemService.firstLink(itemData.imgs_srcs)}"
+                alt=""
+                draggable="false"
+              />
+            </div>
+            <div class="text">
+              <h3>${itemData.name}</h3>
+            </div>
+            <div class="footer">
+              <div class="price">Price: <sup>km</sup>${intPart}<sub>${decimalPart}</sub></div>
+            </div>
+          </a>
+        `;
+
+          moreItemWrapper.innerHTML += moreItemCon;
+          console.log(moreItemWrapper.innerHTML);
+        });
+        Utils.carouselSplide(".splide");
+      });
+  },
+  firstLink: (imgs_srcs) => {
+    return `https${imgs_srcs.trim().split("https")[1]}`;
   },
 };

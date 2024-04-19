@@ -244,4 +244,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // }
   // loadItems("../assets/json/item.json");
   ItemService.loadItemPage(item_id);
+  ItemService.loadMoreItems();
 });
