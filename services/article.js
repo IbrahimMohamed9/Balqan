@@ -404,7 +404,7 @@ var ArticleService = {
       // ;
     };
   },
-  loadArticleById: (id) => {
+  loadArticlePage: (id) => {
     RestClient.get(
       "get_article.php?article_id=" + id,
       function (articleData) {
