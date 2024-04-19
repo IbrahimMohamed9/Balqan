@@ -202,12 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(0);
       ItemService.loadCards("package");
       expandGraph();
-      articles(
-        "assets/json/newArticles.json",
-        "pages/article.html",
-        ".articles .splide",
-        ".articles .splide__track .container.splide__list"
-      );
+      ArticleService.loadArticleCrousel();
       mainVideoSrc("assets/json/video.json");
     },
     onReady: function () {

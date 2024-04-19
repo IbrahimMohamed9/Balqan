@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const article_id = new URL(window.location.href).searchParams.get(
+    "article_id"
+  );
   function loadArticle(src) {
     fetch(src)
       .then((response) => {
@@ -98,7 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  loadArticle("../assets/json/article.json");
+  // loadArticle("../assets/json/article.json");
+  ArticleService.loadArticleById(article_id);
+  ArticleService.loadMoreArticles(article_id);
 });
 
 // const modifiedText = text

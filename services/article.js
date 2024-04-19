@@ -55,7 +55,7 @@ var ArticleService = {
   </tr>
     `;
   },
-  addArticleModal: function () {
+  addArticleModal: function (message = "Article added successfully") {
     const modal = document.getElementById("myModal");
     modal.innerHTML = `
     <div class="master-container">
@@ -255,10 +255,11 @@ var ArticleService = {
       "article-form",
       "add_article.php",
       "tbl_articles",
-      modal
+      modal,
+      message
     );
   },
-  submit: function (id, to, tableId, modal) {
+  submit: function (id, to, tableId, modal, message) {
     FormValidation.validate("#" + id, {}, (data) => {
       Utils.block_ui("#myModal");
       $("#myModal .x").trigger("click");
@@ -266,7 +267,7 @@ var ArticleService = {
         .done(function (data) {
           Utils.unblock_ui("#myModal");
           Utils.removeItemModal(false, modal);
-          Utils.appearSuccAlert("Article added successfully");
+          Utils.appearSuccAlert(message);
           ArticleService.loadTable(tableId);
         })
         .fail(function (xhr) {
@@ -279,7 +280,7 @@ var ArticleService = {
     RestClient.get(
       "get_article.php?article_id=" + id,
       function (data) {
-        ArticleService.addArticleModal();
+        ArticleService.addArticleModal("Article edit successfully");
 
         $("#myModal input[name='article_id']").val(data.article_id);
         $("#myModal input[name='img_src']").val(data.img_src);
@@ -307,8 +308,8 @@ var ArticleService = {
       });
     }
   },
-  articles: function (src, redirect, carouselSelector, sectionSelector) {
-    fetch(src)
+  loadArticleCrousel: function () {
+    fetch(Constants.API_BASE_URL + "get_articles.php")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -316,12 +317,14 @@ var ArticleService = {
         return response.json();
       })
       .then((data) => {
-        const articles = document.querySelector(sectionSelector);
+        const articles = document.querySelector(
+          ".articles .splide__track .container.splide__list"
+        );
         data.map((articleData) => {
           const articleCon = `
           <div class="article splide__slide">
           <div class="image">
-            <img src="${articleData.imgSrc}" alt="" />
+            <img src="${articleData.img_src}" alt="" />
           </div>
           <div class="card">
             <div class="content">
@@ -359,18 +362,16 @@ var ArticleService = {
                 </button>
               </div>
               <p>
-              ${articleData.descreption}
+              ${articleData.description}
               </p>
-              <a href="" class="read"> Read More </a>
+              <a href="pages/article.html?article_id=${articleData.article_id}" class="read"> Read More </a>
             </div>
           </div>
         </div>
             `;
           articles.innerHTML += articleCon;
         });
-
-        Utils.carouselSplide(carouselSelector);
-
+        Utils.carouselSplide(".articles .splide");
         //share icon in article
         const shareIcons = document.querySelectorAll(".share-btn"),
           shareLists = document.querySelectorAll(".icons .font-share-icons");
@@ -396,13 +397,129 @@ var ArticleService = {
             }, 300);
           });
         });
+      });
+    //redirect
+    redirect: (article_id) => {
+      // document.getElementById(article_id).href =
+      // ;
+    };
+  },
+  loadArticleById: (id) => {
+    RestClient.get(
+      "get_article.php?article_id=" + id,
+      function (articleData) {
+        const articleWrapper = document.querySelector("article"),
+          moreArticleWrapper = document.querySelector(
+            ".more-articles .container"
+          );
+        const article = `
+                <div class="containerr">
+                  <div class="article-container">
+                    <header>
+                      <div class="category">
+                        <span>${articleData.category}</span>
+                        <span>${articleData.country}</span>
+                      </div>
+                      <h1>${articleData.title}</h1>
+                      <time>${articleData.added_time}</time>
+                      <p>For those looking for the most important hotels in Bosnia.</p>
+                    </header>
+                    <section>
+                      <div class="icons">
+                        <ul class="font-share-icons">
+                          <li>
+                            <a href="" target="_blank"
+                              ><i class="fa-brands fa-whatsapp whatsapp"></i
+                            ></a>
+                          </li>
+                          <li>
+                            <a href="" target="_blank"
+                              ><i class="fa-brands fa-x-twitter twitter"></i
+                            ></a>
+                          </li>
+                          <li>
+                            <a href="" target="_blank"
+                              ><i class="fa-brands fa-telegram telegram"></i
+                            ></a>
+                          </li>
+                          <li>
+                            <a href="" target="_blank"
+                              ><i class="fa-brands fa-facebook-f facebook"></i
+                            ></a>
+                          </li>
+                          <li>
+                            <a href="" target="_blank"
+                              ><i class="fa-brands fa-instagram instagram"></i
+                            ></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                    <figure>
+                      <picture>
+                        <img src="${articleData.img_src}" />
+                      </picture>
+                      <figcaption>${articleData.img_desc}</figcaption>
+                    </figure>
+                    ${articleData.content
+                      .replace(/{{{{{([^}]+)}}}}}/g, "<h4>$1</h4>")
+                      .replace(/{{{{([^}]+)}}}}/g, "<h3>$1</h3>")
+                      .replace(/{{{([^}]+)}}}/g, "<h2>$1</h2>")
+                      .replace(/\(\(\(([^)]+)\)\)\)/g, "<p>$1</p>")}
+                  </div>
+                </div>
+              `;
 
-        //redirect
-        document
-          .querySelectorAll(".articles .container .article .card .read")
-          .forEach((button) => {
-            button.href = redirect;
-          });
+        articleWrapper.innerHTML = article;
+      },
+      function (error) {
+        console.error(error);
+      }
+    );
+  },
+  loadMoreArticles: (id) => {
+    fetch(Constants.API_BASE_URL + "get_articles.php")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const moreArticleWrapper = document.querySelector(
+          ".more-articles .container"
+        );
+        data.map((articleData) => {
+          if (articleData.article_id == id) {
+            return;
+          }
+          const moreArticle = `
+          <div class="col">
+            <h2>${articleData.country}</h2>
+            <a href="./article.html?article_id=${articleData.article_id}">
+              <div class="image">
+                <img src="${articleData.img_src}" alt="article image" />
+                <div class="text">
+                  <h3>${articleData.title}</h3>
+                </div>
+              </div>
+            </a>
+            <div class="footer">
+              <div class="category">
+                <span>${articleData.category}</span>
+                <span>${articleData.added_time}</span>
+              </div>
+            </div>
+          </div>
+        `;
+          moreArticleWrapper.innerHTML += moreArticle;
+        });
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
       });
   },
 };

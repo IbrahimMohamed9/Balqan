@@ -90,7 +90,10 @@ var ItemService = {
             ? ItemService.loadCard(itemData)
             : alert("check the category");
         });
-        Utils.carouselSplide(`.splide.${category}s-carousel`, 20);
+        // TODO SOOOlVE THIS
+        setTimeout(() => {
+          Utils.carouselSplide(`.splide.${category}s-carousel`, 20);
+        }, 100);
       });
   },
   loadCard: function (itemData) {
