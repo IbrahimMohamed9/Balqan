@@ -4,7 +4,6 @@ require_once '../rest/services/ArticleService.class.php';
 $payload = $_REQUEST;
 
 $article_service = new ArticleService();
-// print_r($payload['article_id']);
 if($payload['article_id'] != NULL && $payload['article_id'] != ''){
     $article = $article_service->edit_article($payload);
 } else {
