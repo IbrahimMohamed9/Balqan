@@ -8,7 +8,7 @@ var ItemService = {
         : id === "tbl_hotels"
         ? "hotel"
         : alert("check the id");
-    fetch(Constants.API_BASE_URL + "get_items.php?category=" + category)
+    fetch(Constants.API_BASE_URL + "items/get_items.php?category=" + category)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -77,7 +77,7 @@ var ItemService = {
     `;
   },
   loadCards: function (category) {
-    fetch(Constants.API_BASE_URL + "get_items.php?category=" + category)
+    fetch(Constants.API_BASE_URL + "items/get_items.php?category=" + category)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -472,7 +472,7 @@ var ItemService = {
     `;
     Utils.formAnimation();
     modal.querySelector(".x").addEventListener("click", () => {
-      Utils.removeItemModal(false, modal);
+      Utils.removeModal(false, modal);
     });
     Utils.appearModal(false);
     ItemService.submit(
@@ -489,12 +489,12 @@ var ItemService = {
       $.post(Constants.API_BASE_URL + to, data)
         .done(function (data) {
           Utils.unblock_ui("#myModal");
-          Utils.removeItemModal(false, modal);
+          Utils.removeModal(false, modal);
           Utils.appearSuccAlert("Item added successfully");
           ItemService.loadTable(tableId);
         })
         .fail(function (xhr) {
-          Utils.removeItemModal(false, modal);
+          Utils.removeModal(false, modal);
           Utils.appearFailAlert(xhr.responseText);
         });
     });
@@ -532,7 +532,7 @@ var ItemService = {
     }
   },
   loadItemPage: (id) => {
-    fetch(Constants.API_BASE_URL + "get_item.php?item_id=" + id)
+    fetch(Constants.API_BASE_URL + "items/get_item.php?item_id=" + id)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -725,7 +725,7 @@ var ItemService = {
       });
   },
   loadMoreItems: () => {
-    fetch(Constants.API_BASE_URL + "get_items.php")
+    fetch(Constants.API_BASE_URL + "items/get_items.php")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
