@@ -1,5 +1,5 @@
 var ArticleService = {
-  loadTable: function (id) {
+  loadTable: function () {
     fetch(Constants.API_BASE_URL + "articles/get_articles.php")
       .then((response) => {
         if (!response.ok) {
@@ -8,7 +8,7 @@ var ArticleService = {
         return response.json();
       })
       .then((data) => {
-        const tableBody = document.querySelector("#" + id + " tbody");
+        const tableBody = document.querySelector("#tbl_articles tbody");
 
         tableBody.innerHTML = "";
         data.map((articleData) => {
@@ -41,13 +41,13 @@ var ArticleService = {
     <td>
       <button
         class="txt-c d-block fs-15 rad-6 bg-blue c-white w-81 btn-shape"
-        onClick="ArticleService.openEditArticleModal(${articleData.article_id}, '${articleData.category}')"
+        onClick="ArticleService.openEditArticleModal(${articleData.article_id})"
       >
         Edit
       </button>
       <button
         class="txt-c mt-10 d-block fs-15 rad-6 bg-red c-white w-81 btn-shape"
-        onClick="ArticleService.removeArticle(${articleData.article_id}, '${articleData.category}')"
+        onClick="ArticleService.removeArticle(${articleData.article_id})"
       >
         Remove
       </button>
@@ -81,11 +81,7 @@ var ArticleService = {
                   name="title"
                 />
                 <label for="title">
-                  <span>T</span>
-                  <span>i</span>
-                  <span>t</span>
-                  <span>l</span>
-                  <span>e</span>
+                  Title
                 </label>
               </div>
               <div class="form-control">
@@ -97,18 +93,7 @@ var ArticleService = {
                   required
                 />
                 <label for="img_src">
-                  <span>I</span>
-                  <span>m</span>
-                  <span>a</span>
-                  <span>g</span>
-                  <span>e</span>
-                  <span>&nbsp;</span>
-                  <span>S</span>
-                  <span>o</span>
-                  <span>u</span>
-                  <span>r</span>
-                  <span>c</span>
-                  <span>e</span>
+                  Image Source
                 </label>
               </div>
             <div class="form-control">
@@ -120,13 +105,7 @@ var ArticleService = {
                 required
               />
               <label for="country">
-                <span>C</span>
-                <span>o</span>
-                <span>u</span>
-                <span>n</span>
-                <span>t</span>
-                <span>r</span>
-                <span>y</span>
+                Country
               </label>
             </div>
               <div class="form-control">
@@ -138,14 +117,7 @@ var ArticleService = {
                   name="category"
                 />
                 <label for="category">
-                  <span>C</span>
-                  <span>a</span>
-                  <span>t</span>
-                  <span>e</span>
-                  <span>g</span>
-                  <span>o</span>
-                  <span>r</span>
-                  <span>y</span>
+                  Category
                 </label>
               </div>
               <div class="form-control">
@@ -157,12 +129,7 @@ var ArticleService = {
                   name="status"
                 />
                 <label for="status">
-                  <span>S</span>
-                  <span>t</span>
-                  <span>a</span>
-                  <span>t</span>
-                  <span>u</span>
-                  <span>s</span>
+                  Status
                 </label>
               </div>
               <div class="form-control full">
@@ -180,13 +147,7 @@ var ArticleService = {
                   ></textarea>
                 </div>
                 <label for="content" class="txtar-la">
-                  <span>C</span>
-                  <span>o</span>
-                  <span>n</span>
-                  <span>t</span>
-                  <span>e</span>
-                  <span>n</span>
-                  <span>t</span>
+                  Content
                 </label>
               </div>
               <div class="form-control">
@@ -199,17 +160,7 @@ var ArticleService = {
                   ></textarea>
                 </div>
                 <label for="description" class="txtar-la">
-                  <span>D</span>
-                  <span>e</span>
-                  <span>s</span>
-                  <span>c</span>
-                  <span>r</span>
-                  <span>i</span>
-                  <span>p</span>
-                  <span>t</span>
-                  <span>i</span>
-                  <span>o</span>
-                  <span>n</span>
+                  Description
                 </label>
               </div>
               <div class="form-control">
@@ -222,21 +173,7 @@ var ArticleService = {
                   ></textarea>
                 </div>
                 <label for="img_desc" class="txtar-la">
-                  <span>I</span>
-                  <span>m</span>
-                  <span>g</span>
-                  <span>&nbsp;</span>
-                  <span>D</span>
-                  <span>e</span>
-                  <span>s</span>
-                  <span>c</span>
-                  <span>r</span>
-                  <span>i</span>
-                  <span>p</span>
-                  <span>t</span>
-                  <span>i</span>
-                  <span>o</span>
-                  <span>n</span>
+                  Img Descr
                 </label>
               </div>
             </div>
@@ -246,34 +183,17 @@ var ArticleService = {
       </div>
     </div>
     `;
-    Utils.formAnimation();
-    modal.querySelector(".x").addEventListener("click", () => {
-      Utils.removeModal(false, modal);
-    });
-    Utils.appearModal(false);
-    ArticleService.submit(
-      "article-form",
-      "articles/add_article.php",
-      "tbl_articles",
-      modal,
-      message
-    );
-  },
-  submit: function (id, to, tableId, modal, message) {
-    FormValidation.validate("#" + id, {}, (data) => {
-      Utils.block_ui("#myModal");
-      $("#myModal .x").trigger("click");
-      $.post(Constants.API_BASE_URL + to, data)
-        .done(function (data) {
-          Utils.unblock_ui("#myModal");
-          Utils.removeModal(false, modal);
-          Utils.appearSuccAlert(message);
-          ArticleService.loadTable(tableId);
-        })
-        .fail(function (xhr) {
-          Utils.removeModal(false, modal);
-          Utils.appearFailAlert(xhr.responseText);
-        });
+    Utils.formSetup(modal, () => {
+      Utils.submit(
+        "article-form",
+        "articles/add_article.php",
+        message,
+        "article-form .submit",
+        () => {
+          ArticleService.loadTable("tbl_articles");
+        },
+        modal
+      );
     });
   },
   openEditArticleModal: function (id) {
