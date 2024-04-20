@@ -24,11 +24,11 @@ var Utils = {
       ? document.getElementById("cartModal")
       : document.getElementById("myModal");
     modal.querySelector(".x").addEventListener("click", () => {
-      Utils.removeItemModal(removeeBtn, modal);
+      Utils.removeModal(removeeBtn, modal);
     });
 
     modal.querySelector(".checkout-btn").addEventListener("click", () => {
-      Utils.removeItemModal(removeeBtn, modal);
+      Utils.removeModal(removeeBtn, modal);
       Utils.appearSuccAlert(message);
     });
   },
@@ -344,7 +344,7 @@ var Utils = {
     sumOfTotalModal[1].textContent = Math.floor(total);
     sumOfTotalModal[2].textContent = Utils.checkDec(total);
   },
-  removeItemModal: function (removeBtn, modal) {
+  removeModal: function (removeBtn, modal) {
     if (removeBtn) {
       const quantityBtns = Array.from(
         modal.querySelector(".master-container .cart .quantity").children

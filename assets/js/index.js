@@ -109,47 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function articlesArticle(src, redirect, sectionSelector) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const articles = document.querySelector(sectionSelector);
-        data.map((articleData) => {
-          const articleCon = `
-            <div class="col">
-              <a href="${redirect}">
-                <div class="card">
-                  <img
-                    src="${articleData.imgSrc}"
-                    class="card-img-top"
-                    alt="Article Image"
-                  />
-                  <div class="card-body">
-                    <h3 class="card-title">${articleData.title}</h3>
-                    <p class="card-text">
-                    ${articleData.description}
-                    </p>
-                  </div>
-                  <div class="footer">
-                    <div class="category">
-                      <span>${articleData.category}</span>
-                      <span>${articleData.time}</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          `;
-          articles.innerHTML += articleCon;
-        });
-      });
-  }
-
   const dashIcons = document.querySelectorAll(".main-header ul.tile-wrds li");
 
   let previous;
@@ -203,9 +162,9 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "articles",
     load: "articles.html",
     onCreate: function () {
-      ArticleService.articlesArticle("cities");
-      ArticleService.articlesArticle("Hotels");
-      ArticleService.articlesArticle("Tourism");
+      ArticleService.loadArticlesPage("cities");
+      ArticleService.loadArticlesPage("Hotels");
+      ArticleService.loadArticlesPage("Tourism");
     },
     onReady: function () {
       switchButton(2);
