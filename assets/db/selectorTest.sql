@@ -1,3 +1,3 @@
 USE `balqan`;
 
-select * from feedbacks;
+select * from cart_items;

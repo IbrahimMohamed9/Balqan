@@ -8,8 +8,7 @@ USE `balqan`;
 CREATE TABLE `users`
 (
     `user_id`      INT AUTO_INCREMENT PRIMARY KEY,
-    `user_name`    VARCHAR(255),
-    `user_surname` VARCHAR(255),
+    `name`    VARCHAR(255),
     `password`     VARCHAR(255),
     `email`        VARCHAR(255),
     `img`          VARCHAR(255),
@@ -48,14 +47,14 @@ CREATE TABLE `carts`
 (
     `cart_id`    INT AUTO_INCREMENT PRIMARY KEY,
     `user_id`    INT,
-    `cart_items` TEXT,
     CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 CREATE TABLE `cart_items`
 (
     `cart_id`  INT,
     `item_id`  INT,
-    `quantity` INT,
+    `days` INT,
+    `persons` INT,
     CONSTRAINT `fk_cart_item_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`),
     CONSTRAINT `fk_cart_item_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`)
 );
