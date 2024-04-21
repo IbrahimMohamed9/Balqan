@@ -379,7 +379,7 @@ img {
 @media (max-width: 1000px) {
   .main-header ul.tile-wrds {
     flex-direction: column;
-    display: none;
+    display: grid;
     position: absolute;
     background-color: var(--secondary-background-color);
     left: -300px;
@@ -391,6 +391,9 @@ img {
     height: 100vh;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(auto-fill, 44px);
+  }
+  .main-header ul.tile-wrds.disappear {
+    display: none;
   }
   .main-header ul.tile-wrds.active {
     left: 0;
