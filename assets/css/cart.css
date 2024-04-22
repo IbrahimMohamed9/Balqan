@@ -81,6 +81,7 @@
   grid-template-columns: 100px 20% repeat(3, 1fr);
   gap: 10px;
   border-bottom: 1px solid var(--secondary-product-color);
+  max-width: 100%;
 }
 @media (max-width: 490px) {
   .cart .containerr .products .row {

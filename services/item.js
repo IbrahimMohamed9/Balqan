@@ -28,12 +28,12 @@ var ItemService = {
   },
   loadTableRow: function (tableBody, itemData) {
     const category = itemData.category,
-      price = Utils.checkDecWithInt(ItemService.price(category, itemData));
+      price = Utils.checkDecWithInt(Utils.getPrice(category, itemData));
     tableBody.innerHTML += `
     <tr>
     <td class="table-image">
       <img
-        src="${ItemService.firstLink(itemData.imgs_srcs)}"
+        src="${Utils.firstLink(itemData.imgs_srcs)}"
         alt="Package Image"
       />
     </td>
@@ -119,7 +119,7 @@ var ItemService = {
     //         <button class="button" id="${itemData.id}-4">plan 4</button>
     //       </div>
     //       <div class="image face">
-    //         <img src="${ItemService.firstLink(itemData.imgs_srcs)
+    //         <img src="${Utils.firstLink(itemData.imgs_srcs)
     //         }" alt="${category} Image" /></div>
     //       </div>
     //     </div>
@@ -131,13 +131,13 @@ var ItemService = {
     //   </div>
     //   `;
     const category = itemData.category,
-      price = Utils.checkDecWithInt(ItemService.price(category, itemData));
+      price = Utils.checkDecWithInt(Utils.getPrice(category, itemData));
 
     const content = `
       <div class="item splide__slide">
         <a href="pages/item.html?item_id=${itemData.item_id}"
           ><div class="image item-img">
-            <img src="${ItemService.firstLink(
+            <img src="${Utils.firstLink(
               itemData.imgs_srcs
             )}" alt="${category} Image" /></div
         ></a>
@@ -152,7 +152,7 @@ var ItemService = {
         '${itemData.days}',
         '${category}',
         '${itemData.name}',
-        '${ItemService.firstLink(itemData.imgs_srcs)}',
+        '${Utils.firstLink(itemData.imgs_srcs)}',
         '${category == "car" ? itemData.min_days : itemData.min_persons}',
         '${category == "car" ? itemData.max_days : itemData.max_persons}',
         '${category == "car" ? itemData.day_price : itemData.person_price}',
@@ -466,13 +466,7 @@ var ItemService = {
       });
     }
   },
-  price: (category, itemData) => {
-    return category === "package"
-      ? itemData.person_price
-      : category === "car"
-      ? itemData.day_price
-      : Number(itemData.day_price) + Number(itemData.person_price);
-  },
+
   loadItemPage: (id) => {
     fetch(Constants.API_BASE_URL + "items/get_item.php?item_id=" + id)
       .then((response) => {
@@ -484,7 +478,7 @@ var ItemService = {
       .then((itemData) => {
         const itemWrapper = document.querySelector(".cart.item"),
           category = itemData.category,
-          price = ItemService.price(category, itemData),
+          price = Utils.getPrice(category, itemData),
           intPart = Math.floor(parseFloat(price)),
           decimalPart = Utils.checkDec(price);
 
@@ -503,9 +497,7 @@ var ItemService = {
                 <!-- Start Item Images -->
                 <div class="images">
                   <div class="main position-relative p-relative-c-m">
-                    <img src="${ItemService.firstLink(
-                      itemData.imgs_srcs
-                    )}" alt="" />
+                    <img src="${Utils.firstLink(itemData.imgs_srcs)}" alt="" />
                     <div class="icons">
                       <ul class="font-share-icons">
                         <li>
@@ -693,7 +685,7 @@ var ItemService = {
             <h2>${itemData.category}</h2>
             <div class="image">
               <img
-              src="${ItemService.firstLink(itemData.imgs_srcs)}"
+              src="${Utils.firstLink(itemData.imgs_srcs)}"
                 alt=""
                 draggable="false"
               />
@@ -712,8 +704,5 @@ var ItemService = {
         });
         Utils.carouselSplide(".splide");
       });
-  },
-  firstLink: (imgs_srcs) => {
-    return `https${imgs_srcs.trim().split("https")[1]}`;
   },
 };

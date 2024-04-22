@@ -7,6 +7,3 @@ $ids = array(
 );
 
 $cart_service = new CartService();
-$cart = $cart_service->update_item_cart($ids);
-
-echo json_encode($cart);

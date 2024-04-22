@@ -1,10 +1,10 @@
 var CartService = {
-  addToCart: (cart_id, item_id, persons = -1, days = -1) => {
+  addToCart: (cart_id, item_id, persons, days) => {
     const data = {
       cart_id: cart_id,
       item_id: item_id,
-      persons: persons,
-      days: days,
+      persons_selected: persons ?? 0,
+      days_selected: days ?? 0,
     };
 
     CartService.submit(
@@ -25,6 +25,7 @@ var CartService = {
         if (modal) Utils.removeModal(true, modal);
 
         Utils.appearSuccAlert(success_mge);
+        CartService.shoppingCartCounter(1);
       })
       .fail((xhr) => {
         Utils.unblock_ui(block);
@@ -34,4 +35,430 @@ var CartService = {
         Utils.appearFailAlert(xhr.responseText);
       });
   },
+  shoppingCartCounter: (cart_id) => {
+    RestClient.get(
+      "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
+      (data) => {
+        document
+          .querySelector(".fa-solid.fa-cart-shopping.cart-shopping")
+          .setAttribute("data-counter", data.counter);
+      }
+    );
+  },
+  loadCart: (cart_id) => {
+    fetch(
+      Constants.API_BASE_URL +
+        "carts/get_cart_items_by_id.php?cart_id=" +
+        cart_id
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        Utils.setupModalActions("Items Registered Successfully!", false, true);
+        const items = document.querySelector(".cart.shopping .cart-rows");
+        let content, modalContent;
+
+        const modal = document.getElementById("cartModal"),
+          modalProducts = modal.querySelector(".products"),
+          sumOfTotalModal = modal.querySelector(
+            ".checkout .checkout--footer .price"
+          ).children;
+        let totalPricesCart,
+          sumOfTotalPrices = 0;
+        data.map((itemData) => {
+          const category = itemData.category,
+            price = Utils.getPrice(category, itemData),
+            decimalPart = Utils.checkDec(price),
+            totalPrice =
+              Number(itemData.person_price) *
+                Number(itemData.persons_selected) +
+              Number(itemData.day_price) * Number(itemData.days_selected),
+            totalDecimalPart = Utils.checkDec(totalPrice),
+            imgSrc = Utils.firstLink(itemData.imgs_srcs);
+          sumOfTotalPrices = totalPrice + parseFloat(sumOfTotalPrices);
+          /*
+          // if (category == "package") {
+          //   modalContent = `
+          //     <div class="products">
+          //       <div class="product">
+          //         <img src="${imgSrc}" alt="" />
+          //         <div>
+          //           <span>${category}</span>
+          //           <p>${itemData.name}</p>
+
+          //           <p class="plan">${itemData.plan}</p>
+          //         </div>
+
+          //         <div class="quantity">
+          //           <button><i class="fa-solid fa-minus"></i></button>
+          //           <span>${itemData.quantity}</span>
+          //           <button><i class="fa-solid fa-plus"></i></button>
+          //         </div>
+
+          //         <span class="price small">
+          //           <sup>KM</sup> <span>${Math.floor(price)}</span>
+          //           <sub>${decimalPart}</sub>
+          //         </span>
+          //       </div>
+          //     </div>
+          //     `;
+          //   content = `
+          //     <div class="row">
+          //       <div class="image"><img src="${imgSrc}" alt="" /></div>
+
+          //       <div class="name-plan">
+          //         <h2>${itemData.name}</h2>
+
+          //         <div class="select-container">
+          //           <select name="plans">
+          //             <option value="plan1">Plan 1</option>
+
+          //             <option value="plan2">Plan 2</option>
+
+          //             <option value="plan3">Plan 3</option>
+
+          //             <option value="plan4">Plan 4</option>
+          //           </select>
+          //           <i class="fa-solid fa-chevron-down"></i>
+          //         </div>
+          //       </div>
+
+          //       <div class="price">
+          //         <p>
+          //           <span class="price small">
+          //             <sup>KM</sup> <span>${Math.floor(price)}</span>
+          //             <sub>${decimalPart}</sub>
+          //           </span>
+          //         </p>
+          //       </div>
+
+          //       <div class="quantity">
+          //         <button><i class="fa-solid fa-minus"></i></button>
+          //         <span>${itemData.quantity}</span>
+          //         <button><i class="fa-solid fa-plus"></i></button>
+          //       </div>
+
+          //       <div class="total">
+          //         <p>
+          //           <sup>KM</sup>
+          //           <span class="totalInt">${Math.floor(totalPrice)}</span>
+          //           <sup class="down">${totalDecimalPart}</sup>
+          //           <i class="fa-solid fa-trash trash"></i>
+          //           <i class="fa-solid fa-circle-minus circle-minus"></i>
+          //         </p>
+          //       </div>
+          //     </div>
+          //     `;
+          // } else {
+            */
+          modalContent = `
+              <div class="products">
+                <div class="product ${category === "hotel" ? "hotel" : ""}">
+                  <img class="modal-img" src="${imgSrc}" alt="${category} Image" />
+                  <div>
+                    <p class="item-name">${category}</p>
+                    <p class="item-description">${itemData.name}</p>
+                  </div>
+                ${
+                  category === "hotel"
+                    ? `
+                        <div>
+                          <span class="quantity-label-2 center">Days</span>
+                          <div class="quantity-2">
+                            <button>
+                              <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <span>${itemData.days_selected}</span>
+                            <button>
+                              <i class="fa-solid fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span class="quantity-label center">Persons</span>
+                          <div class="quantity">
+                            <button>
+                              <i class="fa-solid fa-minus"></i>
+                            </button>
+                            <span>${itemData.persons_selected}</span>
+                            <button>
+                              <i class="fa-solid fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                      `
+                    : `
+                    <div>
+                      <span class="quantity-label center">${
+                        category === "package" ? "Persons" : "Days"
+                      }</span>
+                      <div class="quantity">
+                        <button>
+                          <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <span>${
+                          category === "package"
+                            ? itemData.persons_selected
+                            : itemData.days_selected
+                        }</span>
+                        <button>
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  `
+                }
+                  <span class="price small">
+                    <sup>KM</sup>
+                    <span>${Math.floor(price)}</span>
+                    <sub>${decimalPart}</sub>
+                  </span>
+                </div>
+              </div>
+              `;
+          content = `
+              <div class="row">
+                <div class="image">
+                  <img src="${imgSrc}" alt="" />
+                </div>
+                <div class="name-plan">
+                  <h2>${itemData.name}</h2>
+                </div>
+                <div class="price">
+                  <p>
+                    <sup>KM</sup>${Math.floor(
+                      price
+                    )}<sub class="down">${decimalPart}</sub>
+                  </p>
+                </div>
+                ${
+                  category === "hotel"
+                    ? `
+                  <div class="products">
+                    <div class="product hotel btns">
+                      <div>
+                        <span class="quantity-label-2 center">Days</span>
+                        <div class="quantity-2">
+                          <button>
+                            <i class="fa-solid fa-minus"></i>
+                          </button>
+                          <span>${itemData.days_selected}</span>
+                          <button>
+                            <i class="fa-solid fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span class="quantity-label center">Persons</span>
+                        <div class="quantity">
+                          <button>
+                            <i class="fa-solid fa-minus"></i>
+                          </button>
+                          <span>${itemData.persons_selected}</span>
+                          <button>
+                            <i class="fa-solid fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                      `
+                    : `
+                  <div>
+                    <div>
+                      <span class="quantity-label center">${
+                        category === "package" ? "Persons" : "Days"
+                      }</span>
+                      <div class="quantity">
+                        <button>
+                          <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <span>${
+                          category === "package"
+                            ? itemData.persons_selected
+                            : itemData.days_selected
+                        }</span>
+                        <button>
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  `
+                }
+                <div class="total">
+                  <p>
+                    <sup>KM</sup>
+                    <span class="totalInt">${Math.floor(totalPrice)}</span>
+                    <sup class="down">${totalDecimalPart}</sup>
+                    <i class="fa-solid fa-trash trash"></i>
+                    <i class="fa-solid fa-circle-minus circle-minus"></i>
+                  </p>
+                </div>
+              </div>`;
+          // }
+
+          items.innerHTML += content;
+          modalProducts.innerHTML += modalContent;
+        });
+
+        const sumOfInts = Math.floor(sumOfTotalPrices),
+          sumOfDecs = Utils.checkDec(sumOfTotalPrices);
+        sumOfTotalModal[1].innerHTML = sumOfInts;
+        sumOfTotalModal[2].innerHTML = sumOfDecs;
+
+        //total column
+        totalPricesCart = Array.from(
+          items.querySelectorAll(".cart .containerr .products .row .total p")
+        );
+
+        //total in the modal footer
+        totalPricesModal = Array.from(
+          modal.querySelectorAll(".card .small.price")
+        );
+        const quantitiesCart = document.querySelectorAll(
+            ".cart .containerr .products .row .quantity"
+          ),
+          quantities2Cart = document.querySelectorAll(
+            ".cart .containerr .products .row .quantity-2"
+          ),
+          quantitiesModal = document.querySelectorAll(
+            "#cartModal .master-container .cart .quantity"
+          ),
+          quantities2Modal = document.querySelectorAll(
+            "#cartModal .master-container .cart .quantity-2"
+          );
+        let counter = 0.0;
+        quantitiesCart.forEach((cartQuantity, index) => {
+          const itemData = data[index],
+            category = itemData.category;
+          buttom = (quantityBtns, quantityBtns2) => {
+            const quantityBtnsArray = Array.from(quantityBtns[index].children),
+              quantityNumber = quantityBtnsArray[1];
+            quantityBtnsArray.splice(1, 1);
+            if (category !== "hotel") {
+              Utils.quantityBtnFunction(
+                category === "package"
+                  ? itemData.min_persons
+                  : itemData.min_days,
+                category === "package"
+                  ? itemData.max_persons
+                  : itemData.max_days,
+                category === "package"
+                  ? itemData.person_price
+                  : itemData.day_price,
+                quantityNumber,
+                sumOfTotalModal,
+                quantityBtnsArray,
+                0,
+                0,
+                0,
+                "",
+                true,
+                quantitiesModal,
+                quantitiesCart,
+                index
+              );
+            } else {
+              const quantityBtns2Array = Array.from(
+                  quantityBtns2[Math.floor(counter)].children
+                ),
+                quantityNumber2 = quantityBtns2Array[1];
+              quantityBtns2Array.splice(1, 1);
+              Utils.quantityBtnFunction(
+                itemData.min_days,
+                itemData.max_days,
+                itemData.day_price,
+                quantityNumber,
+                sumOfTotalModal,
+                quantityBtnsArray.concat(quantityBtns2Array),
+                itemData.min_persons,
+                itemData.max_persons,
+                itemData.person_price,
+                quantityNumber2,
+                true, // after this edit this is cart
+                quantitiesModal,
+                quantitiesCart,
+                index
+              );
+              // cart,
+              // totalItemPriceCart, //item price
+              // quantityNumberCart, //middle of buttoms
+              // currentTotal, // sum of all item prices
+              // indexOfCart
+
+              counter += 0.5;
+            }
+          };
+          buttom(quantitiesCart, quantities2Cart);
+          buttom(quantitiesModal, quantities2Modal);
+        });
+      });
+  },
 };
+function puase() {
+  //change the quantity and prices in modal and page
+  function buttomFunctionOld(
+    plus,
+    price,
+    index,
+    quantitiesModal,
+    quantitiesCart
+  ) {
+    const quantityModal = quantitiesModal[index].children[1],
+      quantityCart = quantitiesCart[index].children[1];
+
+    quantityCart.textContent = quantityModal.textContent =
+      parseInt(quantityCart.textContent) + (plus ? 1 : -1);
+
+    const intPartCart = totalPricesCart[index].children[1],
+      decPartCart = totalPricesCart[index].children[2];
+
+    const total = parseInt(quantityCart.textContent) * Number(price);
+
+    intPartCart.textContent = Math.floor(total);
+    decPartCart.textContent = Utils.checkDec(total);
+  }
+
+  buttomFunction: (
+    plus,
+    price,
+    quantityNumberModal,
+    sumOfTotalModal,
+    otherPrice = -1,
+    otherQuantity = "",
+    totalPriceCart, //item total
+    quantityNumberCart,
+    sumOfTotalPrices
+  ) => {
+    //change quantity of modal
+    quantityNumberModal.textContent =
+      parseInt(quantityNumberModal.textContent) + (plus ? 1 : -1);
+    //change quantity of cart if exist
+    if (quantityNumberCart) {
+      quantityNumberCart.textContent = quantityNumberModal.textContent;
+    }
+
+    let total = parseInt(quantityNumberModal.textContent) * Number(price);
+    if (otherPrice) {
+      total += parseInt(otherQuantity.textContent) * Number(otherPrice);
+    }
+    if (totalPriceCart) {
+      totalPriceCart[index].children[1].textContent = Math.floor(total);
+      totalPriceCart[index].children[2].textContent = Utils.checkDec(total);
+
+      sumOfTotalPrices += plus ? parseFloat(price) : -parseFloat(price);
+      sumOfTotalModal[1].innerHTML = Math.floor(sumOfTotalPrices);
+      sumOfTotalModal[2].innerHTML = Utils.checkDec(sumOfTotalPrices);
+    } else {
+      sumOfTotalModal[1].textContent = Math.floor(total);
+      sumOfTotalModal[2].textContent = Utils.checkDec(total);
+    }
+  };
+}
