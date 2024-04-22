@@ -20,9 +20,9 @@ CREATE TABLE `users`
     `gender`      VARCHAR(15),
     `nationality` VARCHAR(255),
     `skills`      TEXT,
-    `ratingsStar` TEXT
+    `ratingsStar` TEXT,
+    `friends`     TEXT
 );
-#     `activities`   TEXT
 CREATE TABLE `activities`
 (
     `activities_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,8 +30,18 @@ CREATE TABLE `activities`
     `img_src`       TEXT,
     `name`          VARCHAR(255),
     `date`          DATE,
-    `time`         TIME,
+    `time`          TIME,
     CONSTRAINT `fk_activities_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
+CREATE TABLE `draft`
+(
+    `draft_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id`  INT,
+    `title`    TEXT,
+    `content`  TEXT,
+    `date`     DATE,
+    `time`     TIME,
+    CONSTRAINT `fk_draft_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 CREATE TABLE `items`
 (
@@ -60,7 +70,6 @@ CREATE TABLE `carts`
     `user_id` INT,
     CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
-# DROP TABLE `cart_items`;
 CREATE TABLE `cart_items`
 (
     `cart_id`          INT,
@@ -99,7 +108,6 @@ CREATE TABLE `projects`
     `progress`        TEXT,
     CONSTRAINT `fk_project_client` FOREIGN KEY (`client`) REFERENCES `users` (`user_id`)
 );
-DROP TABLE projects;
 CREATE TABLE `targets`
 (
     `target_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -119,12 +127,6 @@ CREATE TABLE `tickets`
     `achieved`  DECIMAL(10, 2),
     CONSTRAINT `fk_tickets_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
-CREATE TABLE `friends`
-(
-    `user_id` INT,
-    `friends` TEXT,
-    CONSTRAINT `fk_friends_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-);
 CREATE TABLE `feedbacks`
 (
     `feedback_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -133,4 +135,13 @@ CREATE TABLE `feedbacks`
     `phone`       VARCHAR(30),
     `added_time`  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `message`     TEXT
+);
+CREATE TABLE `coupon`
+(
+    `coupon_id`  INT AUTO_INCREMENT PRIMARY KEY,
+    `used_times` INT DEFAULT 0,
+    `max_times`  INT,
+    `code`   VARCHAR(255),
+    `amount`     INT,
+    `percentage` DECIMAL(5, 2)
 );

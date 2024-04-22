@@ -229,5 +229,11 @@ VALUES ('Ibrahim Mohamed', 'Male', 'Ibrahim.Mohamed@balqan.net', '01110472777', 
         'Bosnia', 'Arabic HTML CSS JS Drive', '1 5 4 3 5 4 1 0 2 5',
         'https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/profile/avatar.png',
         'Egyptian');
+
 INSERT INTO carts (cart_id, user_id)
 VALUES (1, 1);
+
+INSERT INTO `coupon` (`max_times`,  `code`, `amount`, `percentage`)
+VALUES (5,  'SAVE50', 0, 0.15),
+       (10,  'SALE20', 10, NULL),
+       (3, 'FOODIE15', 0, 0.75);

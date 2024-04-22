@@ -322,7 +322,7 @@ var Utils = {
     });
   },
   handleHashChange: () => {
-    CartService.updateCart();
+    CartService.updateCart(true);
     $(window).off("hashchange", Utils.handleHashChange);
     $(window).off("beforeunload", Utils.handleHashChange);
   },
@@ -513,7 +513,7 @@ var Utils = {
           Utils.unblock_ui(block);
           if (modal) Utils.removeModal(false, modal);
 
-          Utils.appearSuccAlert(success_mge);
+          if (success_mge) Utils.appearSuccAlert(success_mge);
           if (loadTable) loadTable();
         })
         .fail((xhr) => {

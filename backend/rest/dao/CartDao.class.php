@@ -68,4 +68,11 @@ class CartDao extends BaseDao {
       WHERE cart_id = :cart_id AND item_id = :item_id";
     $this->execute($query, $cart);
   }
+
+  public function check_coupon($code) {
+    $query = "SELECT amount, percentage 
+                FROM coupon
+                WHERE code = :code";
+    return $this->query_unique_first($query, $code);
+  }
 }

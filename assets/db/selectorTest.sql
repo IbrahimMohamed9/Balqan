@@ -1,7 +1,7 @@
 USE `balqan`;
 
 select *
-from items;
+from projects;
 
 SELECT ite.name,
        ite.category,
