@@ -181,7 +181,11 @@ var Utils = {
         price,
         quantityNumber,
         totalPriceModal,
-        [quantityBtns[0], quantityBtns[2]]
+        [quantityBtns[0], quantityBtns[2]],
+        -1,
+        -1,
+        -1,
+        -1
       );
 
       $(quantity2Parent).css("display", "none");
@@ -252,7 +256,13 @@ var Utils = {
 
     return Number(decPartTest) ? decPartTest : "";
   },
-
+  counter: (() => {
+    let counter = 0;
+    return (restart) => {
+      restart ? (counter = 0) : counter++;
+      return counter;
+    };
+  })(),
   quantityBtnFunction: (
     min,
     max,
@@ -265,54 +275,36 @@ var Utils = {
     price2,
     quantityNumber2,
     cart,
-    totalItemPriceCart, //item price
-    quantityNumberCart, //middle of buttoms
-    currentTotal, // sum of all item prices
-    indexOfCart
+    totalItemPriceCart,
+    quantityNumberCart,
+    otherQuantity2,
+    itemIndex
   ) => {
-    let buttom = () => {};
     $.each(elements, (index, element) => {
       const plus = index % 2,
-        quantityUsed = index <= 1 ? quantityNumber : quantityNumber2,
-        otherQuantity = index <= 1 ? quantityNumber2 : quantityNumber,
         maxUsed = index <= 1 ? max : max2,
-        minUsed = index <= 1 ? min : min2,
-        priceUsed = index <= 1 ? price : price2,
-        otherPrice = index <= 1 ? price2 : price;
+        quantityUsed = index <= 1 ? quantityNumber : quantityNumber2,
+        minUsed = index <= 1 ? min : min2;
+      let buttom = () => {
+        const otherQuantity = index <= 1 ? quantityNumber2 : quantityNumber,
+          priceUsed = index <= 1 ? price : price2,
+          otherPrice = index <= 1 ? price2 : price;
+        Utils.buttomFunction(
+          plus,
+          priceUsed,
+          quantityUsed,
+          totalPriceModal,
+          otherPrice,
+          otherQuantity,
+          cart,
+          totalItemPriceCart,
+          quantityNumberCart,
+          otherQuantity2,
+          itemIndex
+        );
+      };
+
       $(element).click(() => {
-        if (elements.length > 2) {
-          buttom = () => {
-            Utils.buttomFunction(
-              plus,
-              priceUsed,
-              quantityUsed,
-              totalPriceModal,
-              otherPrice,
-              otherQuantity,
-              cart,
-              totalItemPriceCart, //item price
-              quantityNumberCart, //middle of buttoms
-              currentTotal, // sum of all item prices
-              indexOfCart
-            );
-          };
-        } else {
-          buttom = () => {
-            Utils.buttomFunction(
-              plus,
-              price,
-              quantityNumber,
-              totalPriceModal,
-              -1,
-              "",
-              cart,
-              totalItemPriceCart, //item price
-              quantityNumberCart, //middle of buttoms
-              currentTotal, // sum of all item prices
-              indexOfCart
-            );
-          };
-        }
         if (plus && parseInt(quantityUsed.textContent) < maxUsed) {
           buttom();
         } else if (!plus && parseInt(quantityUsed.textContent) > minUsed) {
@@ -323,7 +315,16 @@ var Utils = {
           );
         }
       });
+      if (cart && Utils.counter() === 1) {
+        $(window).on("hashchange", Utils.handleHashChange);
+        $(window).on("beforeunload", Utils.handleHashChange);
+      }
     });
+  },
+  handleHashChange: () => {
+    CartService.updateCart();
+    $(window).off("hashchange", Utils.handleHashChange);
+    $(window).off("beforeunload", Utils.handleHashChange);
   },
   appearFailAlert: (message) => {
     const quantityAlert = document.querySelector(
@@ -337,37 +338,28 @@ var Utils = {
       quantityAlert.classList.add("d-none");
     });
   },
-
-  // Utils.buttomFunction(
-  //   plus,
-  //   priceUsed,
-  //   quantityUsed,
-  //   totalPriceModal,
-  //   otherPrice,
-  //   otherQuantity,
-  //   quantitiesModal,
-  //   quantitiesCart,
-  //   index
-  // );
   buttomFunction: (
     plus,
     price,
     quantityNumberModal,
     totalPriceModal,
-    otherPrice, //-1 to ignore it
+    otherPrice,
     otherQuantity,
     cart,
-    totalItemPriceCart, //item price
-    quantityNumberCart, //middle of buttoms
-    currentTotal, // sum of all item prices
-    index
+    totalItemPriceCart,
+    quantityNumberCart,
+    otherQuantity2,
+    itemIndex
   ) => {
-    //change quantity of modal
+    const parentOfParent = quantityNumberModal.parentElement;
+
     quantityNumberModal.textContent =
       parseInt(quantityNumberModal.textContent) + (plus ? 1 : -1);
-    //change quantity of cart
-    if (cart) {
+
+    if (cart && !parentOfParent.classList.contains("quantity-2")) {
       quantityNumberCart.textContent = quantityNumberModal.textContent;
+    } else if (cart && parentOfParent.classList.contains("quantity-2")) {
+      otherQuantity2.textContent = quantityNumberModal.textContent;
     }
 
     let total = parseInt(quantityNumberModal.textContent) * Number(price);
@@ -375,35 +367,33 @@ var Utils = {
       total += parseInt(otherQuantity.textContent) * Number(otherPrice);
     }
     if (cart) {
-      totalItemPriceCart[index].children[1].textContent = Math.floor(total);
-      totalItemPriceCart[index].children[2].textContent = Utils.checkDec(total);
+      const storedArray = JSON.parse(localStorage.getItem("cart_items")),
+        selectedNumber = quantityNumberModal.textContent;
+
+      if (storedArray[itemIndex]["category"] === "hotel") {
+        storedArray[itemIndex]["persons_selected"] = selectedNumber;
+        storedArray[itemIndex]["days_selected"] = otherQuantity2.textContent;
+      } else {
+        storedArray[itemIndex]["category"] === "package"
+          ? (storedArray[itemIndex]["persons_selected"] = selectedNumber)
+          : (storedArray[itemIndex]["days_selected"] = selectedNumber);
+      }
+      localStorage.setItem("cart_items", JSON.stringify(storedArray));
+
+      totalItemPriceCart.children[1].textContent = Math.floor(total);
+      totalItemPriceCart.children[2].textContent = Utils.checkDec(total);
+      let currentTotal = Number(localStorage.getItem("totalPrice"));
 
       currentTotal += plus ? parseFloat(price) : -parseFloat(price);
       totalPriceModal[1].innerHTML = Math.floor(currentTotal);
       totalPriceModal[2].innerHTML = Utils.checkDec(currentTotal);
+
+      localStorage.setItem("totalPrice", currentTotal);
     } else {
       totalPriceModal[1].textContent = Math.floor(total);
       totalPriceModal[2].textContent = Utils.checkDec(total);
     }
   },
-  // buttomFunction: (
-  //   plus,
-  //   price,
-  //   quantityNumber,
-  //   totalPriceModal,
-  //   otherPrice,
-  //   otherQuantity
-  // ) => {
-  //   quantityNumber.textContent =
-  //     parseInt(quantityNumber.textContent) + (plus ? 1 : -1);
-  //   let total = parseInt(quantityNumber.textContent) * Number(price);
-  //   if (otherPrice) {
-  //     total += parseInt(otherQuantity.textContent) * Number(otherPrice);
-  //   }
-
-  //   totalPriceModal[1].textContent = Math.floor(total);
-  //   totalPriceModal[2].textContent = Utils.checkDec(total);
-  // },
   removeModal: (removeBtn, modal) => {
     if (removeBtn) {
       const quantityBtns = modal.querySelector(
@@ -553,5 +543,12 @@ var Utils = {
   },
   firstLink: (imgs_srcs) => {
     return `https${imgs_srcs.trim().split("https")[1]}`;
+  },
+  removeAllChildrenExcept: (parentElement, exceptionElements) => {
+    Array.from(parentElement.children).forEach((child) => {
+      if (!exceptionElements.includes(child)) {
+        parentElement.removeChild(child);
+      }
+    });
   },
 };

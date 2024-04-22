@@ -14,7 +14,6 @@ var CartService = {
       "#myModal .checkout .checkout-btn"
     );
   },
-
   submit: (to, data, success_mge, block_selector, modal) => {
     const block = $(block_selector);
     Utils.block_ui(block);
@@ -68,7 +67,14 @@ var CartService = {
             ".checkout .checkout--footer .price"
           ).children;
         let totalPricesCart,
-          sumOfTotalPrices = 0;
+          totalPriceModal = 0;
+        modalProducts.innerHTML = "";
+        Utils.counter(true);
+        Utils.removeAllChildrenExcept(items, [
+          $(".cart .containerr .products .row:first-child")[0],
+          $(".cart .containerr .products .footer")[0],
+        ]);
+        let itemsLocalStorage = [];
         data.map((itemData) => {
           const category = itemData.category,
             price = Utils.getPrice(category, itemData),
@@ -79,82 +85,18 @@ var CartService = {
               Number(itemData.day_price) * Number(itemData.days_selected),
             totalDecimalPart = Utils.checkDec(totalPrice),
             imgSrc = Utils.firstLink(itemData.imgs_srcs);
-          sumOfTotalPrices = totalPrice + parseFloat(sumOfTotalPrices);
-          /*
-          // if (category == "package") {
-          //   modalContent = `
-          //     <div class="products">
-          //       <div class="product">
-          //         <img src="${imgSrc}" alt="" />
-          //         <div>
-          //           <span>${category}</span>
-          //           <p>${itemData.name}</p>
+          totalPriceModal = totalPrice + parseFloat(totalPriceModal);
 
-          //           <p class="plan">${itemData.plan}</p>
-          //         </div>
+          itemsLocalStorage.push({
+            item_id: itemData.item_id,
+            cart_id: itemData.cart_id,
+            persons_selected: itemData.persons_selected,
+            days_selected: itemData.days_selected,
+            category: category,
+            name: itemData.name,
+          });
 
-          //         <div class="quantity">
-          //           <button><i class="fa-solid fa-minus"></i></button>
-          //           <span>${itemData.quantity}</span>
-          //           <button><i class="fa-solid fa-plus"></i></button>
-          //         </div>
-
-          //         <span class="price small">
-          //           <sup>KM</sup> <span>${Math.floor(price)}</span>
-          //           <sub>${decimalPart}</sub>
-          //         </span>
-          //       </div>
-          //     </div>
-          //     `;
-          //   content = `
-          //     <div class="row">
-          //       <div class="image"><img src="${imgSrc}" alt="" /></div>
-
-          //       <div class="name-plan">
-          //         <h2>${itemData.name}</h2>
-
-          //         <div class="select-container">
-          //           <select name="plans">
-          //             <option value="plan1">Plan 1</option>
-
-          //             <option value="plan2">Plan 2</option>
-
-          //             <option value="plan3">Plan 3</option>
-
-          //             <option value="plan4">Plan 4</option>
-          //           </select>
-          //           <i class="fa-solid fa-chevron-down"></i>
-          //         </div>
-          //       </div>
-
-          //       <div class="price">
-          //         <p>
-          //           <span class="price small">
-          //             <sup>KM</sup> <span>${Math.floor(price)}</span>
-          //             <sub>${decimalPart}</sub>
-          //           </span>
-          //         </p>
-          //       </div>
-
-          //       <div class="quantity">
-          //         <button><i class="fa-solid fa-minus"></i></button>
-          //         <span>${itemData.quantity}</span>
-          //         <button><i class="fa-solid fa-plus"></i></button>
-          //       </div>
-
-          //       <div class="total">
-          //         <p>
-          //           <sup>KM</sup>
-          //           <span class="totalInt">${Math.floor(totalPrice)}</span>
-          //           <sup class="down">${totalDecimalPart}</sup>
-          //           <i class="fa-solid fa-trash trash"></i>
-          //           <i class="fa-solid fa-circle-minus circle-minus"></i>
-          //         </p>
-          //       </div>
-          //     </div>
-          //     `;
-          // } else {
-            */
+          // add package plan here
           modalContent = `
               <div class="products">
                 <div class="product ${category === "hotel" ? "hotel" : ""}">
@@ -270,7 +212,7 @@ var CartService = {
                   </div>
                       `
                     : `
-                  <div>
+                  <div class="exception">
                     <div>
                       <span class="quantity-label center">${
                         category === "package" ? "Persons" : "Days"
@@ -302,14 +244,16 @@ var CartService = {
                   </p>
                 </div>
               </div>`;
-          // }
+          // } the closer of else block for package plan
 
           items.innerHTML += content;
           modalProducts.innerHTML += modalContent;
         });
 
-        const sumOfInts = Math.floor(sumOfTotalPrices),
-          sumOfDecs = Utils.checkDec(sumOfTotalPrices);
+        localStorage.setItem("cart_items", JSON.stringify(itemsLocalStorage));
+
+        const sumOfInts = Math.floor(totalPriceModal),
+          sumOfDecs = Utils.checkDec(totalPriceModal);
         sumOfTotalModal[1].innerHTML = sumOfInts;
         sumOfTotalModal[2].innerHTML = sumOfDecs;
 
@@ -317,9 +261,8 @@ var CartService = {
         totalPricesCart = Array.from(
           items.querySelectorAll(".cart .containerr .products .row .total p")
         );
-
         //total in the modal footer
-        totalPricesModal = Array.from(
+        totalPriceModal = Array.from(
           modal.querySelectorAll(".card .small.price")
         );
         const quantitiesCart = document.querySelectorAll(
@@ -337,10 +280,34 @@ var CartService = {
         let counter = 0.0;
         quantitiesCart.forEach((cartQuantity, index) => {
           const itemData = data[index],
-            category = itemData.category;
-          buttom = (quantityBtns, quantityBtns2) => {
-            const quantityBtnsArray = Array.from(quantityBtns[index].children),
-              quantityNumber = quantityBtnsArray[1];
+            category = itemData.category,
+            quantityBtnsModal = Array.from(quantitiesCart[index].children),
+            quantityBtnsCart = Array.from(quantitiesModal[index].children),
+            quantityTxtCart = quantityBtnsCart[1],
+            quantityTxtModal = quantityBtnsModal[1],
+            quantities2CartArray =
+              quantities2Cart !== undefined
+                ? Array.from(
+                    quantities2Cart[Math.floor(counter)]?.children || []
+                  )
+                : [];
+          quantities2ModalArray =
+            quantities2Modal !== undefined
+              ? Array.from(
+                  quantities2Modal[Math.floor(counter)]?.children || []
+                )
+              : [];
+          localStorage.setItem(
+            "totalPrice",
+            String(Number(sumOfInts) + Number(sumOfDecs))
+          );
+          buttom = (
+            quantityBtnsArray,
+            quantityTxtCart,
+            quantityTxtModal,
+            quantityBtns2Array,
+            otherQuantityBtn2
+          ) => {
             quantityBtnsArray.splice(1, 1);
             if (category !== "hotel") {
               Utils.quantityBtnFunction(
@@ -353,112 +320,173 @@ var CartService = {
                 category === "package"
                   ? itemData.person_price
                   : itemData.day_price,
-                quantityNumber,
+                quantityTxtModal,
                 sumOfTotalModal,
                 quantityBtnsArray,
-                0,
-                0,
-                0,
+                -1,
+                -1,
+                -1,
                 "",
                 true,
-                quantitiesModal,
-                quantitiesCart,
+                totalPricesCart[index],
+                quantityTxtCart,
+                "",
                 index
               );
             } else {
-              const quantityBtns2Array = Array.from(
-                  quantityBtns2[Math.floor(counter)].children
-                ),
-                quantityNumber2 = quantityBtns2Array[1];
-              quantityBtns2Array.splice(1, 1);
+              const quantityNumber2Cart = quantityBtns2Array[1];
               Utils.quantityBtnFunction(
                 itemData.min_days,
                 itemData.max_days,
                 itemData.day_price,
-                quantityNumber,
+                quantityTxtModal,
                 sumOfTotalModal,
-                quantityBtnsArray.concat(quantityBtns2Array),
+                quantityBtnsArray.concat([
+                  quantityBtns2Array[0],
+                  quantityBtns2Array[2],
+                ]),
                 itemData.min_persons,
                 itemData.max_persons,
                 itemData.person_price,
-                quantityNumber2,
-                true, // after this edit this is cart
-                quantitiesModal,
-                quantitiesCart,
+                quantityNumber2Cart,
+                true,
+                totalPricesCart[index],
+                quantityTxtCart,
+                otherQuantityBtn2[1],
                 index
               );
-              // cart,
-              // totalItemPriceCart, //item price
-              // quantityNumberCart, //middle of buttoms
-              // currentTotal, // sum of all item prices
-              // indexOfCart
-
               counter += 0.5;
             }
           };
-          buttom(quantitiesCart, quantities2Cart);
-          buttom(quantitiesModal, quantities2Modal);
+
+          buttom(
+            quantityBtnsCart,
+            quantityTxtCart,
+            quantityTxtModal,
+            quantities2CartArray,
+            quantities2ModalArray
+          );
+          buttom(
+            quantityBtnsModal,
+            quantityTxtCart,
+            quantityTxtModal,
+            quantities2ModalArray,
+            quantities2CartArray
+          );
         });
+        let removeIconCounter = 0.0;
+        $.each(
+          $(".cart .containerr .products .row .total p i"),
+          (index, icon) => {
+            const currentItem =
+              itemsLocalStorage[Math.floor(removeIconCounter)];
+            $(icon).click(() => {
+              CartService.removeItemCart(
+                currentItem["cart_id"],
+                currentItem["item_id"],
+                currentItem["name"]
+              );
+            });
+            removeIconCounter += 0.5;
+          }
+        );
       });
   },
+  updateCart: () => {
+    JSON.parse(localStorage.getItem("cart_items")).forEach((data) => {
+      $.post(Constants.API_BASE_URL + "carts/update_item_cart.php", data)
+        .done((data) => {
+          localStorage.removeItem("cart_items");
+          localStorage.removeItem("totalPrice");
+        })
+        .fail((xhr) => {});
+    });
+  },
+  removeItemCart: (cart_id, item_id, name) => {
+    if (confirm("Do you want to delete " + name + "?") == true) {
+      RestClient.delete(
+        "carts/delete_item_cart.php?cart_id=" + cart_id + "&item_id=" + item_id,
+        () => {},
+        () => {
+          CartService.loadCart(1);
+          Utils.appearFailAlert(name + " was deleted");
+        }
+      );
+    }
+  },
 };
-function puase() {
-  //change the quantity and prices in modal and page
-  function buttomFunctionOld(
-    plus,
-    price,
-    index,
-    quantitiesModal,
-    quantitiesCart
-  ) {
-    const quantityModal = quantitiesModal[index].children[1],
-      quantityCart = quantitiesCart[index].children[1];
+/*
+          if (category == "package") {
+            modalContent = `
+              <div class="products">
+                <div class="product">
+                  <img src="${imgSrc}" alt="" />
+                  <div>
+                    <span>${category}</span>
+                    <p>${itemData.name}</p>
 
-    quantityCart.textContent = quantityModal.textContent =
-      parseInt(quantityCart.textContent) + (plus ? 1 : -1);
+                    <p class="plan">${itemData.plan}</p>
+                  </div>
 
-    const intPartCart = totalPricesCart[index].children[1],
-      decPartCart = totalPricesCart[index].children[2];
+                  <div class="quantity">
+                    <button><i class="fa-solid fa-minus"></i></button>
+                    <span>${itemData.quantity}</span>
+                    <button><i class="fa-solid fa-plus"></i></button>
+                  </div>
 
-    const total = parseInt(quantityCart.textContent) * Number(price);
+                  <span class="price small">
+                    <sup>KM</sup> <span>${Math.floor(price)}</span>
+                    <sub>${decimalPart}</sub>
+                  </span>
+                </div>
+              </div>
+              `;
+            content = `
+              <div class="row">
+                <div class="image"><img src="${imgSrc}" alt="" /></div>
 
-    intPartCart.textContent = Math.floor(total);
-    decPartCart.textContent = Utils.checkDec(total);
-  }
+                <div class="name-plan">
+                  <h2>${itemData.name}</h2>
 
-  buttomFunction: (
-    plus,
-    price,
-    quantityNumberModal,
-    sumOfTotalModal,
-    otherPrice = -1,
-    otherQuantity = "",
-    totalPriceCart, //item total
-    quantityNumberCart,
-    sumOfTotalPrices
-  ) => {
-    //change quantity of modal
-    quantityNumberModal.textContent =
-      parseInt(quantityNumberModal.textContent) + (plus ? 1 : -1);
-    //change quantity of cart if exist
-    if (quantityNumberCart) {
-      quantityNumberCart.textContent = quantityNumberModal.textContent;
-    }
+                  <div class="select-container">
+                    <select name="plans">
+                      <option value="plan1">Plan 1</option>
 
-    let total = parseInt(quantityNumberModal.textContent) * Number(price);
-    if (otherPrice) {
-      total += parseInt(otherQuantity.textContent) * Number(otherPrice);
-    }
-    if (totalPriceCart) {
-      totalPriceCart[index].children[1].textContent = Math.floor(total);
-      totalPriceCart[index].children[2].textContent = Utils.checkDec(total);
+                      <option value="plan2">Plan 2</option>
 
-      sumOfTotalPrices += plus ? parseFloat(price) : -parseFloat(price);
-      sumOfTotalModal[1].innerHTML = Math.floor(sumOfTotalPrices);
-      sumOfTotalModal[2].innerHTML = Utils.checkDec(sumOfTotalPrices);
-    } else {
-      sumOfTotalModal[1].textContent = Math.floor(total);
-      sumOfTotalModal[2].textContent = Utils.checkDec(total);
-    }
-  };
-}
+                      <option value="plan3">Plan 3</option>
+
+                      <option value="plan4">Plan 4</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </div>
+                </div>
+
+                <div class="price">
+                  <p>
+                    <span class="price small">
+                      <sup>KM</sup> <span>${Math.floor(price)}</span>
+                      <sub>${decimalPart}</sub>
+                    </span>
+                  </p>
+                </div>
+
+                <div class="quantity">
+                  <button><i class="fa-solid fa-minus"></i></button>
+                  <span>${itemData.quantity}</span>
+                  <button><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <div class="total">
+                  <p>
+                    <sup>KM</sup>
+                    <span class="totalInt">${Math.floor(totalPrice)}</span>
+                    <sup class="down">${totalDecimalPart}</sup>
+                    <i class="fa-solid fa-trash trash"></i>
+                    <i class="fa-solid fa-circle-minus circle-minus"></i>
+                  </p>
+                </div>
+              </div>
+              `;
+          } else {
+            */

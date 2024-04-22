@@ -1268,10 +1268,11 @@ img {
     grid-template-columns: 15px 17px 15px;
   }
 }
-.cart .quantity span,
-.cart .quantity-2 span {
+.cart .products .product .quantity span,
+.cart .products .product.hotel .quantity-2 span,
+.cart .exception .quantity span {
   height: 30px;
-  display: flex !important;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 2px;
@@ -1293,6 +1294,9 @@ img {
   background-color: var(--secondary-color);
 }
 @media (max-width: 315px) {
+  .cart .products .product {
+    --font-size: 13px;
+  }
   .cart .quantity button,
   .cart .quantity-2 button {
     font-size: 12px;

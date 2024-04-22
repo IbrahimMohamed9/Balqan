@@ -25,4 +25,7 @@ class CartService {
     public function add_item_cart($cart) {
         return $this->cart_dao->add_item_cart($cart);
     }
+    public function update_item_cart($cart){
+        $this->cart_dao->update_item_cart($cart);
+    }
 }
