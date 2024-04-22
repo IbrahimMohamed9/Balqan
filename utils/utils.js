@@ -84,6 +84,10 @@ var Utils = {
     }
   },
   itemModal: function (
+    item_id,
+    // cart_id,
+    persons,
+    days,
     category,
     name,
     imgSrc,
@@ -165,6 +169,15 @@ var Utils = {
         price2,
         quantityNumber2
       );
+
+      $("#myModal .checkout .checkout-btn").on("click", () => {
+        CartService.addToCart(
+          1,
+          item_id,
+          quantityNumber.textContent,
+          quantityNumber2.textContent
+        );
+      });
     } else {
       Utils.cartQuantityBtn(min, max, price, quantityNumber, sumOfTotalModal, [
         quantityBtns[0],
@@ -180,6 +193,16 @@ var Utils = {
         itemPrice,
         price
       );
+      $("#myModal .checkout .checkout-btn").on("click", () => {
+        category === "package"
+          ? CartService.addToCart(1, item_id, quantityNumber.textContent, days)
+          : CartService.addToCart(
+              1,
+              item_id,
+              persons,
+              quantityNumber.textContent
+            );
+      });
     }
 
     // if (plans) {
@@ -223,16 +246,6 @@ var Utils = {
     return Number(decPartTest) ? decPartTest : "";
   },
 
-  //       min,
-  //       max,
-  //       price,
-  //       quantityNumber,
-  //       sumOfTotalModal,
-  //       elements,
-  //       min2,
-  //       max2,
-  //       price2,
-  //       quantityNumber2,
   cartQuantityBtn: function (
     min,
     max,
@@ -326,18 +339,17 @@ var Utils = {
     sumOfTotalModal[1].textContent = Math.floor(total);
     sumOfTotalModal[2].textContent = Utils.checkDec(total);
   },
-  removeModal: function (removeBtn, modal) {
+  removeModal: (removeBtn, modal) => {
     if (removeBtn) {
-      const quantityBtns = Array.from(
-          modal.querySelector(".master-container .cart .quantity").children
+      const quantityBtns = modal.querySelector(
+          ".master-container .cart .quantity"
         ),
-        quantityBtns2 = Array.from(
-          modal.querySelector(".master-container .cart .quantity-2").children
+        quantityBtns2 = modal.querySelector(
+          ".master-container .cart .quantity-2"
         );
-      Utils.removeAllEventListeners(quantityBtns[0]);
-      Utils.removeAllEventListeners(quantityBtns[2]);
-      Utils.removeAllEventListeners(quantityBtns2[0]);
-      Utils.removeAllEventListeners(quantityBtns2[2]);
+      Utils.removeAllEventListeners(quantityBtns);
+      Utils.removeAllEventListeners(quantityBtns2);
+      Utils.removeAllEventListeners($("#myModal .checkout .checkout-btn")[0]);
     }
 
     modal.classList.remove("active");
@@ -450,23 +462,19 @@ var Utils = {
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
       $.post(Constants.API_BASE_URL + to, data)
-        .done(function (data) {
+        .done((data) => {
           form[0].reset();
           Utils.unblock_ui(block);
-          if (modal) {
-            Utils.removeModal(false, modal);
-          }
+          if (modal) Utils.removeModal(false, modal);
+
           Utils.appearSuccAlert(success_mge);
-          if (loadTable) {
-            loadTable();
-          }
+          if (loadTable) loadTable();
         })
-        .fail(function (xhr) {
+        .fail((xhr) => {
           Utils.unblock_ui(block);
 
-          if (modal) {
-            Utils.removeModal(false, modal);
-          }
+          if (modal) Utils.removeModal(false, modal);
+
           Utils.appearFailAlert(xhr.responseText);
         });
     });

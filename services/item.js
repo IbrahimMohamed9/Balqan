@@ -145,24 +145,11 @@ var ItemService = {
           <h3>${itemData.name}</h3>
           <p>Price: ${price} KM/day</p>
         </div>
-        <!--
-        category,             done
-        name,                 done
-        imgSrc,               done
-        min,                  done
-        max,                  done
-        price,                done
-        quantity,             done
-        nameDescription,      done
-        quantityDescription,  done
-        quantity2,            done
-        quantityDescription2, done
-        min2,
-        max2,
-        price2
-        -->
         <button class="pckbtn" 
         onClick="Utils.itemModal(
+        '${itemData.item_id}',
+        '${itemData.persons}',
+        '${itemData.days}',
         '${category}',
         '${itemData.name}',
         '${ItemService.firstLink(itemData.imgs_srcs)}',

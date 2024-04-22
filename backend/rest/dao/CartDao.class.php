@@ -27,11 +27,12 @@ class CartDao extends BaseDao {
   }
   
   public function add_item_cart($cart) {
+    print_r($cart);
     $query = "INSERT INTO cart_items (cart_id, item_id, days, persons) VALUES 
     (:cart_id, :item_id, :days, :persons)";
     $this->execute($query, $cart);
   }
-  public function update_item_cart($ids) {
+  public function update_item_cart($cart) {
     $query = "UPDATE cart_items 
       SET days = :days, persons = :persons 
       WHERE cart_id = :cart_id AND item_id = :item_id";

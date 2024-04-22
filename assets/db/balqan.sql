@@ -50,6 +50,7 @@ CREATE TABLE `carts`
     `user_id`    INT,
     CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
+DROP TABLE `cart_items`;
 CREATE TABLE `cart_items`
 (
     `cart_id`  INT,
