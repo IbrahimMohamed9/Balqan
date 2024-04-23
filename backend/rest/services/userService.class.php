@@ -19,13 +19,15 @@ class UserService {
     public function get_user_activity($user_id) {
         return $this->user_dao->get_user_activity($user_id);
     }
+    public function get_user_latest_activity($user_id, $limit) {
+        return $this->user_dao->get_user_latest_activity($user_id, $limit);
+    }
     public function delete_user($user_id) {
         return $this->user_dao->delete_user($user_id);
     }
     public function edit_user($user) {
         $this->user_dao->edit_user($user);
     }
-
     public function user_login($email, $password) {
         return $this->user_dao->user_login($email, $password);
     }

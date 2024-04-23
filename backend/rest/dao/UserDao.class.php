@@ -18,13 +18,15 @@ class UserDao extends BaseDao {
     }
 
     public function get_user_by_id($user_id) {
-        $query = "SELECT *
-                    FROM users
-                    WHERE user_id = :user_id";
+        $query = "SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.cost), 0) AS earned
+                    FROM users AS u
+                            LEFT JOIN balqan.user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+                    WHERE u.user_id = :user_id
+                    GROUP BY u.user_id";
             
         return $this->query_unique_first($query, ['user_id' => $user_id]);
     }
-    
+
     public function user_login($email, $password) {
         $query = "SELECT COUNT(user_id) AS counter
                     FROM users
@@ -39,10 +41,26 @@ class UserDao extends BaseDao {
                             , act.name
                             , act.description
                             , act.date
-                            , act.time
+                            , DATE_FORMAT(act.time, '%H:%i') AS time
                     FROM users AS us
                             JOIN activities AS act ON us.user_id = act.user_id
                     WHERE us.user_id = :user_id";
+            
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function get_user_latest_activity($user_id, $limit) {
+        $query = "SELECT act.activities_id
+                        , us.user_id
+                        , act.img_src
+                        , act.name
+                        , act.description
+                        , act.date
+                        , DATE_FORMAT(act.time, '%H:%i') AS time
+                FROM users AS us
+                            JOIN activities AS act ON us.user_id = act.user_id
+                WHERE us.user_id = :user_id
+                LIMIT $limit";
             
         return $this->query($query, ['user_id' => $user_id]);
     }

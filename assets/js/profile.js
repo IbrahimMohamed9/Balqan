@@ -87,7 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "profile",
     load: "profile.html",
     onCreate: function () {
-      UserService.loadProfile(1);
+      const user_id = 1;
+      UserService.loadProfile(user_id);
     },
     onReady: function () {
       switchButton(0);
@@ -97,7 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "dashboard",
     load: "dashboard.html",
     onCreate: function () {
-      loadDashboard("../assets/json/dashboard.json");
+      const user_id = 1;
+      UserService.loadDashboard(user_id);
+      // loadDashboard("../assets/json/dashboard.json");
     },
     onReady: function () {
       switchButton(1);
@@ -171,128 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(6);
     },
   });
-
   app.run();
-
-  function loadProfile(src) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const content = `
-            <div class="avatar-box txt-c p-20">
-              <img class="rad-half mb-10" src="${data.imgSrc}" alt="Profile Img" />
-              <h3 class="m-0">${data.name}</h3>
-              <p class="c-grey mt-10">Level ${data.level}</p>
-              <div class="level rad-6 bg-eee p-relative">
-                <span style="width: ${data.level}%"></span>
-              </div>
-              <div class="rating mt-10 mb-10">
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-              </div>
-              <p class="c-grey m-0 fs-13">${data.ratings} Rating</p>
-            </div>
-            <div class="info-box w-full txt-c-mobile">
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey fs-15 m-0 w-full">General Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Full Name</span>
-                  <span>${data.name}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Gender:</span>
-                  <span>${data.gender}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Nationality:</span>
-                  <span>${data.nationality}</span>
-                </div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Personal Information</h4>
-                <div class="fs-14 d-flex align-center center-mobile">
-                  <span class="c-grey">Email:</span>
-                  <span class="email">&nbsp;${data.email}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Phone:</span>
-                  <span>${data.phone}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Date Of Birth:</span>
-                  <span>${data.DOB}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Job Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Title:</span>
-                  <span>${data.jobTitle}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Country:</span>
-                  <span>${data.country}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Years Of Experience:</span>
-                  <span>${data.YOE}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-            </div>
-          `;
-        const skills = data.skills.split(" ");
-        let skillsList = "";
-        for (let i = 0; i < skills.length; i += 3) {
-          skillsList += "<li>";
-          for (let j = 0; j < 3 && i + j < skills.length; j++) {
-            skillsList += `<span>${skills[i + j]}</span>`;
-          }
-          skillsList += "</li>";
-        }
-
-        const activitiesList = data.activities
-          .map(
-            (activity) => `
-            <div class="activity d-flex align-center txt-c-mobile">
-              <img src="${activity.imgSrc}" alt="" />
-              <div class="info">
-                <span class="d-block mb-10">${activity.name}</span>
-                <span class="c-grey">${activity.desc}</span>
-              </div>
-              <div class="date">
-                <span class="d-block mb-10">${activity.time}</span>
-                <span class="c-grey">${activity.date}</span>
-              </div>
-            </div>
-          `
-          )
-          .join("");
-        document.querySelector(".other-data .skills-card ul").innerHTML +=
-          skillsList;
-        document.querySelector(".other-data .activities").innerHTML +=
-          activitiesList;
-        document.querySelector(".screen .overview").innerHTML = content;
-      })
-      .catch((error) => {
-        console.error("Error fetching Profile data:", error);
-      });
-  }
 
   function loadDashboard(src) {
     fetch(src)
@@ -372,11 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         });
 
-        // data.progrProjs.forEach((progrProj) => {
-        //   progressWidget += `
-        //   <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
-        //   `;
-        // });
+        data.progrProjs.forEach((progrProj) => {
+          progressWidget += `
+          <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
+          `;
+        });
 
         data.reminders.forEach((reminder) => {
           remindersWidget += `

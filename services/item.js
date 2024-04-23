@@ -704,4 +704,5 @@ var ItemService = {
         Utils.carouselSplide(".splide");
       });
   },
+  loadNewPackages: () => {},
 };

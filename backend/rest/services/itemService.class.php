@@ -13,6 +13,9 @@ class ItemService {
   public function get_items_by_category($category){
     return $this->item_dao->get_items_by_category($category);
   }
+  public function get_new_packages(){
+    return $this->item_dao->get_new_packages();
+  }
   public function get_items(){
     return $this->item_dao->get_items();
   }

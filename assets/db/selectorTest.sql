@@ -6,6 +6,8 @@ from projects;
 select *
 from users;
 
+SELECT *
+FROM activities;
 
 SELECT act.activities_id
      , us.user_id
@@ -13,7 +15,16 @@ SELECT act.activities_id
      , act.name
      , act.description
      , act.date
-     , act.time
+     , DATE_FORMAT(act.time, '%H:%i') AS time
 FROM users AS us
          JOIN activities AS act ON us.user_id = act.user_id
 WHERE us.user_id = 1
+LIMIT 3;
+
+SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.cost), 0) AS earned
+FROM users AS u
+         LEFT JOIN user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+WHERE u.user_id = :user_id
+GROUP BY u.user_id;
+
+SELECT * FROM items WHERE category = 'package' ORDER BY added_time LIMIT :limit

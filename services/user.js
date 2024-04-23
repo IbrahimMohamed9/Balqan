@@ -1,17 +1,34 @@
 var UserService = {
-  loadProfile: (user_id) => {
-    fetch(
-      Constants.API_BASE_URL + "users/get_user_by_id.php?user_id=" + user_id
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const ratingsArray = data.ratings.split(" ");
-        const content = `
+  fetchUserInfo: async (user_id) => {
+    try {
+      const response = await fetch(
+        Constants.API_BASE_URL + "users/get_user_by_id.php?user_id=" + user_id
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      console.error("Error fetching Profile data:", error);
+      throw error;
+    }
+  },
+  deleteUserInfo: () => {
+    localStorage.removeItem("userInfo");
+  },
+  loadProfile: async (user_id) => {
+    UserService.deleteUserInfo();
+    try {
+      let data = localStorage.getItem("userInfo");
+      if (data === null) {
+        data = await UserService.fetchUserInfo(user_id);
+      } else {
+        data = JSON.parse(data);
+      }
+      const ratingsArray = data.ratings.split(" ");
+      const content = `
             <div class="avatar-box txt-c p-20">
               <img class="rad-half mb-10" src="${data.img}" alt="Profile Img" />
               <h3 class="m-0">${data.name}</h3>
@@ -84,28 +101,31 @@ var UserService = {
               <!-- End Information Row -->
             </div>
           `;
-        const skills = data.skills.split(" ");
-        let skillsList = "";
-        for (let i = 0; i < skills.length; i += 3) {
-          skillsList += "<li>";
-          for (let j = 0; j < 3 && i + j < skills.length; j++) {
-            skillsList += `<span>${skills[i + j]}</span>`;
-          }
-          skillsList += "</li>";
+      const skills = data.skills.split(" ");
+      let skillsList = "";
+      for (let i = 0; i < skills.length; i += 3) {
+        skillsList += "<li>";
+        for (let j = 0; j < 3 && i + j < skills.length; j++) {
+          skillsList += `<span>${skills[i + j]}</span>`;
         }
-        UserService.loadActivity(user_id);
-        document.querySelector(".other-data .skills-card ul").innerHTML +=
-          skillsList;
+        skillsList += "</li>";
+      }
+      UserService.loadLatestActivity(user_id);
+      document.querySelector(".other-data .skills-card ul").innerHTML +=
+        skillsList;
 
-        document.querySelector(".screen .overview").innerHTML = content;
-      })
-      .catch((error) => {
-        console.error("Error fetching Profile data:", error);
-      });
+      document.querySelector(".screen .overview").innerHTML = content;
+    } catch (error) {
+      console.error("Error loading profile:", error);
+    }
   },
-  loadActivity: (user_id) => {
+  loadLatestActivity: (user_id) => {
     fetch(
-      Constants.API_BASE_URL + "users/get_user_activity.php?user_id=" + user_id
+      Constants.API_BASE_URL +
+        "users/get_user_latest_activity.php?user_id=" +
+        user_id +
+        "&limit=" +
+        Constants.latestActivitiesLimit
     )
       .then((response) => {
         if (!response.ok) {
@@ -135,6 +155,123 @@ var UserService = {
         document.querySelector(".other-data .activities").innerHTML +=
           activitiesList;
       });
+  },
+  loadDashboard: async (user_id) => {
+    UserService.deleteUserInfo();
+    try {
+      let data = localStorage.getItem("userInfo");
+      if (data === null) {
+        data = await UserService.fetchUserInfo(user_id);
+      } else {
+        data = JSON.parse(data);
+      }
+      const welcomWidget = `
+              <div class="intro p-20 d-flex space-between bg-third pl-10-f pr-10-f">
+                <div>
+                  <h2 class="m-0">Welcom</h2>
+                  <p class="c-grey mt-5 txt-c-f">${data.name}</p>
+                </div>
+                <img src="../assets/images/profile/welcome.png" alt="" />
+              </div>
+              <img src="${data.img}" alt="Profile image" class="avatar" />
+              <div class="body txt-c d-flex p-20 mt-20 mb-20 bg-fourth pl-10-f pr-10-f">
+                <div class="fs-13-f">
+                  ${data.name}
+                  <span class="d-block c-grey fs-14 mt-10 fs-10-f">${
+                    data.jobTitle
+                  }</span>
+                </div>
+                <div class="fs-13-f">
+                  ${data.projects}
+                  <span class="d-block c-grey fs-14 fs-10-f mt-10">Projects</span>
+                </div>
+                <div class="fs-13-f">
+                  KM ${Utils.checkDecWithInt(data.earned)}
+                  <span class="d-block c-grey fs-14 fs-10-f mt-10">Earned</span>
+                </div>
+              </div>
+              <a
+                href="#profile"
+                id="profile-btn"
+                class="d-block fs-15 rad-6 bg-main-color c-white btn-position w-fit btn-shape"
+              >
+                Profile
+              </a>
+            `;
+      let targetsWidget = "",
+        ticketsWidget = "",
+        progressWidget = "",
+        remindersWidget = "";
+
+      // data.targets.forEach((target) => {
+      //   const achieved = Number(target.achieved.replace(/,/g, "")),
+      //     goal = Number(target.goal.replace(/,/g, "")),
+      //     percentageAchieved = ((achieved / goal) * 100).toFixed(0);
+
+      //   targetsWidget += `
+      //           <div class="target-row mb-20 mb-25-f d-flex align-center">
+      //             <div class="icon center-flex">
+      //               <i class="fa-solid ${target.icon} fa-lg"></i>
+      //             </div>
+      //             <div class="details">
+      //               <span class="fs-14 c-grey">${target.name}</span>
+      //               <span class="d-block p-relative mb-10 fw-bold">${target.goal}</span>
+      //               <div class="progress rad-10 p-relative">
+      //                 <span style="width: ${percentageAchieved}%" class="rad-10">
+      //                   <span class="rad-6 fs-13 c-white fw-bold">${percentageAchieved}%</span></span
+      //                 >
+      //               </div>
+      //             </div>
+      //           </div>
+      //         `;
+      // });
+
+      // data.tickets.forEach((ticket) => {
+      //   ticketsWidget += `
+      //           <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
+      //             <i class="fa-solid ${ticket.icon} fa-2x mb-10"></i>
+      //             <span class="d-block c-main-font fw-bold fs-25 mb-5">${ticket.achieved}</span>
+      //             ${ticket.name}
+      //           </div>
+      //         `;
+      // });
+
+      // data.progrProjs.forEach((progrProj) => {
+      //   progressWidget += `
+      //         <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
+      //         `;
+      // });
+
+      // data.reminders.forEach((reminder) => {
+      //   remindersWidget += `
+      //           <li class="d-flex align-center mt-15">
+      //             <span class="key mr-15 d-block rad-half"></span>
+      //             <div class="pl-15">
+      //               <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
+      //               <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
+      //             </div>
+      //           </li>
+      //         `;
+      // });
+
+      document.querySelector(".screen.wrapper .welcome").innerHTML =
+        welcomWidget;
+      document.querySelector(".screen.wrapper .targets").innerHTML +=
+        targetsWidget;
+      document.querySelector(
+        ".screen.wrapper .tickets .tickets-wrapper"
+      ).innerHTML = ticketsWidget;
+      document.querySelector(".screen.wrapper .last-project ul").innerHTML =
+        progressWidget;
+      document.querySelector(".screen.wrapper .reminders ul").innerHTML =
+        remindersWidget;
+
+      document.getElementById("profile-btn").addEventListener("click", () => {
+        switchButton(0);
+      });
+    } catch (error) {
+      console.error("Error loading profile:", error);
+    }
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),

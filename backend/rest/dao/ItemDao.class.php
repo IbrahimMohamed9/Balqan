@@ -62,6 +62,11 @@ class ItemDao extends BaseDao {
         return $this->query($query, ['category' => $category]);
     }
 
+    public function get_new_packages($category, $limit) {
+        $query = "SELECT * FROM items WHERE category = 'package' ORDER BY added_time LIMIT :limit";
+        return $this->query($query, ['limit' => $limit]);
+    }
+
     public function get_items() {
         $query = "SELECT * FROM items";
         return $this->query($query, []);

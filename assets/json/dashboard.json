@@ -47,6 +47,28 @@
       "achieved": "50"
     }
   ],
+  "progrProjs": [
+    {
+      "part": "Got The Project",
+      "status": "done"
+    },
+    {
+      "part": "Started The Project",
+      "status": "done"
+    },
+    {
+      "part": "The Project About To Finish",
+      "status": "done"
+    },
+    {
+      "part": "Test The Project",
+      "status": "current"
+    },
+    {
+      "part": "Finish The Project & Get Money",
+      "status": ""
+    }
+  ],
   "reminders": [
     {
       "title": "Check My Tasks List",

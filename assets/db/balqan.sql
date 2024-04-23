@@ -12,11 +12,11 @@ CREATE TABLE `users`
     `password`    VARCHAR(255),
     `email`       VARCHAR(255) UNIQUE,
     `img`         VARCHAR(255),
-    `DOF`         DATE,
+    `DOB`         DATE, # Date Of Birth
     `phone`       VARCHAR(30) UNIQUE,
     `country`     VARCHAR(255),
     `jobTitle`    VARCHAR(255),
-    `YOE`         INT,
+    `YOE`         INT,  # Years Of Experience
     `level`       INT,
     `gender`      VARCHAR(15),
     `nationality` VARCHAR(255),
@@ -97,18 +97,27 @@ CREATE TABLE `articles`
 );
 CREATE TABLE `projects`
 (
-    `project_id`      INT AUTO_INCREMENT PRIMARY KEY,
-    `name`            VARCHAR(255),
-    `start_date`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `end_date`        TIMESTAMP,
-    `team`            TEXT,
-    `tasks`           TEXT,
-    `progressPersent` INT,
-    `status`          VARCHAR(255),
-    `client`          INT,
-    `price`           DECIMAL(10, 2),
-    `progress`        TEXT,
+    `project_id`       INT AUTO_INCREMENT PRIMARY KEY,
+    `name`             VARCHAR(255),
+    `start_date`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `end_date`         TIMESTAMP,
+    `team`             TEXT,
+    `tasks`            TEXT,
+    `progress_persent` INT,
+    `status`           VARCHAR(255),
+    `client`           INT,
+    `price`            DECIMAL(10, 2),
+    `progress`         TEXT,
     CONSTRAINT `fk_project_client` FOREIGN KEY (`client`) REFERENCES `users` (`user_id`)
+);
+CREATE TABLE `user_projects`
+(
+    `user_id`    INT,
+    `project_id` INT,
+    `price`       INT,
+    `position`   VARCHAR(30),
+    CONSTRAINT `fk_user_projects_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+    CONSTRAINT `fk_user_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`)
 );
 CREATE TABLE `targets`
 (
