@@ -3,6 +3,9 @@ USE `balqan`;
 select *
 from projects;
 
+select *
+from users;
+
 
 SELECT act.activities_id
      , us.user_id

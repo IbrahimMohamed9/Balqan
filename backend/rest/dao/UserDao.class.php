@@ -9,7 +9,6 @@ class UserDao extends BaseDao {
 
     public function add_user($user) {
         $table = $this->getTable();
-
         return $this->insert($table, $user);
     }
 

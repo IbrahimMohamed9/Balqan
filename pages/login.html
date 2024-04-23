@@ -172,7 +172,7 @@
       <div class="container">
         <div class="container sign-component" id="container">
           <div class="form-container sign-up-container">
-            <form action="#">
+            <form id="sign_up_form">
               <h1>Create Account</h1>
               <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -198,25 +198,25 @@
                 <div class="form-control full">
                   <input
                     type="email"
-                    id="emailcreate"
-                    name="emailcreate"
+                    id="sign_up_email"
+                    name="sign_up_email"
                     required=""
                     class="field"
                   />
-                  <label for="emailcreate"> Email </label>
+                  <label for="sign_up_email"> Email </label>
                 </div>
                 <div class="form-control full">
                   <input
                     type="password"
-                    id="passwordcreate"
-                    name="passwordcreate"
+                    id="sign_up_password"
+                    name="sign_up_password"
                     required=""
                     class="field"
                   />
-                  <label for="passwordcreate"> Password </label>
+                  <label for="sign_up_password"> Password </label>
                 </div>
               </div>
-              <button>Sign Up</button>
+              <input type="submit" value="Sign Up" id="sign_up" />
               <div class="app-register have-account">
                 Do have an account?
                 <span class="end sign-component">Sign In</span>

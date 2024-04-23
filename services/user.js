@@ -143,7 +143,6 @@ var UserService = {
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
       RestClient.get(
-        // Constants.API_BASE_URL +
         "users/user_login.php?sign_email=" +
           data.sign_email +
           "&signin_password=" +

@@ -1,7 +1,12 @@
 <?php
 require_once __DIR__ . '/../rest/services/UserService.class.php';
 
-$payload = $_REQUEST;
+$payload = [
+  'user_id' => $_REQUEST['user_id'],
+  'password' => $_REQUEST['sign_up_password'],
+  'email' => $_REQUEST['sign_up_email'],
+  'name' => $_REQUEST['fullname']
+];
 
 $user_service = new UserService();
 
