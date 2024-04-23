@@ -18,8 +18,12 @@ class UserDao extends BaseDao {
         return $this->query($query, []);
     }
 
-    public function get_user_by_id($user_id) {
-        $query = "SELECT * FROM users WHERE user_id = :user_id";
+    public function get_user_info_by_id($user_id) {
+        $query = "SELECT *
+            FROM users AS us
+            LEFT JOIN activities AS act ON us.user_id = act.user_id
+            WHERE us.user_id = :user_id";
+            
         return $this->query_unique_first($query, ['user_id' => $user_id]);
     }
 

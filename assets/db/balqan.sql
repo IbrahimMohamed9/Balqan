@@ -17,10 +17,11 @@ CREATE TABLE `users`
     `country`     VARCHAR(255),
     `jobTitle`    VARCHAR(255),
     `YOE`         INT,
+    `level`       INT,
     `gender`      VARCHAR(15),
     `nationality` VARCHAR(255),
     `skills`      TEXT,
-    `ratingsStar` TEXT,
+    `ratings`     TEXT,
     `friends`     TEXT
 );
 CREATE TABLE `activities`
@@ -29,6 +30,7 @@ CREATE TABLE `activities`
     `user_id`       INT,
     `img_src`       TEXT,
     `name`          VARCHAR(255),
+    `description`   VARCHAR(255),
     `date`          DATE,
     `time`          TIME,
     CONSTRAINT `fk_activities_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -141,7 +143,7 @@ CREATE TABLE `coupon`
     `coupon_id`  INT AUTO_INCREMENT PRIMARY KEY,
     `used_times` INT DEFAULT 0,
     `max_times`  INT,
-    `code`   VARCHAR(255),
+    `code`       VARCHAR(255),
     `amount`     INT,
     `percentage` DECIMAL(5, 2)
 );

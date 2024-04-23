@@ -13,8 +13,8 @@ class UserService {
     public function get_users(){
         return $this->user_dao->get_users();
     }
-    public function get_user_by_id($user_id) {
-        return $this->user_dao->get_user_by_id($user_id);
+    public function get_user_info_by_id($user_id) {
+        return $this->user_dao->get_user_info_by_id($user_id);
     }
     public function delete_user($user_id) {
         return $this->user_dao->delete_user($user_id);
