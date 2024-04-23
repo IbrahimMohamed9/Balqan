@@ -24,4 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  Utils.formAnimation();
+
+  document.getElementById("sign_in").addEventListener("click", () => {
+    UserService.signIn("sign_in_form");
+  });
 });

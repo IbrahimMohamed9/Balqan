@@ -1,9 +1,7 @@
 var UserService = {
   loadProfile: (user_id) => {
     fetch(
-      Constants.API_BASE_URL +
-        "users/get_user_info_by_id.php?user_id=" +
-        user_id
+      Constants.API_BASE_URL + "users/get_user_by_id.php?user_id=" + user_id
     )
       .then((response) => {
         if (!response.ok) {
@@ -95,32 +93,78 @@ var UserService = {
           }
           skillsList += "</li>";
         }
-        console.log(data);
-        // const activitiesList = data.activities
-        //   .map(
-        //     (activity) => `
-        //     <div class="activity d-flex align-center txt-c-mobile">
-        //       <img src="${activity.img_src}" alt="Activity Image" />
-        //       <div class="info">
-        //         <span class="d-block mb-10">${activity.name}</span>
-        //         <span class="c-grey">${activity.description}</span>
-        //       </div>
-        //       <div class="date">
-        //         <span class="d-block mb-10">${activity.time}</span>
-        //         <span class="c-grey">${activity.date}</span>
-        //       </div>
-        //     </div>
-        //   `
-        //   )
-        //   .join("");
+        UserService.loadActivity(user_id);
         document.querySelector(".other-data .skills-card ul").innerHTML +=
           skillsList;
-        // document.querySelector(".other-data .activities").innerHTML +=
-        //   activitiesList;
+
         document.querySelector(".screen .overview").innerHTML = content;
       })
       .catch((error) => {
         console.error("Error fetching Profile data:", error);
       });
+  },
+  loadActivity: (user_id) => {
+    fetch(
+      Constants.API_BASE_URL + "users/get_user_activity.php?user_id=" + user_id
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const activitiesList = data
+          .map(
+            (activity) => `
+          <div class="activity d-flex align-center txt-c-mobile">
+            <img src="${activity.img_src}" alt="Activity Image" />
+            <div class="info">
+              <span class="d-block mb-10">${activity.name}</span>
+              <span class="c-grey">${activity.description}</span>
+            </div>
+            <div class="date">
+              <span class="d-block mb-10">${activity.time}</span>
+              <span class="c-grey">${activity.date}</span>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        document.querySelector(".other-data .activities").innerHTML +=
+          activitiesList;
+      });
+  },
+  signIn: (form_id) => {
+    const form = $("#" + form_id),
+      block = form;
+
+    FormValidation.validate(form, {}, (data) => {
+      Utils.block_ui(block);
+      RestClient.get(
+        // Constants.API_BASE_URL +
+        "users/user_login.php?sign_email=" +
+          data.sign_email +
+          "&signin_password=" +
+          data.signin_password,
+        (data) => {
+          Utils.unblock_ui(block);
+          if (data["counter"]) {
+            window.location.pathname =
+              "/IT-207-Introduction-to-Web-Programming";
+            Utils.appearFailAlert("Done.");
+          } else {
+            Utils.appearFailAlert(
+              "Invalid email or password. Please try again."
+            );
+          }
+        },
+        (xhr) => {
+          Utils.unblock_ui(block);
+          Utils.appearFailAlert(xhr.responseText);
+        }
+      );
+    });
   },
 };

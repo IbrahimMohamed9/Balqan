@@ -18,13 +18,34 @@ class UserDao extends BaseDao {
         return $this->query($query, []);
     }
 
-    public function get_user_info_by_id($user_id) {
+    public function get_user_by_id($user_id) {
         $query = "SELECT *
-            FROM users AS us
-            LEFT JOIN activities AS act ON us.user_id = act.user_id
-            WHERE us.user_id = :user_id";
+                    FROM users
+                    WHERE user_id = :user_id";
             
         return $this->query_unique_first($query, ['user_id' => $user_id]);
+    }
+    
+    public function user_login($email, $password) {
+        $query = "SELECT COUNT(user_id) AS counter
+                    FROM users
+                    WHERE email = :email AND password = :password";
+        return $this->query_unique_first($query, ['email' => $email, 'password' => $password]);
+    }
+
+    public function get_user_activity($user_id) {
+        $query = "SELECT act.activities_id
+                            , us.user_id
+                            , act.img_src
+                            , act.name
+                            , act.description
+                            , act.date
+                            , act.time
+                    FROM users AS us
+                            JOIN activities AS act ON us.user_id = act.user_id
+                    WHERE us.user_id = :user_id";
+            
+        return $this->query($query, ['user_id' => $user_id]);
     }
 
     public function delete_user($user_id) {
