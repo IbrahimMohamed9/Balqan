@@ -11,4 +11,5 @@ if(isset($payload['category']) && $payload['category'] != ''){
     $data = $item_service->get_items();
 }
 
+header('Content-Type: application/json');
 echo json_encode($data);

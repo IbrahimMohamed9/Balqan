@@ -369,7 +369,7 @@ var Utils = {
     if (cart) {
       const storedArray = JSON.parse(localStorage.getItem("cart_items")),
         selectedNumber = quantityNumberModal.textContent;
-
+      storedArray[itemIndex]["changed"] = true;
       if (storedArray[itemIndex]["category"] === "hotel") {
         storedArray[itemIndex]["persons_selected"] = selectedNumber;
         storedArray[itemIndex]["days_selected"] = otherQuantity2.textContent;
@@ -557,20 +557,5 @@ var Utils = {
         parentElement.removeChild(child);
       }
     });
-  },
-  fetchFunction: (path, callBack) => {
-    fetch(path)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (callback) callBack(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   },
 };

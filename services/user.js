@@ -120,41 +120,34 @@ var UserService = {
     }
   },
   loadLatestActivity: (user_id) => {
-    fetch(
-      Constants.API_BASE_URL +
-        "users/get_user_latest_activity.php?user_id=" +
+    RestClient.get(
+      "users/get_user_latest_activity.php?user_id=" +
         user_id +
         "&limit=" +
-        Constants.latestActivitiesLimit
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
+        Constants.latestActivitiesLimit,
+      (data) => {
         const activitiesList = data
           .map(
             (activity) => `
-          <div class="activity d-flex align-center txt-c-mobile">
-            <img src="${activity.img_src}" alt="Activity Image" />
-            <div class="info">
-              <span class="d-block mb-10">${activity.name}</span>
-              <span class="c-grey">${activity.description}</span>
-            </div>
-            <div class="date">
-              <span class="d-block mb-10">${activity.time}</span>
-              <span class="c-grey">${activity.date}</span>
-            </div>
-          </div>
-        `
+              <div class="activity d-flex align-center txt-c-mobile">
+                <img src="${activity.img_src}" alt="Activity Image" />
+                <div class="info">
+                  <span class="d-block mb-10">${activity.name}</span>
+                  <span class="c-grey">${activity.description}</span>
+                </div>
+                <div class="date">
+                  <span class="d-block mb-10">${activity.time}</span>
+                  <span class="c-grey">${activity.date}</span>
+                </div>
+              </div>
+            `
           )
           .join("");
 
         document.querySelector(".other-data .activities").innerHTML +=
           activitiesList;
-      });
+      }
+    );
   },
   loadDashboard: async (user_id) => {
     UserService.deleteUserInfo();

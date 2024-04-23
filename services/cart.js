@@ -45,18 +45,9 @@ var CartService = {
     );
   },
   loadCart: (cart_id) => {
-    fetch(
-      Constants.API_BASE_URL +
-        "carts/get_cart_items_by_id.php?cart_id=" +
-        cart_id
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
+    RestClient.get(
+      "carts/get_cart_items_by_id.php?cart_id=" + cart_id,
+      (data) => {
         Utils.setupModalActions("Items Registered Successfully!", false, true);
         const items = document.querySelector(".cart.shopping .cart-rows");
         let content, modalContent;
@@ -75,7 +66,7 @@ var CartService = {
           $(".cart .containerr .products .footer")[0],
         ]);
         let itemsLocalStorage = [];
-        data.map((itemData) => {
+        data.forEach((itemData) => {
           const category = itemData.category,
             price = Utils.getPrice(category, itemData),
             decimalPart = Utils.checkDec(price),
@@ -94,6 +85,7 @@ var CartService = {
             days_selected: itemData.days_selected,
             category: category,
             name: itemData.name,
+            changed: false,
           });
 
           // add package plan here
@@ -395,14 +387,14 @@ var CartService = {
           .addEventListener("click", () => {
             CartService.coupon("coupon", sumOfTotalModal);
           });
-      });
+      }
+    );
   },
   updateCart: (removeLocalStorage) => {
-    // TODO: MAKE MORE SAFETY
     JSON.parse(localStorage.getItem("cart_items")).forEach((data) => {
-      $.post(Constants.API_BASE_URL + "carts/update_item_cart.php", data)
-        .done((data) => {})
-        .fail((xhr) => {});
+      if (data.changed) {
+        RestClient.post("carts/update_item_cart.php", data);
+      }
     });
     if (removeLocalStorage) {
       localStorage.removeItem("cart_items");
@@ -411,10 +403,14 @@ var CartService = {
   },
   removeItemCart: (cart_id, item_id, name) => {
     if (confirm("Do you want to delete " + name + "?") == true) {
+      // TODO: fix this amazing error the function call
+      // callback_error instead of call back
+
       RestClient.delete(
         "carts/delete_item_cart.php?cart_id=" + cart_id + "&item_id=" + item_id,
         () => {},
-        () => {
+        (error) => {
+          console.log(error);
           CartService.loadCart(1);
           Utils.appearFailAlert(name + " was deleted");
         }
@@ -426,8 +422,10 @@ var CartService = {
 
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(form);
-      $.post(Constants.API_BASE_URL + "carts/check_coupon.php", data)
-        .done((data) => {
+      RestClient.post(
+        "carts/check_coupon.php",
+        data,
+        (data) => {
           form[0].reset();
           Utils.unblock_ui(form);
 
@@ -440,26 +438,16 @@ var CartService = {
           totalPriceModal[2].innerHTML = Utils.checkDec(currentTotal);
 
           localStorage.setItem("totalPrice", currentTotal);
-        })
-        .fail((xhr) => {
+        },
+        (error) => {
           Utils.unblock_ui(form);
 
-          Utils.appearFailAlert(xhr.responseText);
-        });
+          Utils.appearFailAlert(error);
+        }
+      );
     });
   },
-  checkOut: () => {
-    CartService.updateCart(false);
-    // TODO: MAKE MORE SAFETY
-
-    JSON.parse(localStorage.getItem("cart_items")).forEach((data) => {
-      $.post(Constants.API_BASE_URL + "carts/check_out.php", data)
-        .done((data) => {})
-        .fail((xhr) => {});
-    });
-    localStorage.removeItem("cart_items");
-    localStorage.removeItem("totalPrice");
-  },
+  checkOut: () => {},
 };
 /*
           if (category == "package") {

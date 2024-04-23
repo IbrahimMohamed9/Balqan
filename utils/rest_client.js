@@ -7,7 +7,12 @@ var RestClient = {
         if (callback) callback(response);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        if (error_callback) error_callback(jqXHR);
+        if (error_callback) {
+          error_callback(jqXHR);
+        } else {
+          // toastr.error(jqXHR.responseJSON.message);
+          console.error(jqXHR);
+        }
       },
     });
   },
@@ -22,9 +27,10 @@ var RestClient = {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         if (error_callback) {
-          error_callback(jqXHR);
+          error_callback(jqXHR, textStatus, errorThrown);
         } else {
           // toastr.error(jqXHR.responseJSON.message);
+          console.error(jqXHR);
         }
       });
   },

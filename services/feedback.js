@@ -1,20 +1,13 @@
 var FeedbackService = {
-  loadTable: function () {
-    fetch(Constants.API_BASE_URL + "feedbacks/get_feedbacks.php")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const tableBody = document.querySelector("#tbl_feedbacks tbody");
+  loadTable: () => {
+    RestClient.get("feedbacks/get_feedbacks.php", (data) => {
+      const tableBody = document.querySelector("#tbl_feedbacks tbody");
 
-        tableBody.innerHTML = "";
-        data.map((feedbackdata) => {
-          FeedbackService.loadTableRow(tableBody, feedbackdata);
-        });
+      tableBody.innerHTML = "";
+      data.forEach((feedbackdata) => {
+        FeedbackService.loadTableRow(tableBody, feedbackdata);
       });
+    });
   },
   loadTableRow: function (tableBody, feedbackdata) {
     tableBody.innerHTML += `
