@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Utils.formAnimation();
 
-  const signUpBtn = document.getElementById("sign_up");
-  signUpBtn.addEventListener("click", () => {
-    Utils.submit("sign_up_form", "users/add_user.php", false);
-    Utils.resetFormAnimation();
+  document.getElementById("sign_up").addEventListener("click", () => {
+    Utils.submit("sign_up_form", "users/add_user.php", false, "sign_up", () => {
+      Utils.resetFormAnimation();
+    });
   });
 
   document.getElementById("sign_in").addEventListener("click", () => {

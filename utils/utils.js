@@ -476,12 +476,9 @@ var Utils = {
     textareas.forEach((textarea, index) => {
       txtarLabels[index].classList.remove("active");
       textarea.classList.remove("active");
-      textarea.value = textarea.value.trim();
     });
-
     fields.forEach((field) => {
-      field.target.classList.remove("active");
-      field.target.value = input.target.value.trim();
+      field.classList.remove("active");
     });
   },
   formAnimation: () => {
