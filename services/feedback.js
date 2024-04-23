@@ -9,7 +9,7 @@ var FeedbackService = {
       });
     });
   },
-  loadTableRow: function (tableBody, feedbackdata) {
+  loadTableRow: (tableBody, feedbackdata) => {
     tableBody.innerHTML += `
       <tr>
         <td>${feedbackdata.name}</td>
@@ -34,7 +34,7 @@ var FeedbackService = {
       </tr>
     `;
   },
-  addFeedbackModal: function (message) {
+  addFeedbackModal: (message) => {
     const modal = document.getElementById("myModal");
     modal.innerHTML = `
     <div class="master-container">
@@ -105,10 +105,10 @@ var FeedbackService = {
       );
     });
   },
-  openEditFeedbackModal: function (feedback_id) {
+  openEditFeedbackModal: (feedback_id) => {
     RestClient.get(
       "feedbacks/get_feedback.php?feedback_id=" + feedback_id,
-      function (data) {
+      (data) => {
         FeedbackService.addFeedbackModal("Feedback edited successfully");
 
         $("#myModal input[name='feedback_id']").val(data.feedback_id);
@@ -122,7 +122,7 @@ var FeedbackService = {
       }
     );
   },
-  removeFeedback: function (id) {
+  removeFeedback: (id) => {
     if (
       confirm("Do you want to delete feedback with the id " + id + "?") == true
     ) {

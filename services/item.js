@@ -94,7 +94,7 @@ var ItemService = {
       Utils.carouselSplide(`.splide.${category}s-carousel`, 20);
     });
   },
-  loadCard: function (itemData) {
+  loadCard: (itemData) => {
     // Package design
     // `
     //     <div class="item splide__slide">
@@ -161,7 +161,7 @@ var ItemService = {
     );
     items.innerHTML += content;
   },
-  addItemModal: function (category, message = " added successfully") {
+  addItemModal: (category, edit) => {
     const modal = document.getElementById("myModal");
     modal.innerHTML = `
       <div class="master-container">
@@ -171,7 +171,7 @@ var ItemService = {
             <i class="fa-solid fa-xmark x"></i>
           </div>
           <div class="form">
-            <form id="${category}-form">
+          <form id="${category}-form" name="${category}-form">
               <div class="inputs">
                 <input
                   type="hidden"
@@ -292,7 +292,7 @@ var ItemService = {
                 `
     }
                 ${
-                  category === "cars"
+                  category !== "package"
                     ? `
                   <div class="form-control">
                     <input type="number" class="field" required id="day_price" name="day_price" />
@@ -312,11 +312,8 @@ var ItemService = {
                     <label for="person_price"> Person Price </label>
                   </div>
                   `
-                    : `
-                  <div class="form-control">
-                    <input type="number" class="field" required id="day_price" name="day_price" />
-                    <label for="day_price"> Day Price </label>
-                  </div>
+                    : category ===
+                      "hotel"`
                   <div class="form-control">
                     <input
                       type="number"
@@ -354,6 +351,9 @@ var ItemService = {
                   </label>
                 </div>
                 <div class="form-control full">
+                  <label for="added_time" class="d-none">
+                    Added Time
+                  </label>
                   <input type="datetime-local" id="added_time" name="added_time" />
                 </div>
               </div>
@@ -394,7 +394,7 @@ var ItemService = {
                     ></textarea>
                   </div>
 
-                  <label id="imgs_srcs" class="txtar-la">
+                  <label for="imgs_srcs" class="txtar-la">
                     Image Source
                   </label>
                 </div>
@@ -406,7 +406,9 @@ var ItemService = {
       </div>
     `;
     Utils.formSetup(modal, () => {
-      message = Utils.capitalizeFirstLetter(category) + message;
+      const message =
+        Utils.capitalizeFirstLetter(category) +
+        (edit ? " edited successfully" : " added successfully");
       Utils.submit(
         category + "-form",
         "items/add_item.php",
@@ -419,9 +421,9 @@ var ItemService = {
       );
     });
   },
-  openEditItemModal: function (id) {
+  openEditItemModal: (id) => {
     RestClient.get("items/get_item.php?item_id=" + id, function (data) {
-      ItemService.addItemModal(data.category, " edited successfully");
+      ItemService.addItemModal(data.category, true);
 
       $("#myModal input[name='item_id']").val(data.item_id);
       $("#myModal input[name='name']").val(data.name);
@@ -446,7 +448,7 @@ var ItemService = {
       Utils.formAnimation();
     });
   },
-  removeItem: function (id, category) {
+  removeItem: (id, category) => {
     if (confirm("Do you want to delete item with the id " + id + "?") == true) {
       RestClient.delete("items/delete_item.php?item_id=" + id, {}, () => {
         ItemService.loadTable("tbl_" + category + "s");
@@ -674,5 +676,7 @@ var ItemService = {
       Utils.carouselSplide(".splide");
     });
   },
-  loadNewPackages: () => {},
+  loadNewPackages: () => {
+    newPackageLimit;
+  },
 };

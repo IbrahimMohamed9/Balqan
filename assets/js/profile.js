@@ -150,16 +150,16 @@ document.addEventListener("DOMContentLoaded", () => {
     onReady: function () {
       switchButton(5);
       document.getElementById("add-package").addEventListener("click", () => {
-        ItemService.addItemModal("package");
+        ItemService.addItemModal("package", false);
       });
       document.getElementById("add-car").addEventListener("click", () => {
-        ItemService.addItemModal("car");
+        ItemService.addItemModal("car", false);
       });
       document.getElementById("add-hotel").addEventListener("click", () => {
-        ItemService.addItemModal("hotel");
+        ItemService.addItemModal("hotel", false);
       });
       document.getElementById("add-article").addEventListener("click", () => {
-        ArticleService.addArticleModal();
+        ArticleService.addArticleModal("Article added successfully");
       });
       document.getElementById("add-feedback").addEventListener("click", () => {
         FeedbackService.addFeedbackModal();

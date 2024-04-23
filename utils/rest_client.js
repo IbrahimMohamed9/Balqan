@@ -1,12 +1,12 @@
 var RestClient = {
-  get: function (url, callback, error_callback) {
+  get: (url, callback, error_callback) => {
     $.ajax({
       url: Constants.API_BASE_URL + url,
       type: "GET",
-      success: function (response) {
+      success: (response) => {
         if (callback) callback(response);
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: (jqXHR, textStatus, errorThrown) => {
         if (error_callback) {
           error_callback(jqXHR);
         } else {
@@ -16,16 +16,16 @@ var RestClient = {
       },
     });
   },
-  request: function (url, method, data, callback, error_callback) {
+  request: (url, method, data, callback, error_callback) => {
     $.ajax({
       url: Constants.API_BASE_URL + url,
       type: method,
       data: data,
     })
-      .done(function (response, status, jqXHR) {
+      .done((response, status, jqXHR) => {
         if (callback) callback(response);
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
+      .fail((jqXHR, textStatus, errorThrown) => {
         if (error_callback) {
           error_callback(jqXHR, textStatus, errorThrown);
         } else {
@@ -34,13 +34,13 @@ var RestClient = {
         }
       });
   },
-  post: function (url, data, callback, error_callback) {
+  post: (url, data, callback, error_callback) => {
     RestClient.request(url, "POST", data, callback, error_callback);
   },
-  delete: function (url, data, callback, error_callback) {
+  delete: (url, data, callback, error_callback) => {
     RestClient.request(url, "DELETE", data, callback, error_callback);
   },
-  put: function (url, data, callback, error_callback) {
+  put: (url, data, callback, error_callback) => {
     RestClient.request(url, "PUT", data, callback, error_callback);
   },
 };

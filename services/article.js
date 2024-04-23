@@ -8,7 +8,7 @@ var ArticleService = {
       });
     });
   },
-  loadTableRow: function (tableBody, articleData) {
+  loadTableRow: (tableBody, articleData) => {
     tableBody.innerHTML += `
     <tr>
     <td class="table-image">
@@ -41,7 +41,7 @@ var ArticleService = {
   </tr>
     `;
   },
-  addArticleModal: function (message = "Article added successfully") {
+  addArticleModal: (message) => {
     const modal = document.getElementById("myModal");
     modal.innerHTML = `
     <div class="master-container">
@@ -182,7 +182,7 @@ var ArticleService = {
       );
     });
   },
-  openEditArticleModal: function (id) {
+  openEditArticleModal: (id) => {
     RestClient.get("articles/get_article.php?article_id=" + id, (data) => {
       ArticleService.addArticleModal("Article edit successfully");
 
@@ -199,7 +199,7 @@ var ArticleService = {
       Utils.formAnimation();
     });
   },
-  removeArticle: function (id) {
+  removeArticle: (id) => {
     if (
       confirm("Do you want to delete article with the id " + id + "?") == true
     ) {
@@ -304,7 +304,7 @@ var ArticleService = {
   loadArticlePage: (id) => {
     RestClient.get(
       "articles/get_article.php?article_id=" + id,
-      function (articleData) {
+      (articleData) => {
         const articleWrapper = document.querySelector("article"),
           moreArticleWrapper = document.querySelector(
             ".more-articles .container"
@@ -369,7 +369,7 @@ var ArticleService = {
 
         articleWrapper.innerHTML = article;
       },
-      function (error) {
+      (error) => {
         console.error(error);
       }
     );
