@@ -174,7 +174,6 @@ var ArticleService = {
         "article-form",
         "articles/add_article.php",
         message,
-        "article-form .submit",
         () => {
           ArticleService.loadTable("tbl_articles");
         },

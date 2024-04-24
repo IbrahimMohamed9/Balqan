@@ -413,7 +413,6 @@ var ItemService = {
         category + "-form",
         "items/add_item.php",
         message,
-        category + "-form .submit",
         () => {
           ItemService.loadTable("tbl_" + category + "s");
         },

@@ -8,8 +8,7 @@ class UserDao extends BaseDao {
     }
 
     public function add_user($user) {
-        $table = $this->getTable();
-        return $this->insert($table, $user);
+        return $this->insert($user);
     }
 
     public function get_users() {
@@ -66,35 +65,46 @@ class UserDao extends BaseDao {
     }
 
     public function get_user_tickets($user_id) {
-        $query = "";
+        $query = "SELECT t.label, t.icon, t.achieved FROM 
+        users u 
+        JOIN tickets t ON t.user_id = u.user_id
+        WHERE u.user_id = :user_id";
         return $this->query($query, ['user_id' => $user_id]);
     }
 
     public function get_user_targets($user_id) {
-        $query = "";
+        $query = "SELECT t.label, t.icon, t.achieved, t.goal FROM 
+        users u 
+        JOIN targets t ON t.user_id = u.user_id
+        WHERE u.user_id = :user_id AND t.year = (YEAR(CURDATE()))";
         return $this->query($query, ['user_id' => $user_id]);
     }
 
     public function get_user_drafts($user_id) {
-        $query = "";
+        $query = "SELECT d.title, d.content, d.time, d.draft_id FROM 
+        users u 
+        JOIN drafts d ON d.user_id = u.user_id
+        WHERE u.user_id = :user_id";
         return $this->query($query, ['user_id' => $user_id]);
     }
 
-    public function add_user_drafts($user_id) {
-        $query = "";
-        return $this->query($query, ['user_id' => $user_id]);
+    public function add_user_draft($draft) {
+        $query = "INSERT INTO drafts 
+        (user_id, title, content) 
+        VALUES (:user_id, :title, :content)";
+        $this->insert('drafts',$draft);
     }
 
-    public function delete_user_drafts($user_id) {
-        $query = "";
-        return $this->query($query, ['user_id' => $user_id]);
+    public function delete_user_draft($user_id, $draft_id) {
+        $query = "DELETE FROM draft WHERE user_id = :user_id AND draft_id = :draft_id";
+        $this->execute($query, ['user_id' => $user_id, 'draft_id '=> $draft_id]);
     }
 
     public function delete_user($user_id) {
         $query = "DELETE FROM users WHERE user_id = :user_id";
-        return $this->execute($query, ['user_id' => $user_id]);
+        $this->execute($query, ['user_id' => $user_id]);
     }
-    
+
     public function edit_user_name($user) {
         $query = "UPDATE users SET 
             name = :name, 

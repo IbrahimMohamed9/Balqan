@@ -35,14 +35,13 @@ CREATE TABLE `activities`
     `time`          TIME,
     CONSTRAINT `fk_activities_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
-CREATE TABLE `draft`
+CREATE TABLE `drafts`
 (
     `draft_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id`  INT,
     `title`    VARCHAR(40),
     `content`  TEXT,
-    `date`     DATE,
-    `time`     TIME,
+    `time`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_draft_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 CREATE TABLE `targets`

@@ -97,7 +97,6 @@ var FeedbackService = {
         "feedback-form",
         "feedbacks/add_feedback.php",
         message,
-        "feedback-form .submit",
         () => {
           FeedbackService.loadTable("tbl_feedbacks");
         },

@@ -16,4 +16,3 @@ if($payload['user_id'] != NULL && $payload['user_id'] != ''){
   unset($payload['user_id']);
   $user = $user_service->add_user($payload);
 }
-echo json_encode(['message'=> "you have successfully added the user", 'data'=> $user]);

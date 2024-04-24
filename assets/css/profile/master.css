@@ -553,6 +553,9 @@ textarea {
 ====================================================================
 ====================================================================
 */
+.last-project {
+  min-height: 200px;
+}
 .last-project ul::before {
   content: "";
   position: absolute;
@@ -957,8 +960,8 @@ textarea {
 .settings-page :disabled {
   cursor: no-drop;
   background-color: var(--disable-color);
-  /* 757576  f0f4f8*/
   color: #bbb;
+  text-overflow: ellipsis;
 }
 /* End Settings */
 /* 

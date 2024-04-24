@@ -7,6 +7,7 @@ var CartService = {
       days_selected: days ?? 0,
     };
 
+    // TODO fix when add two same item to cart
     CartService.submit(
       "carts/add_item_cart.php",
       data,
@@ -24,7 +25,7 @@ var CartService = {
         if (modal) Utils.removeModal(true, modal);
 
         Utils.appearSuccAlert(success_mge);
-        CartService.shoppingCartCounter(1);
+        CartService.shoppingCartCounter(1, 1);
       })
       .fail((xhr) => {
         Utils.unblock_ui(block);
@@ -34,15 +35,28 @@ var CartService = {
         Utils.appearFailAlert(xhr.responseText);
       });
   },
-  shoppingCartCounter: (cart_id) => {
-    RestClient.get(
-      "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
-      (data) => {
-        document
-          .querySelector(".fa-solid.fa-cart-shopping.cart-shopping")
-          .setAttribute("data-counter", data.counter);
-      }
-    );
+  shoppingCartCounter: async (cart_id, change) => {
+    let counter = localStorage.getItem("counter");
+    if (counter === null || counter === undefined) {
+      counter = await new Promise((resolve, reject) => {
+        RestClient.get(
+          "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
+          (data) => {
+            resolve(Number(data.counter));
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+    } else {
+      counter = Number(JSON.parse(counter)) + (change ? change : 0);
+    }
+
+    document
+      .querySelector(".fa-solid.fa-cart-shopping.cart-shopping")
+      .setAttribute("data-counter", counter);
+    localStorage.setItem("counter", JSON.stringify(counter));
   },
   loadCart: (cart_id) => {
     RestClient.get(
@@ -391,11 +405,14 @@ var CartService = {
     );
   },
   updateCart: (removeLocalStorage) => {
-    JSON.parse(localStorage.getItem("cart_items")).forEach((data) => {
-      if (data.changed) {
-        RestClient.post("carts/update_item_cart.php", data);
-      }
-    });
+    const items = JSON.parse(localStorage.getItem("cart_items"));
+    if (items !== null && items !== undefined) {
+      items.forEach((data) => {
+        if (data.changed) {
+          RestClient.post("carts/update_item_cart.php", data);
+        }
+      });
+    }
     if (removeLocalStorage) {
       localStorage.removeItem("cart_items");
       localStorage.removeItem("totalPrice");
@@ -413,6 +430,7 @@ var CartService = {
           console.log(error);
           CartService.loadCart(1);
           Utils.appearFailAlert(name + " was deleted");
+          CartService.shoppingCartCounter(cart_id, -1);
         }
       );
     }

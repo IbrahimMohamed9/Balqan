@@ -9,7 +9,6 @@ class ArticleDao extends BaseDao {
 
     public function add_article($article) {
         $table = $this->getTable();
-
         return $this->insert($table, $article);
     }
 

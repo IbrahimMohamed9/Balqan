@@ -86,91 +86,91 @@ document.addEventListener("DOMContentLoaded", () => {
   app.route({
     view: "profile",
     load: "profile.html",
-    onCreate: function () {
+    onCreate: () => {
       const user_id = 1;
       UserService.loadProfile(user_id);
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(0);
     },
   });
   app.route({
     view: "dashboard",
     load: "dashboard.html",
-    onCreate: function () {
+    onCreate: () => {
       const user_id = 1;
-      // UserService.loadDashboard(user_id);
-      loadDashboard("../assets/json/dashboard.json");
+      UserService.loadDashboard(user_id);
+      // loadDashboard("../assets/json/dashboard.json");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(1);
     },
   });
   app.route({
     view: "settings",
     load: "settings.html",
-    onCreate: function () {
+    onCreate: () => {
       loadSettings("../assets/json/profile.json");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(2);
     },
   });
   app.route({
     view: "projects",
     load: "projects.html",
-    onCreate: function () {
+    onCreate: () => {
       loadProjects("../assets/json/projects.json");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(3);
     },
   });
   app.route({
     view: "friends",
     load: "friends.html",
-    onCreate: function () {
+    onCreate: () => {
       loadFriends("../assets/json/friends.json");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(4);
     },
   });
   app.route({
     view: "tables",
     load: "tables.html",
-    onCreate: function () {
+    onCreate: () => {
       ItemService.loadTable("tbl_packages");
       ItemService.loadTable("tbl_cars");
       ItemService.loadTable("tbl_hotels");
       ArticleService.loadTable();
       FeedbackService.loadTable();
-      loadProjectsTable("../assets/json/dashboard.json");
-    },
-    onReady: function () {
-      switchButton(5);
-      document.getElementById("add-package").addEventListener("click", () => {
+      $("#add-package").on("click", () => {
         ItemService.addItemModal("package", false);
       });
-      document.getElementById("add-car").addEventListener("click", () => {
+      $("#add-car").on("click", () => {
         ItemService.addItemModal("car", false);
       });
-      document.getElementById("add-hotel").addEventListener("click", () => {
+      $("#add-hotel").on("click", () => {
         ItemService.addItemModal("hotel", false);
       });
-      document.getElementById("add-article").addEventListener("click", () => {
+      $("#add-article").on("click", () => {
         ArticleService.addArticleModal("Article added successfully");
       });
-      document.getElementById("add-feedback").addEventListener("click", () => {
+      $("#add-feedback").on("click", () => {
         FeedbackService.addFeedbackModal();
       });
+      loadProjectsTable("../assets/json/dashboard.json");
+    },
+    onReady: () => {
+      switchButton(5);
     },
   });
   app.route({
     view: "files",
     load: "files.html",
-    onCreate: function () {},
-    onReady: function () {
+    onCreate: () => {},
+    onReady: () => {
       switchButton(6);
     },
   });

@@ -9,7 +9,6 @@ class FeedbackDao extends BaseDao {
 
     public function add_feedback($feedback) {
         $table = $this->getTable();
-
         return $this->insert($table, $feedback);
     }
 

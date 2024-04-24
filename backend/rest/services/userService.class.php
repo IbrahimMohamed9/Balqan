@@ -31,8 +31,14 @@ class UserService {
     public function get_user_tickets($user_id) {
         return $this->user_dao->get_user_tickets($user_id);
     }
+    public function add_user_draft($draft) {
+        $this->user_dao->add_user_draft($draft);
+    }
+    public function delete_user_draft($user_id, $draft_id) {
+        $this->user_dao->delete_user_draft($user_id, $draft_id);
+    }
     public function delete_user($user_id) {
-        return $this->user_dao->delete_user($user_id);
+        $this->user_dao->delete_user($user_id);
     }
     public function edit_user($user) {
         $this->user_dao->edit_user($user);

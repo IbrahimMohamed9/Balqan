@@ -28,3 +28,13 @@ WHERE u.user_id = :user_id
 GROUP BY u.user_id;
 
 SELECT * FROM items WHERE category = 'package' ORDER BY added_time LIMIT :limit
+
+SELECT t.label, t.icon, t.achieved FROM
+        users u
+        JOIN tickets t ON t.user_id = u.user_id
+        WHERE u.user_id = :user_id;
+
+SELECT t.label, t.icon, t.achieved, t.goal FROM
+        users u
+        JOIN targets t ON t.user_id = u.user_id
+        WHERE u.user_id = :user_id AND t.year = (YEAR(CURDATE()))

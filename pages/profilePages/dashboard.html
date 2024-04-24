@@ -14,17 +14,24 @@
   >
     <h2 class="mt-0 mb-10">Quick Draft</h2>
     <p class="mt-0 mb-20 fs-15 c-grey">Write A Draft For Your Ideas</p>
-    <form action="">
+    <form id="draft-form">
       <input
         class="d-block border-ccc rad-6 w-full p-10 b-none bg-third c-main-font"
         type="text"
-        name="draft-title"
+        name="title"
+        id="title"
+        maxlength="40"
+        minlength="3"
+        required
         placeholder="Title"
       />
       <div class="textarea border-ccc mt-20 rad-6 w-full b-none">
         <textarea
           class="d-block rad-6 w-full p-10 b-none bg-third c-main-font"
-          name="draft-body"
+          name="content"
+          id="content"
+          minlength="3"
+          required
           placeholder="Your Thought"
         ></textarea>
       </div>
@@ -122,7 +129,10 @@
   </div>
   <!-- End Latest Uploads Widget -->
   <!-- Start Last Project Progress Widget -->
-  <div>
+  <div class="d-none">
+    <!-- 
+      TODO connect this with db
+     -->
     <div class="last-project p-20 bg-fourth rad-10 p-relative p-10-f">
       <h2 class="mt-0 mb-20">Last Project Progress</h2>
       <ul class="m-0 p-relative"></ul>

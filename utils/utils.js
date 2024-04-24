@@ -1,5 +1,5 @@
 var Utils = {
-  block_ui: function (element) {
+  block_ui: (element) => {
     $(element).block({
       message: '<div class="loader"></div>',
       css: {
@@ -240,7 +240,7 @@ var Utils = {
   checkDecWithInt: (price) => {
     return `${Math.floor(parseFloat(price))}${Utils.checkDec(price)}`;
   },
-  checkDec: function (number) {
+  checkDec: (number) => {
     let decPartTest = Number(
       String((parseFloat(number) - Math.floor(number)).toFixed(2)).slice(3)
     );
@@ -413,11 +413,11 @@ var Utils = {
       modal.classList.remove("d-block");
     }, 300);
   },
-  removeAllEventListeners: function (element) {
+  removeAllEventListeners: (element) => {
     const clone = element.cloneNode(true);
     element.parentNode.replaceChild(clone, element);
   },
-  appearSuccAlert: function (message) {
+  appearSuccAlert: (message) => {
     const addItemAlert = document.querySelector(
       ".alert.alert-success.add-item"
     );
@@ -454,7 +454,7 @@ var Utils = {
       modal.classList.add("active");
     }, 1);
   },
-  fieldAnimation: function (field) {
+  fieldAnimation: (field) => {
     if (field.value.trim() !== "") {
       field.classList.add("active", "delay");
     }
@@ -508,9 +508,9 @@ var Utils = {
       Utils.fieldAnimation(field);
     });
   },
-  submit: function (form_id, to, success_mge, block_id, callBack, modal) {
+  submit: (form_id, to, success_mge, callBack, modal) => {
     const form = $("#" + form_id),
-      block = $("#" + block_id);
+      block = form.find("input[type=submit]");
 
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);

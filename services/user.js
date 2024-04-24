@@ -17,7 +17,6 @@ var UserService = {
       return response;
     } catch (error) {
       console.error("Error fetching Profile data:", error);
-      throw error;
     }
   },
   deleteUserInfo: () => {
@@ -25,14 +24,14 @@ var UserService = {
   },
   loadProfile: async (user_id) => {
     UserService.deleteUserInfo();
-    try {
-      let data = localStorage.getItem("userInfo");
-      if (data === null) {
-        data = await UserService.fetchUserInfo(user_id);
-      }
-      console.log(data);
-      const ratingsArray = data.ratings.split(" ");
-      const content = `
+    let data = localStorage.getItem("userInfo");
+    if (data === null) {
+      data = await UserService.fetchUserInfo(user_id);
+    } else {
+      data = JSON.parse(data);
+    }
+    const ratingsArray = data.ratings.split(" ");
+    const content = `
             <div class="avatar-box txt-c p-20">
               <img class="rad-half mb-10" src="${data.img}" alt="Profile Img" />
               <h3 class="m-0">${data.name}</h3>
@@ -105,23 +104,20 @@ var UserService = {
               <!-- End Information Row -->
             </div>
           `;
-      const skills = data.skills.split(" ");
-      let skillsList = "";
-      for (let i = 0; i < skills.length; i += 3) {
-        skillsList += "<li>";
-        for (let j = 0; j < 3 && i + j < skills.length; j++) {
-          skillsList += `<span>${skills[i + j]}</span>`;
-        }
-        skillsList += "</li>";
+    const skills = data.skills.split(" ");
+    let skillsList = "";
+    for (let i = 0; i < skills.length; i += 3) {
+      skillsList += "<li>";
+      for (let j = 0; j < 3 && i + j < skills.length; j++) {
+        skillsList += `<span>${skills[i + j]}</span>`;
       }
-      UserService.loadLatestActivity(user_id);
-      document.querySelector(".other-data .skills-card ul").innerHTML +=
-        skillsList;
-
-      document.querySelector(".screen .overview").innerHTML = content;
-    } catch (error) {
-      console.error("Error loading profile:", error);
+      skillsList += "</li>";
     }
+    UserService.loadLatestActivity(user_id);
+    document.querySelector(".other-data .skills-card ul").innerHTML +=
+      skillsList;
+
+    document.querySelector(".screen .overview").innerHTML = content;
   },
   loadLatestActivity: (user_id) => {
     RestClient.get(
@@ -154,12 +150,17 @@ var UserService = {
     );
   },
   loadDashboard: async (user_id) => {
+    const welcomWidget = $(".screen.wrapper .welcome");
+    Utils.block_ui(welcomWidget);
+
     UserService.deleteUserInfo();
     let data = localStorage.getItem("userInfo");
     if (data === null) {
       data = await UserService.fetchUserInfo(user_id);
+    } else {
+      data = JSON.parse(data);
     }
-    const welcomWidget = `
+    const welcomWidgetContent = `
               <div class="intro p-20 d-flex space-between bg-third pl-10-f pr-10-f">
                 <div>
                   <h2 class="m-0">Welcom</h2>
@@ -192,44 +193,7 @@ var UserService = {
                 Profile
               </a>
             `;
-    let targetsWidget = "",
-      ticketsWidget = "",
-      progressWidget = "",
-      draftsWidget = "";
-
-    // data.targets.forEach((target) => {
-    //   const achieved = Number(target.achieved.replace(/,/g, "")),
-    //     goal = Number(target.goal.replace(/,/g, "")),
-    //     percentageAchieved = ((achieved / goal) * 100).toFixed(0);
-
-    //   targetsWidget += `
-    //           <div class="target-row mb-20 mb-25-f d-flex align-center">
-    //             <div class="icon center-flex">
-    //               <i class="fa-solid ${target.icon} fa-lg"></i>
-    //             </div>
-    //             <div class="details">
-    //               <span class="fs-14 c-grey">${target.name}</span>
-    //               <span class="d-block p-relative mb-10 fw-bold">${target.goal}</span>
-    //               <div class="progress rad-10 p-relative">
-    //                 <span style="width: ${percentageAchieved}%" class="rad-10">
-    //                   <span class="rad-6 fs-13 c-white fw-bold">${percentageAchieved}%</span></span
-    //                 >
-    //               </div>
-    //             </div>
-    //           </div>
-    //         `;
-    // });
-
-    // data.tickets.forEach((ticket) => {
-    //   ticketsWidget += `
-    //           <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
-    //             <i class="fa-solid ${ticket.icon} fa-2x mb-10"></i>
-    //             <span class="d-block c-main-font fw-bold fs-25 mb-5">${ticket.achieved}</span>
-    //             ${ticket.name}
-    //           </div>
-    //         `;
-    // });
-
+    // let progressWidget = '';
     // data.progrProjs.forEach((progrProj) => {
     //   progressWidget += `
     //         <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
@@ -247,26 +211,117 @@ var UserService = {
     //           </li>
     //         `;
     // });
+    // document.querySelector(".screen.wrapper .last-project ul").innerHTML =
+    //   progressWidget;
+    UserService.loadYearlyTarget(user_id);
+    UserService.loadTicketsStatistics(user_id);
+    UserService.loadDrafts(user_id);
+    welcomWidget.html(welcomWidgetContent);
+    Utils.unblock_ui(welcomWidget);
 
-    document.querySelector(".screen.wrapper .welcome").innerHTML = welcomWidget;
-    document.querySelector(".screen.wrapper .targets").innerHTML +=
-      targetsWidget;
-    document.querySelector(
-      ".screen.wrapper .tickets .tickets-wrapper"
-    ).innerHTML = ticketsWidget;
-    document.querySelector(".screen.wrapper .last-project ul").innerHTML =
-      progressWidget;
-    document.querySelector(".screen.wrapper .drafts ul").innerHTML =
-      draftsWidget;
-
-    document.getElementById("profile-btn").addEventListener("click", () => {
+    $("profile-btn").click(() => {
       switchButton(0);
     });
+    UserService.addDraft(user_id);
+  },
+  loadYearlyTarget: (user_id) => {
+    const targetWidget = $(".screen.wrapper .targets");
+    Utils.block_ui(targetWidget);
+    RestClient.get(
+      "users/get/get_user_targets.php?user_id=" + user_id,
+      (data) => {
+        let targetsWidget = "";
+        data.forEach((target) => {
+          const achieved = Number(target.achieved),
+            goal = Number(target.goal),
+            percentageAchieved = ((achieved / goal) * 100).toFixed(0);
+
+          targetsWidget += `
+              <div class="target-row mb-20 mb-25-f d-flex align-center">
+                <div class="icon center-flex">
+                  <i class="fa-solid ${target.icon} fa-lg"></i>
+                </div>
+                <div class="details">
+                  <span class="fs-14 c-grey">${target.label}</span>
+                  <span class="d-block p-relative mb-10 fw-bold">${goal}</span>
+                  <div class="progress rad-10 p-relative">
+                    <span style="width: ${percentageAchieved}%" class="rad-10">
+                      <span class="rad-6 fs-13 c-white fw-bold">${percentageAchieved}%</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+            `;
+        });
+        targetWidget.append(targetsWidget);
+        Utils.unblock_ui(targetWidget);
+      }
+    );
+  },
+  loadTicketsStatistics: (user_id) => {
+    const ticketWidget = $(".screen.wrapper .tickets .tickets-wrapper");
+    Utils.block_ui(ticketWidget);
+    RestClient.get(
+      "users/get/get_user_tickets.php?user_id=" + user_id,
+      (data) => {
+        let ticketsWidget = "";
+        data.forEach((ticket) => {
+          ticketsWidget += `
+              <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
+                <i class="fa-solid ${ticket.icon} fa-2x mb-10"></i>
+                <span class="d-block c-main-font fw-bold fs-25 mb-5">${Utils.checkDecWithInt(
+                  ticket.achieved
+                )}</span>
+                ${ticket.label}
+              </div>
+            `;
+        });
+        ticketWidget.append(ticketsWidget);
+        Utils.unblock_ui(ticketWidget);
+      }
+    );
+  },
+  loadDrafts: (user_id) => {
+    const draftWidget = $(".screen.wrapper .drafts ul");
+    draftWidget.html("");
+    Utils.block_ui(draftWidget);
+    RestClient.get(
+      "users/get/get_user_drafts.php?user_id=" + user_id,
+      (data) => {
+        let draftsWidget = "";
+        Utils.unblock_ui(draftWidget);
+        data.forEach((draft) => {
+          const [datePart, timePart] = draft.time.split(" "),
+            [hour, minute] = timePart.split(":").slice(0, 2);
+
+          draftsWidget += `
+                  <li class="d-flex align-center mt-15">
+                    <span class="key d-block"></span>
+                    <div class="pl-15">
+                      <p class="fs-14 fw-bold mt-0 mb-5">${draft.title}</p>
+                      <span class="fs-13 c-grey">${datePart} - ${hour}:${minute}</span>
+                    </div>
+                  </li>
+                `;
+        });
+        draftWidget.append(draftsWidget);
+        Utils.unblock_ui(draftWidget);
+      }
+    );
+  },
+  addDraft: (user_id) => {
+    Utils.submit(
+      "draft-form",
+      "users/add/add_draft.php?user_id=" + user_id,
+      "Draft added successfully",
+      () => {
+        UserService.loadDrafts(user_id);
+      }
+    );
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),
-      block = form;
-
+      block = $(form).find("input[type=submit]");
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
       RestClient.get(
