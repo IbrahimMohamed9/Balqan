@@ -1,15 +1,20 @@
 var UserService = {
   fetchUserInfo: async (user_id) => {
     try {
-      const response = await fetch(
-        Constants.API_BASE_URL + "users/get_user_by_id.php?user_id=" + user_id
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      return data;
+      const response = await new Promise((resolve, reject) => {
+        RestClient.get(
+          "users/get/get_user_by_id.php?user_id=" + user_id,
+          (data) => {
+            resolve(data);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      });
+
+      localStorage.setItem("userInfo", JSON.stringify(response));
+      return response;
     } catch (error) {
       console.error("Error fetching Profile data:", error);
       throw error;
@@ -24,9 +29,8 @@ var UserService = {
       let data = localStorage.getItem("userInfo");
       if (data === null) {
         data = await UserService.fetchUserInfo(user_id);
-      } else {
-        data = JSON.parse(data);
       }
+      console.log(data);
       const ratingsArray = data.ratings.split(" ");
       const content = `
             <div class="avatar-box txt-c p-20">
@@ -121,7 +125,7 @@ var UserService = {
   },
   loadLatestActivity: (user_id) => {
     RestClient.get(
-      "users/get_user_latest_activity.php?user_id=" +
+      "users/get/get_user_latest_activity.php?user_id=" +
         user_id +
         "&limit=" +
         Constants.latestActivitiesLimit,
@@ -151,14 +155,11 @@ var UserService = {
   },
   loadDashboard: async (user_id) => {
     UserService.deleteUserInfo();
-    try {
-      let data = localStorage.getItem("userInfo");
-      if (data === null) {
-        data = await UserService.fetchUserInfo(user_id);
-      } else {
-        data = JSON.parse(data);
-      }
-      const welcomWidget = `
+    let data = localStorage.getItem("userInfo");
+    if (data === null) {
+      data = await UserService.fetchUserInfo(user_id);
+    }
+    const welcomWidget = `
               <div class="intro p-20 d-flex space-between bg-third pl-10-f pr-10-f">
                 <div>
                   <h2 class="m-0">Welcom</h2>
@@ -191,80 +192,76 @@ var UserService = {
                 Profile
               </a>
             `;
-      let targetsWidget = "",
-        ticketsWidget = "",
-        progressWidget = "",
-        draftsWidget = "";
+    let targetsWidget = "",
+      ticketsWidget = "",
+      progressWidget = "",
+      draftsWidget = "";
 
-      // data.targets.forEach((target) => {
-      //   const achieved = Number(target.achieved.replace(/,/g, "")),
-      //     goal = Number(target.goal.replace(/,/g, "")),
-      //     percentageAchieved = ((achieved / goal) * 100).toFixed(0);
+    // data.targets.forEach((target) => {
+    //   const achieved = Number(target.achieved.replace(/,/g, "")),
+    //     goal = Number(target.goal.replace(/,/g, "")),
+    //     percentageAchieved = ((achieved / goal) * 100).toFixed(0);
 
-      //   targetsWidget += `
-      //           <div class="target-row mb-20 mb-25-f d-flex align-center">
-      //             <div class="icon center-flex">
-      //               <i class="fa-solid ${target.icon} fa-lg"></i>
-      //             </div>
-      //             <div class="details">
-      //               <span class="fs-14 c-grey">${target.name}</span>
-      //               <span class="d-block p-relative mb-10 fw-bold">${target.goal}</span>
-      //               <div class="progress rad-10 p-relative">
-      //                 <span style="width: ${percentageAchieved}%" class="rad-10">
-      //                   <span class="rad-6 fs-13 c-white fw-bold">${percentageAchieved}%</span></span
-      //                 >
-      //               </div>
-      //             </div>
-      //           </div>
-      //         `;
-      // });
+    //   targetsWidget += `
+    //           <div class="target-row mb-20 mb-25-f d-flex align-center">
+    //             <div class="icon center-flex">
+    //               <i class="fa-solid ${target.icon} fa-lg"></i>
+    //             </div>
+    //             <div class="details">
+    //               <span class="fs-14 c-grey">${target.name}</span>
+    //               <span class="d-block p-relative mb-10 fw-bold">${target.goal}</span>
+    //               <div class="progress rad-10 p-relative">
+    //                 <span style="width: ${percentageAchieved}%" class="rad-10">
+    //                   <span class="rad-6 fs-13 c-white fw-bold">${percentageAchieved}%</span></span
+    //                 >
+    //               </div>
+    //             </div>
+    //           </div>
+    //         `;
+    // });
 
-      // data.tickets.forEach((ticket) => {
-      //   ticketsWidget += `
-      //           <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
-      //             <i class="fa-solid ${ticket.icon} fa-2x mb-10"></i>
-      //             <span class="d-block c-main-font fw-bold fs-25 mb-5">${ticket.achieved}</span>
-      //             ${ticket.name}
-      //           </div>
-      //         `;
-      // });
+    // data.tickets.forEach((ticket) => {
+    //   ticketsWidget += `
+    //           <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
+    //             <i class="fa-solid ${ticket.icon} fa-2x mb-10"></i>
+    //             <span class="d-block c-main-font fw-bold fs-25 mb-5">${ticket.achieved}</span>
+    //             ${ticket.name}
+    //           </div>
+    //         `;
+    // });
 
-      // data.progrProjs.forEach((progrProj) => {
-      //   progressWidget += `
-      //         <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
-      //         `;
-      // });
+    // data.progrProjs.forEach((progrProj) => {
+    //   progressWidget += `
+    //         <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
+    //         `;
+    // });
 
-      // data.drafts.forEach((reminder) => {
-      //   draftsWidget += `
-      //           <li class="d-flex align-center mt-15">
-      //             <span class="key d-block"></span>
-      //             <div class="pl-15">
-      //               <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
-      //               <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
-      //             </div>
-      //           </li>
-      //         `;
-      // });
+    // data.drafts.forEach((reminder) => {
+    //   draftsWidget += `
+    //           <li class="d-flex align-center mt-15">
+    //             <span class="key d-block"></span>
+    //             <div class="pl-15">
+    //               <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
+    //               <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
+    //             </div>
+    //           </li>
+    //         `;
+    // });
 
-      document.querySelector(".screen.wrapper .welcome").innerHTML =
-        welcomWidget;
-      document.querySelector(".screen.wrapper .targets").innerHTML +=
-        targetsWidget;
-      document.querySelector(
-        ".screen.wrapper .tickets .tickets-wrapper"
-      ).innerHTML = ticketsWidget;
-      document.querySelector(".screen.wrapper .last-project ul").innerHTML =
-        progressWidget;
-      document.querySelector(".screen.wrapper .drafts ul").innerHTML =
-        draftsWidget;
+    document.querySelector(".screen.wrapper .welcome").innerHTML = welcomWidget;
+    document.querySelector(".screen.wrapper .targets").innerHTML +=
+      targetsWidget;
+    document.querySelector(
+      ".screen.wrapper .tickets .tickets-wrapper"
+    ).innerHTML = ticketsWidget;
+    document.querySelector(".screen.wrapper .last-project ul").innerHTML =
+      progressWidget;
+    document.querySelector(".screen.wrapper .drafts ul").innerHTML =
+      draftsWidget;
 
-      document.getElementById("profile-btn").addEventListener("click", () => {
-        switchButton(0);
-      });
-    } catch (error) {
-      console.error("Error loading profile:", error);
-    }
+    document.getElementById("profile-btn").addEventListener("click", () => {
+      switchButton(0);
+    });
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),

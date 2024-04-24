@@ -22,6 +22,15 @@ class UserService {
     public function get_user_latest_activity($user_id, $limit) {
         return $this->user_dao->get_user_latest_activity($user_id, $limit);
     }
+    public function get_user_drafts($user_id) {
+        return $this->user_dao->get_user_drafts($user_id);
+    }
+    public function get_user_targets($user_id) {
+        return $this->user_dao->get_user_targets($user_id);
+    }
+    public function get_user_tickets($user_id) {
+        return $this->user_dao->get_user_tickets($user_id);
+    }
     public function delete_user($user_id) {
         return $this->user_dao->delete_user($user_id);
     }

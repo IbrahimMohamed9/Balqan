@@ -53,6 +53,7 @@ CREATE TABLE `targets`
     `goal`      DECIMAL(10, 2),
     `icon`      VARCHAR(30),
     `achieved`  DECIMAL(10, 2),
+    `year`      YEAR DEFAULT (YEAR(CURDATE())),
     CONSTRAINT `fk_targets_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 CREATE TABLE `tickets`

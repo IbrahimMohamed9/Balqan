@@ -18,9 +18,9 @@ class UserDao extends BaseDao {
     }
 
     public function get_user_by_id($user_id) {
-        $query = "SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.cost), 0) AS earned
+        $query = "SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.price), 0) AS earned
                     FROM users AS u
-                            LEFT JOIN balqan.user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+                            LEFT JOIN user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
                     WHERE u.user_id = :user_id
                     GROUP BY u.user_id";
             
@@ -62,6 +62,31 @@ class UserDao extends BaseDao {
                 WHERE us.user_id = :user_id
                 LIMIT $limit";
             
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function get_user_tickets($user_id) {
+        $query = "";
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function get_user_targets($user_id) {
+        $query = "";
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function get_user_drafts($user_id) {
+        $query = "";
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function add_user_drafts($user_id) {
+        $query = "";
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+
+    public function delete_user_drafts($user_id) {
+        $query = "";
         return $this->query($query, ['user_id' => $user_id]);
     }
 
