@@ -99,8 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
     load: "dashboard.html",
     onCreate: function () {
       const user_id = 1;
-      UserService.loadDashboard(user_id);
-      // loadDashboard("../assets/json/dashboard.json");
+      // UserService.loadDashboard(user_id);
+      loadDashboard("../assets/json/dashboard.json");
     },
     onReady: function () {
       switchButton(1);
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ItemService.loadTable("tbl_hotels");
       ArticleService.loadTable();
       FeedbackService.loadTable();
-      // loadProjectsTable("../assets/json/dashboard.json");
+      loadProjectsTable("../assets/json/dashboard.json");
     },
     onReady: function () {
       switchButton(5);
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let targetsWidget = "",
           ticketsWidget = "",
           progressWidget = "",
-          remindersWidget = "";
+          draftsWidget = "";
 
         data.targets.forEach((target) => {
           const achieved = Number(target.achieved.replace(/,/g, "")),
@@ -260,10 +260,10 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         });
 
-        data.reminders.forEach((reminder) => {
-          remindersWidget += `
+        data.drafts.forEach((reminder) => {
+          draftsWidget += `
             <li class="d-flex align-center mt-15">
-              <span class="key mr-15 d-block rad-half"></span>
+              <span class="key d-block"></span>
               <div class="pl-15">
                 <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
                 <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
@@ -281,8 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ).innerHTML = ticketsWidget;
         document.querySelector(".screen.wrapper .last-project ul").innerHTML =
           progressWidget;
-        document.querySelector(".screen.wrapper .reminders ul").innerHTML =
-          remindersWidget;
+        document.querySelector(".screen.wrapper .drafts ul").innerHTML =
+          draftsWidget;
 
         document.getElementById("profile-btn").addEventListener("click", () => {
           switchButton(0);

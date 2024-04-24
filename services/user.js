@@ -194,7 +194,7 @@ var UserService = {
       let targetsWidget = "",
         ticketsWidget = "",
         progressWidget = "",
-        remindersWidget = "";
+        draftsWidget = "";
 
       // data.targets.forEach((target) => {
       //   const achieved = Number(target.achieved.replace(/,/g, "")),
@@ -235,10 +235,10 @@ var UserService = {
       //         `;
       // });
 
-      // data.reminders.forEach((reminder) => {
-      //   remindersWidget += `
+      // data.drafts.forEach((reminder) => {
+      //   draftsWidget += `
       //           <li class="d-flex align-center mt-15">
-      //             <span class="key mr-15 d-block rad-half"></span>
+      //             <span class="key d-block"></span>
       //             <div class="pl-15">
       //               <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
       //               <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
@@ -256,8 +256,8 @@ var UserService = {
       ).innerHTML = ticketsWidget;
       document.querySelector(".screen.wrapper .last-project ul").innerHTML =
         progressWidget;
-      document.querySelector(".screen.wrapper .reminders ul").innerHTML =
-        remindersWidget;
+      document.querySelector(".screen.wrapper .drafts ul").innerHTML =
+        draftsWidget;
 
       document.getElementById("profile-btn").addEventListener("click", () => {
         switchButton(0);
