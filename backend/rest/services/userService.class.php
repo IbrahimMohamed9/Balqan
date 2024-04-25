@@ -57,9 +57,9 @@ class UserService
     {
         $this->user_dao->edit_user($user);
     }
-    public function delete_user_draft($user_id, $draft_id)
+    public function delete_user_draft($draft_id)
     {
-        $this->user_dao->delete_user_draft($user_id, $draft_id);
+        $this->user_dao->delete_user_draft($draft_id);
     }
     public function delete_user($user_id)
     {

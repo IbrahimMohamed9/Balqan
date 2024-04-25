@@ -105,10 +105,10 @@ class UserDao extends BaseDao
         VALUES (:user_id, :title, :content)";
         $this->insert('drafts', $draft);
     }
-    public function delete_user_draft($user_id, $draft_id)
+    public function delete_user_draft($draft_id)
     {
-        $query = "DELETE FROM draft WHERE user_id = :user_id AND draft_id = :draft_id";
-        $this->execute($query, ['user_id' => $user_id, 'draft_id ' => $draft_id]);
+        $query = "DELETE FROM drafts WHERE draft_id = :draft_id";
+        $this->execute($query, ['draft_id' => $draft_id]);
     }
     public function delete_user($user_id)
     {

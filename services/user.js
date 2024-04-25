@@ -325,6 +325,7 @@ var UserService = {
       "users/add/add_draft.php?draft_id=" + draft_id,
       "Draft edited successfully",
       () => {
+        Utils.appearSuccAlert("Draft editted successfully");
         UserService.loadDrafts(user_id);
         Utils.removeModal(false, modal);
       }
@@ -376,7 +377,7 @@ var UserService = {
                   </div>
                   <div>
                     <input type="submit" class="submit save" value="Save" />
-                    <button class="submit remove" type="button" onclick="UserService.removeDraft(${data.draft_id}, this)">Remove</button>
+                    <button class="submit remove" type="button" onclick="UserService.removeDraft(${user_id}, ${data.draft_id}, this)">Remove</button>
                   </div>
                 </form>
               </div>
@@ -391,9 +392,17 @@ var UserService = {
       }
     );
   },
-  removeDraft: (draft_id, el) => {
+  removeDraft: (user_id, draft_id, el) => {
     Utils.block_ui(el.parentNode, true);
-    RestClient.delete()
+    RestClient.delete(
+      "users/delete/delete_user_draft.php?draft_id=" + draft_id,
+      draft_id,
+      () => {
+        Utils.appearFailAlert("Draft deleted successfully");
+        UserService.loadDrafts(user_id);
+        Utils.removeModal(false, $("#myModal")[0]);
+      }
+    );
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),

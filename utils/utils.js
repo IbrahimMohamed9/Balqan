@@ -333,7 +333,6 @@ var Utils = {
     const quantityAlert = document.querySelector(
       ".alert.alert-danger.decrease"
     );
-
     quantityAlert.classList.remove("d-none");
     quantityAlert.textContent = message;
     quantityAlert.style.animation = "alert 1.7s linear forwards";
