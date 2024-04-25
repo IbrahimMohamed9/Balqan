@@ -374,9 +374,11 @@ var UserService = {
                       </label>
                     </div>
                   </div>
-                  <input type="submit" class="submit" value="Save" />
-                  </form>
-                  <button class="remove" type="button">Remove</button>
+                  <div>
+                    <input type="submit" class="submit save" value="Save" />
+                    <button class="submit remove" type="button" onclick="UserService.removeDraft(${data.draft_id}, this)">Remove</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>`;
@@ -388,6 +390,10 @@ var UserService = {
         UserService.editDraft(user_id, data.draft_id, modal);
       }
     );
+  },
+  removeDraft: (draft_id, el) => {
+    Utils.block_ui(el.parentNode, true);
+    RestClient.delete()
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),

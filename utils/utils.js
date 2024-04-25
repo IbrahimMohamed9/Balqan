@@ -1,7 +1,9 @@
 var Utils = {
-  block_ui: (element) => {
+  block_ui: (element, small) => {
     $(element).block({
-      message: '<div class="loader"></div>',
+      message: small
+        ? '<div class="loader small"></div>'
+        : '<div class="loader"></div>',
       css: {
         backgroundColor: "transparent",
         border: "0",

@@ -665,7 +665,13 @@ textarea {
   max-width: fit-content;
   height: fit-content;
   padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid #d7a120;
+  color: var(--font-color);
+}
+.table-holder .data-table-header .add-btn:hover {
   background-color: #d7a120;
+  color: white;
 }
 @media (max-width: 300px) {
   .table-holder .data-table-header .add-btn {
@@ -1441,6 +1447,19 @@ textarea {
 }
 form .submit {
   margin: 0 5px 10px;
+  font-weight: bold;
+}
+form .submit.save {
+  border: 2px solid #0021ff;
+}
+form .submit.save:hover {
+  background-color: #0021ff;
+}
+form .submit.remove {
+  border: 1px solid red;
+}
+form .submit.remove:hover {
+  background-color: red;
 }
 /* 
 ====================================================================
