@@ -10,7 +10,7 @@ $payload = [
 
 $user_service = new UserService();
 
-if($payload['user_id'] != NULL && $payload['user_id'] != ''){
+if ($payload['user_id'] != NULL && $payload['user_id'] != '') {
   $user = $user_service->edit_user($payload);
 } else {
   unset($payload['user_id']);
