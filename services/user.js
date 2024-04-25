@@ -295,7 +295,7 @@ var UserService = {
             [hour, minute] = timePart.split(":").slice(0, 2);
 
           draftsWidget += `
-                  <li class="d-flex align-center mt-15">
+                  <li class="d-flex align-center mt-15" onclick="UserService.getDraft(${user_id}, ${draft.draft_id}, this)">
                     <span class="key d-block"></span>
                     <div class="pl-15">
                       <p class="fs-14 fw-bold mt-0 mb-5">${draft.title}</p>
@@ -316,6 +316,76 @@ var UserService = {
       "Draft added successfully",
       () => {
         UserService.loadDrafts(user_id);
+      }
+    );
+  },
+  editDraft: (user_id, draft_id, modal) => {
+    Utils.submit(
+      "edit-draft-form",
+      "users/add/add_draft.php?draft_id=" + draft_id,
+      "Draft edited successfully",
+      () => {
+        UserService.loadDrafts(user_id);
+        Utils.removeModal(false, modal);
+      }
+    );
+  },
+  getDraft: (user_id, draft_id, el) => {
+    Utils.block_ui(el);
+    RestClient.get(
+      "users/get/get_user_draft_by_id.php?draft_id=" + draft_id,
+      (data) => {
+        const modal = $("#myModal")[0];
+        const modalContent = `
+          <div class="master-container">
+            <div class="card cart">
+              <div class="top-title">
+                <span class="title">Edit Draft</span>
+                <i class="fa-solid fa-xmark x"></i>
+              </div>
+              <div class="form">
+                <form id="edit-draft-form">
+                  <div class="inputs">
+                    <div class="form-control">
+                      <input type="hidden" id="draft_id" name="draft_id" value="${data.draft_id}"/>
+                      <input
+                        type="text"
+                        class="field"
+                        required
+                        id="title"
+                        name="title"
+                        value="${data.title}"
+                      />
+                      <label for="title">Title</label>
+                    </div>
+                  </div>
+                  <div class="textareas">
+                    <div class="form-control">
+                      <div class="textarea">
+                        <textarea
+                          id="content"
+                          name="content"
+                          required
+                          class="field"
+                        >${data.content}</textarea>
+                      </div>
+                      <label for="content" class="txtar-la">
+                        Content
+                      </label>
+                    </div>
+                  </div>
+                  <input type="submit" class="submit" value="Save" />
+                  </form>
+                  <button class="remove" type="button">Remove</button>
+              </div>
+            </div>
+          </div>`;
+        modal.innerHTML = modalContent;
+        Utils.formAnimation();
+        Utils.setupModalActions();
+        Utils.appearModal(false);
+        Utils.unblock_ui(el);
+        UserService.editDraft(user_id, data.draft_id, modal);
       }
     );
   },

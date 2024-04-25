@@ -22,11 +22,12 @@ var Utils = {
     modal.querySelector(".x").addEventListener("click", () => {
       Utils.removeModal(removeeBtn, modal);
     });
-
-    modal.querySelector(".checkout-btn").addEventListener("click", () => {
-      Utils.removeModal(removeeBtn, modal);
-      Utils.appearSuccAlert(message);
-    });
+    if (removeeBtn || cartModal) {
+      modal.querySelector(".checkout-btn").addEventListener("click", () => {
+        Utils.removeModal(removeeBtn, modal);
+        Utils.appearSuccAlert(message);
+      });
+    }
   },
   carouselSplide: (carousel, gap = 25) => {
     const splideTrack = document.querySelector(`${carousel} .splide__track`);

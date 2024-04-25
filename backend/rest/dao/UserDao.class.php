@@ -88,6 +88,14 @@ class UserDao extends BaseDao {
         return $this->query($query, ['user_id' => $user_id]);
     }
 
+    public function get_user_draft_by_id($draft_id) {
+        $query = "SELECT d.title, d.content, d.time, d.draft_id FROM 
+        users u 
+        JOIN drafts d ON d.user_id = u.user_id
+        WHERE d.draft_id = :draft_id";
+        return $this->query_unique_first($query, ['draft_id' => $draft_id]);
+    }
+
     public function add_user_draft($draft) {
         $query = "INSERT INTO drafts 
         (user_id, title, content) 
@@ -117,5 +125,17 @@ class UserDao extends BaseDao {
             phone = :phone, 
             WHERE user_id = :user_id";
         $this->execute($query, $user);
+    }
+
+    public function edit_user_draft($draft) {
+        print_r($draft);
+        $query = "UPDATE drafts SET 
+            title = :title, 
+            content = :content
+            WHERE draft_id = :draft_id";
+        $this->execute($query, ['title'=>$draft['title'],'content'=>$draft['content'],'draft_id'=>$draft['draft_id']]);
+    }
+    public function edit_user($user) {
+        // TODO
     }
 }
