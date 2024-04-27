@@ -436,8 +436,7 @@ var Utils = {
       ),
       modal = cartModal
         ? document.getElementById("cartModal")
-        : document.getElementById("myModal"),
-      masterContainer = modal.querySelector(".master-container");
+        : document.getElementById("myModal");
     let selectedText = [];
     selectedOptions.forEach((option) => {
       if (option.selected) {

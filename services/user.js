@@ -2,6 +2,7 @@ var UserService = {
   fetchUserInfo: async (user_id) => {
     try {
       let data = localStorage.getItem("userInfo");
+      let widgets = localStorage.getItem("userWidgets");
       if (data === null) {
         data = await new Promise((resolve, reject) => {
           RestClient.get(
@@ -24,8 +25,36 @@ var UserService = {
       console.error("Error fetching Profile data:", error);
     }
   },
+  fetchUserWidgets: async (user_id) => {
+    try {
+      let widgets = localStorage.getItem("userWidgets");
+      if (widgets === null) {
+        widgets = await new Promise((resolve, reject) => {
+          RestClient.get(
+            "users/get/get_user_widgets_by_id.php?user_id=" + user_id,
+            (data) => {
+              resolve(data);
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+        });
+
+        localStorage.setItem("userWidgets", JSON.stringify(widgets));
+        return widgets;
+      } else {
+        return JSON.parse(widgets);
+      }
+    } catch (error) {
+      console.error("Error fetching Profile data:", error);
+    }
+  },
   deleteUserInfoFormLocalStorage: () => {
     localStorage.removeItem("userInfo");
+  },
+  deleteUserWidgetsFormLocalStorage: () => {
+    localStorage.removeItem("userWidgets");
   },
   loadProfile: async (user_id) => {
     UserService.deleteUserInfoFormLocalStorage();
@@ -208,24 +237,44 @@ var UserService = {
     // });
     // document.querySelector(".screen.wrapper .last-project ul").innerHTML =
     //   progressWidget;
-    UserService.loadYearlyTarget(user_id);
-    UserService.loadTicketsStatistics(user_id);
-    UserService.loadDrafts(user_id);
+
     welcomWidget.html(welcomWidgetContent);
     Utils.unblock_ui(welcomWidget);
-
     $("profile-btn").click(() => {
       switchButton(0);
     });
     UserService.addDraft(user_id);
   },
+  loadDashboardWidgets: async (user_id) => {
+    const widgets = await UserService.fetchUserWidgets(user_id);
+
+    widgets.targets
+      ? UserService.loadYearlyTarget(user_id)
+      : $("#dashboard .screen div:has(.targets)").addClass("d-none");
+
+    widgets.tickets
+      ? UserService.loadTicketsStatistics(user_id)
+      : $("#dashboard .screen div:has(.tickets)").addClass("d-none");
+
+    widgets.drafts
+      ? UserService.loadDrafts(user_id)
+      : $("#dashboard .screen div:has(.drafts)").addClass("d-none");
+
+    widgets.quick_draft
+      ? $("#dashboard .screen div:has(.quick-draft)").removeClass("d-none")
+      : $("#dashboard .screen div:has(.quick-draft)").addClass("d-none");
+  },
   loadYearlyTarget: (user_id) => {
-    const targetWidget = $(".screen.wrapper .targets");
+    const targetWidget = $(".screen.wrapper .targets .target-rows");
+    $("#dashboard .screen div:has(.targets)").removeClass("d-none");
+
     Utils.block_ui(targetWidget);
     RestClient.get(
       "users/get/get_user_targets.php?user_id=" + user_id,
       (data) => {
         let targetsWidget = "";
+        targetWidget.html("");
+
         data.forEach((target) => {
           const achieved = Number(target.achieved),
             goal = Number(target.goal),
@@ -254,12 +303,16 @@ var UserService = {
     );
   },
   loadTicketsStatistics: (user_id) => {
+    $("#dashboard .screen div:has(.tickets)").removeClass("d-none");
+
     const ticketWidget = $(".screen.wrapper .tickets .tickets-wrapper");
     Utils.block_ui(ticketWidget);
     RestClient.get(
       "users/get/get_user_tickets.php?user_id=" + user_id,
       (data) => {
         let ticketsWidget = "";
+        ticketWidget.html("");
+
         data.forEach((ticket) => {
           ticketsWidget += `
               <div class="box border-ccc p-20 p-10-f pr-10-f fs-13 c-grey">
@@ -277,6 +330,8 @@ var UserService = {
     );
   },
   loadDrafts: (user_id) => {
+    $("#dashboard .screen div:has(.drafts)").removeClass("d-none");
+
     const draftWidget = $(".screen.wrapper .drafts ul");
     draftWidget.html("");
     Utils.block_ui(draftWidget);
@@ -402,6 +457,8 @@ var UserService = {
     const data = await UserService.fetchUserInfo(user_id);
     UserService.settingsGeneralForm(data);
     UserService.loadSecurityWidget(data, user_id);
+    UserService.loadWidgetsControl(user_id);
+
     Utils.submit(
       "edit-user-info-form",
       "users/edit/edit_user_info.php?user_id=" + user_id,
@@ -412,6 +469,27 @@ var UserService = {
         UserService.settingsGeneralForm(data);
       }
     );
+  },
+  showHideWidget: async (user_id, widgetName) => {
+    Utils.block_ui($("#" + widgetName), true);
+    const widgets = await UserService.fetchUserWidgets(user_id),
+      widgetValue = !widgets[widgetName] ? 1 : 0;
+    $.post(
+      Constants.API_BASE_URL +
+        "users/get/get_user_widgets_by_id.php?user_id=" +
+        user_id +
+        "&" +
+        widgetName +
+        "=" +
+        widgetValue,
+      null
+    ).done(() => {
+      widgets[widgetName] = widgetValue;
+      UserService.deleteUserWidgetsFormLocalStorage();
+      localStorage.setItem("userWidget", JSON.stringify(widgets));
+      UserService.loadWidgetsControl(user_id);
+    });
+    Utils.unblock_ui($("#" + widgetName));
   },
   settingsGeneralForm: (data) => {
     $(".settings-page input[type=email]").val(data.email);
@@ -431,6 +509,25 @@ var UserService = {
       Change
     </button>
     `);
+  },
+  loadWidgetsControl: async (user_id) => {
+    const widgetControl = $(
+        "#settings .widgets-control .control input[type=checkbox]"
+      ),
+      widgets = await UserService.fetchUserWidgets(user_id);
+
+    widgetControl.each((index, el) => {
+      const widgetName = `${$(el).attr("id")}`;
+      $(el).prop("checked", widgets[widgetName]);
+    });
+    if (Utils.counter() === 1) {
+      widgetControl.each((index, el) => {
+        const widgetName = `${$(el).attr("id")}`;
+        $(el).click(() => {
+          UserService.showHideWidget(user_id, widgetName);
+        });
+      });
+    }
   },
   eidtPassword: (userID, oldPassword, el) => {
     Utils.block_ui(el);

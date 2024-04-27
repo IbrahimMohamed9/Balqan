@@ -30,6 +30,15 @@ CREATE TABLE `password_history`
     `change_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_password_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
+CREATE TABLE `widgets`
+(
+    `user_id`     INT UNIQUE,
+    `drafts`      BOOLEAN DEFAULT TRUE,
+    `targets`     BOOLEAN DEFAULT TRUE,
+    `tickets`     BOOLEAN DEFAULT TRUE,
+    `quick_draft` BOOLEAN DEFAULT TRUE,
+    CONSTRAINT `fk_widgets_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
 CREATE TABLE `activities`
 (
     `activities_id` INT AUTO_INCREMENT PRIMARY KEY,

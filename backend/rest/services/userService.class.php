@@ -45,6 +45,10 @@ class UserService
     {
         return $this->user_dao->get_user_draft_by_id($draft_id);
     }
+    public function get_user_widgets_by_id($user_id)
+    {
+        return $this->user_dao->get_user_widgets_by_id($user_id);
+    }
     public function add_user_draft($draft)
     {
         $this->user_dao->add_user_draft($draft);
@@ -60,6 +64,10 @@ class UserService
     public function edit_user_password($user)
     {
         $this->user_dao->edit_user_password($user);
+    }
+    public function edit_user_widgets($user)
+    {
+        $this->user_dao->edit_user_widgets($user);
     }
     public function delete_user_draft($draft_id)
     {

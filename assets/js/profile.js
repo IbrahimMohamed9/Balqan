@@ -104,6 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     onReady: () => {
       switchButton(1);
+      const user_id = 1;
+      UserService.loadDashboardWidgets(user_id);
     },
   });
   app.route({

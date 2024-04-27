@@ -9,39 +9,41 @@
   </div>
   <!-- End Welcome Widget -->
   <!-- Start Quick Draft Widget -->
-  <div
-    class="quick-draft pb-60 bg-fourth rad-10 block-mobil p-20 p-relative pl-10-f pr-10-f"
-  >
-    <h2 class="mt-0 mb-10">Quick Draft</h2>
-    <p class="mt-0 mb-20 fs-15 c-grey">Write A Draft For Your Ideas</p>
-    <form id="draft-form">
-      <input
-        class="d-block border-ccc rad-6 w-full p-10 b-none bg-third c-main-font"
-        type="text"
-        name="title"
-        id="title"
-        maxlength="40"
-        minlength="3"
-        required
-        placeholder="Title"
-      />
-      <div class="textarea border-ccc mt-20 rad-6 w-full b-none">
-        <textarea
-          class="d-block rad-6 w-full p-10 b-none bg-third c-main-font"
-          name="content"
-          id="content"
+  <div>
+    <div
+      class="quick-draft pb-60 bg-fourth rad-10 block-mobil p-20 p-relative pl-10-f pr-10-f"
+    >
+      <h2 class="mt-0 mb-10">Quick Draft</h2>
+      <p class="mt-0 mb-20 fs-15 c-grey">Write A Draft For Your Ideas</p>
+      <form id="draft-form">
+        <input
+          class="d-block border-ccc rad-6 w-full p-10 b-none bg-third c-main-font"
+          type="text"
+          name="title"
+          id="title"
+          maxlength="40"
           minlength="3"
           required
-          placeholder="Your Thought"
-        ></textarea>
-      </div>
+          placeholder="Title"
+        />
+        <div class="textarea border-ccc mt-20 rad-6 w-full b-none">
+          <textarea
+            class="d-block rad-6 w-full p-10 b-none bg-third c-main-font"
+            name="content"
+            id="content"
+            minlength="3"
+            required
+            placeholder="Your Thought"
+          ></textarea>
+        </div>
 
-      <input
-        class="save b-none d-block mt-20 fs-15 rad-6 bg-main-color btn-position c-white w-fit btn-shape"
-        type="submit"
-        value="Save"
-      />
-    </form>
+        <input
+          class="save b-none d-block mt-20 fs-15 rad-6 bg-main-color btn-position c-white w-fit btn-shape"
+          type="submit"
+          value="Save"
+        />
+      </form>
+    </div>
   </div>
   <!-- End Quick Draft Widget -->
   <!-- Start Targets -->
@@ -49,6 +51,7 @@
     <div class="targets p-20 pl-10-f pr-10-f bg-fourth rad-10">
       <h2 class="mt-0 mb-10">Yearly Targets</h2>
       <p class="mt-0 mb-20 fs-15 c-grey">Targets Of The Year</p>
+      <div class="target-rows"></div>
     </div>
   </div>
   <!-- End Targets -->

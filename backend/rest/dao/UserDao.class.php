@@ -98,6 +98,13 @@ class UserDao extends BaseDao
         WHERE d.draft_id = :draft_id";
         return $this->query_unique_first($query, ['draft_id' => $draft_id]);
     }
+    public function get_user_widgets_by_id($user_id)
+    {
+        $query = "SELECT w.drafts, w.tickets, w.targets, w.quick_draft FROM 
+        widgets w
+        WHERE w.user_id = :user_id";
+        return $this->query_unique_first($query, ['user_id' => $user_id]);
+    }
     public function add_user_draft($draft)
     {
         $this->insert('drafts', $draft);
@@ -133,7 +140,32 @@ class UserDao extends BaseDao
         $query = "UPDATE users SET 
             password = :password
             WHERE user_id = :user_id";
-        $this->execute($query, ['user_id' => $user['user_id'], 'password' => $user['password']]);
-        $this->insert('password_history', ['user_id' => $user['user_id']]);
+
+        $this->execute($query, [
+            'user_id' => $user['user_id'],
+            'password' => $user['password']
+        ]);
+        $this->insert(
+            'password_history',
+            ['user_id' => $user['user_id']]
+        );
+    }
+    public function edit_user_widgets($user)
+    {
+        $query = "UPDATE widgets SET";
+        $data = ['user_id' => $user['user_id']];
+        $setClauses = [];
+
+        $parameters = ['drafts', 'targets', 'tickets', 'quick_draft'];
+        foreach ($parameters as $param) {
+            if (isset($user[$param])) {
+                $setClauses[] = "$param = :$param";
+                $data[$param] = $user[$param];
+            }
+        }
+        $query .= " " . implode(",", $setClauses);
+        $query .= " WHERE user_id = :user_id";
+
+        $this->execute($query, $data);
     }
 }
