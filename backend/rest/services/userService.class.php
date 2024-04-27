@@ -53,9 +53,13 @@ class UserService
     {
         $this->user_dao->edit_user_draft($draft);
     }
-    public function edit_user($user)
+    public function edit_user_info($user)
     {
-        $this->user_dao->edit_user($user);
+        $this->user_dao->edit_user_info($user);
+    }
+    public function edit_user_password($user)
+    {
+        $this->user_dao->edit_user_password($user);
     }
     public function delete_user_draft($draft_id)
     {

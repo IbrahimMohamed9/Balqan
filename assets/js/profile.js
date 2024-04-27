@@ -110,7 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "settings",
     load: "settings.html",
     onCreate: () => {
-      loadSettings("../assets/json/profile.json");
+      const user_id = 1;
+      UserService.loadSettings(user_id);
     },
     onReady: () => {
       switchButton(2);
@@ -290,22 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
         console.error("Error fetching Dashboard data:", error);
-      });
-  }
-
-  function loadSettings(src) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        document.querySelector(".settings-page .email").value = data.email;
-      })
-      .catch((error) => {
-        console.error("Error fetching Settings data:", error);
       });
   }
 

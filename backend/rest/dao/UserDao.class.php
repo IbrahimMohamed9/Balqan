@@ -10,8 +10,7 @@ class UserDao extends BaseDao
     }
     public function add_user($user)
     {
-        // TODO fix this
-        // return $this->insert($user);
+        $this->insert("users", $user);
     }
     public function get_users()
     {
@@ -20,9 +19,10 @@ class UserDao extends BaseDao
     }
     public function get_user_by_id($user_id)
     {
-        $query = "SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.price), 0) AS earned
+        $query = "SELECT u.*, COUNT(up.user_id) AS projects, COALESCE(AVG(up.price), 0) AS `earned`, MAX(DATE(ph.change_date)) as `last_change`
                     FROM users AS u
                             LEFT JOIN user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+                            LEFT JOIN password_history ph ON u.user_id = ph.user_id
                     WHERE u.user_id = :user_id
                     GROUP BY u.user_id";
 
@@ -100,9 +100,6 @@ class UserDao extends BaseDao
     }
     public function add_user_draft($draft)
     {
-        $query = "INSERT INTO drafts 
-        (user_id, title, content) 
-        VALUES (:user_id, :title, :content)";
         $this->insert('drafts', $draft);
     }
     public function delete_user_draft($draft_id)
@@ -115,31 +112,28 @@ class UserDao extends BaseDao
         $query = "DELETE FROM users WHERE user_id = :user_id";
         $this->execute($query, ['user_id' => $user_id]);
     }
-    public function edit_user_name($user)
-    {
-        $query = "UPDATE users SET 
-            name = :name, 
-            WHERE user_id = :user_id";
-        $this->execute($query, $user);
-    }
-    public function edit_user_phone($user)
-    {
-        $query = "UPDATE users SET 
-            phone = :phone, 
-            WHERE user_id = :user_id";
-        $this->execute($query, $user);
-    }
     public function edit_user_draft($draft)
     {
-        print_r($draft);
         $query = "UPDATE drafts SET 
             title = :title, 
             content = :content
             WHERE draft_id = :draft_id";
         $this->execute($query, ['title' => $draft['title'], 'content' => $draft['content'], 'draft_id' => $draft['draft_id']]);
     }
-    public function edit_user($user)
+    public function edit_user_info($user)
     {
-        // TODO
+        $query = "UPDATE users SET 
+            name = :name, 
+            phone = :phone
+            WHERE user_id = :user_id";
+        $this->execute($query, $user);
+    }
+    public function edit_user_password($user)
+    {
+        $query = "UPDATE users SET 
+            password = :password
+            WHERE user_id = :user_id";
+        $this->execute($query, ['user_id' => $user['user_id'], 'password' => $user['password']]);
+        $this->insert('password_history', ['user_id' => $user['user_id']]);
     }
 }

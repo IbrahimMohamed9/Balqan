@@ -1,37 +1,37 @@
 var UserService = {
   fetchUserInfo: async (user_id) => {
     try {
-      const response = await new Promise((resolve, reject) => {
-        RestClient.get(
-          "users/get/get_user_by_id.php?user_id=" + user_id,
-          (data) => {
-            resolve(data);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
+      let data = localStorage.getItem("userInfo");
+      if (data === null) {
+        data = await new Promise((resolve, reject) => {
+          RestClient.get(
+            "users/get/get_user_by_id.php?user_id=" + user_id,
+            (data) => {
+              resolve(data);
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+        });
 
-      localStorage.setItem("userInfo", JSON.stringify(response));
-      return response;
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        return data;
+      } else {
+        return JSON.parse(data);
+      }
     } catch (error) {
       console.error("Error fetching Profile data:", error);
     }
   },
-  deleteUserInfo: () => {
+  deleteUserInfoFormLocalStorage: () => {
     localStorage.removeItem("userInfo");
   },
   loadProfile: async (user_id) => {
-    UserService.deleteUserInfo();
-    let data = localStorage.getItem("userInfo");
-    if (data === null) {
-      data = await UserService.fetchUserInfo(user_id);
-    } else {
-      data = JSON.parse(data);
-    }
-    const ratingsArray = data.ratings.split(" ");
-    const content = `
+    UserService.deleteUserInfoFormLocalStorage();
+    const data = await UserService.fetchUserInfo(user_id),
+      ratingsArray = data.ratings.split(" "),
+      content = `
             <div class="avatar-box txt-c p-20">
               <img class="rad-half mb-10" src="${data.img}" alt="Profile Img" />
               <h3 class="m-0">${data.name}</h3>
@@ -153,14 +153,9 @@ var UserService = {
     const welcomWidget = $(".screen.wrapper .welcome");
     Utils.block_ui(welcomWidget);
 
-    UserService.deleteUserInfo();
-    let data = localStorage.getItem("userInfo");
-    if (data === null) {
-      data = await UserService.fetchUserInfo(user_id);
-    } else {
-      data = JSON.parse(data);
-    }
-    const welcomWidgetContent = `
+    UserService.deleteUserInfoFormLocalStorage();
+    const data = await UserService.fetchUserInfo(user_id),
+      welcomWidgetContent = `
               <div class="intro p-20 d-flex space-between bg-third pl-10-f pr-10-f">
                 <div>
                   <h2 class="m-0">Welcom</h2>
@@ -325,7 +320,6 @@ var UserService = {
       "users/add/add_draft.php?draft_id=" + draft_id,
       "Draft edited successfully",
       () => {
-        Utils.appearSuccAlert("Draft editted successfully");
         UserService.loadDrafts(user_id);
         Utils.removeModal(false, modal);
       }
@@ -383,7 +377,7 @@ var UserService = {
               </div>
             </div>
           </div>`;
-        modal.innerHTML = modalContent;
+        $(modal).html(modalContent);
         Utils.formAnimation();
         Utils.setupModalActions();
         Utils.appearModal(false);
@@ -401,6 +395,111 @@ var UserService = {
         Utils.appearFailAlert("Draft deleted successfully");
         UserService.loadDrafts(user_id);
         Utils.removeModal(false, $("#myModal")[0]);
+      }
+    );
+  },
+  loadSettings: async (user_id) => {
+    const data = await UserService.fetchUserInfo(user_id);
+    UserService.settingsGeneralForm(data);
+    UserService.loadSecurityWidget(data, user_id);
+    Utils.submit(
+      "edit-user-info-form",
+      "users/edit/edit_user_info.php?user_id=" + user_id,
+      "Info edited successfully",
+      async () => {
+        UserService.deleteUserInfoFormLocalStorage();
+        const data = await UserService.fetchUserInfo(user_id);
+        UserService.settingsGeneralForm(data);
+      }
+    );
+  },
+  settingsGeneralForm: (data) => {
+    $(".settings-page input[type=email]").val(data.email);
+    $(".settings-page input#name").val(data.name);
+    $(".settings-page input#phone").val(data.phone);
+  },
+  loadSecurityWidget: (data, user_id) => {
+    $(".security-widget .password-info").html(`
+    <div>
+      <span>Password</span>
+      <p class="c-grey mt-5 mb-0 fs-13">Last Change On ${data.last_change}</p>
+    </div>
+    <button
+      class="bg-main-color d-block c-white fs-15 rad-6 c-white w-fit btn-shape btn-position"
+      onclick="UserService.eidtPassword(${user_id}, ${data.password}, this)"
+      >
+      Change
+    </button>
+    `);
+  },
+  eidtPassword: (userID, oldPassword, el) => {
+    Utils.block_ui(el);
+    const modal = $("#myModal")[0];
+    $(modal).html(`
+          <div class="master-container">
+          <div class="card cart">
+            <div class="top-title">
+              <span class="title">Edit Password</span>
+              <i class="fa-solid fa-xmark x"></i>
+            </div>
+            <div class="form">
+              <form id="edit-password-form">
+                <div class="inputs">
+                  <div class="form-control full">
+                    <input
+                      type="hidden"
+                      id="user_id"
+                      name="user_id"
+                      value="${userID}"
+                    />
+                    <input
+                      type="password"
+                      class="field"
+                      required
+                      id="old_password"
+                      name="old_password"
+                    />
+                    <label for="old_password">Old Password</label>
+                  </div>
+                  <div class="form-control full">
+                    <input
+                      type="password"
+                      class="field"
+                      required
+                      id="password"
+                      name="password"
+                    />
+                    <label for="password">New Password</label>
+                  </div>
+                  <div class="form-control full">
+                    <input
+                      type="password"
+                      class="field"
+                      required
+                      id="rep_password"
+                      name="rep_password"
+                    />
+                    <label for="rep_password">Repeat Password</label>
+                  </div>
+                </div>
+                <input type="submit" class="submit save" value="Save" />
+              </form>
+            </div>
+          </div>
+        </div>`);
+    Utils.formAnimation();
+    Utils.setupModalActions();
+    Utils.appearModal(false);
+    Utils.unblock_ui(el);
+    Utils.submit(
+      "edit-password-form",
+      "users/edit/edit_user_password.php",
+      "Password edited successfully",
+      async () => {
+        UserService.deleteUserInfoFormLocalStorage();
+        const data = await UserService.fetchUserInfo(userID);
+        UserService.loadSecurityWidget(data);
+        Utils.removeModal(false, modal);
       }
     );
   },

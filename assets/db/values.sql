@@ -259,8 +259,11 @@ VALUES (1, 'Money', 20000.00, 'fa-euro-sign', 10000.00),
        (1, 'Tourist Group', 100.00, 'fa-users-rays', 30.00),
        (1, 'Project', 20.00, 'fa-bars-progress', 19.00);
 INSERT INTO drafts (user_id, title, content, time)
-VALUES
-    (1, 'Check My Tasks List', 'Review the tasks list and update as needed.', '2022-10-26 12:00:00'),
-    (1, 'Check My Projects', 'Review the project status and update tasks.', '2022-10-26 12:30:00'),
-    (1, 'Call All My Clients', 'Call all clients to discuss project progress.', '2022-10-26 13:00:00'),
-    (1, 'Finish The Development Workshop', 'Finalize the development workshop content.', '2022-10-26 13:30:00');
+VALUES (1, 'Check My Tasks List', 'Review the tasks list and update as needed.', '2022-10-26 12:00:00'),
+       (1, 'Check My Projects', 'Review the project status and update tasks.', '2022-10-26 12:30:00'),
+       (1, 'Call All My Clients', 'Call all clients to discuss project progress.', '2022-10-26 13:00:00'),
+       (1, 'Finish The Development Workshop', 'Finalize the development workshop content.', '2022-10-26 13:30:00');
+INSERT INTO `password_history` (`user_id`, `change_date`)
+VALUES (1, '2023-04-25 10:00:00'),
+       (1, CURRENT_TIMESTAMP),
+       (1, '2021-04-24 15:30:00');

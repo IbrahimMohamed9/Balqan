@@ -24,6 +24,12 @@ CREATE TABLE `users`
     `ratings`     TEXT,
     `friends`     TEXT
 );
+CREATE TABLE `password_history`
+(
+    `user_id`     INT,
+    `change_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_password_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
 CREATE TABLE `activities`
 (
     `activities_id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,7 +74,7 @@ CREATE TABLE `projects`
 (
     `project_id`       INT AUTO_INCREMENT PRIMARY KEY,
     `name`             VARCHAR(255),
-    `start_date`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `start_date`       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `end_date`         TIMESTAMP,
     `team`             TEXT,
     `tasks`            TEXT,
