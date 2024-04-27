@@ -267,5 +267,5 @@ INSERT INTO `password_history` (`user_id`, `change_date`)
 VALUES (1, '2023-04-25 10:00:00'),
        (1, CURRENT_TIMESTAMP),
        (1, '2021-04-24 15:30:00');
-INSERT INTO `widgets` (`user_id`, `drafts`, `targets`, `tickets`, `quick_draft`)
-VALUES (1, TRUE, TRUE, TRUE, FALSE);
+INSERT INTO `widgets` (`user_id`)
+VALUES (1);
