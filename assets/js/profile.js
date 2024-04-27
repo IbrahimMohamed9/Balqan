@@ -587,3 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //   .trim()
 //   .split("https")[1];
 // console.log(text);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 79107c56cceed65675f1caafaa986f1fdc8cb935
