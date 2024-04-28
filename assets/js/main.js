@@ -38,26 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1950);
   }
 
-  //dots in main-title
-  const mainTitles = document.querySelectorAll(".main-title");
-
-  mainTitles.forEach((mainTitle) => {
-    mainTitle.addEventListener("mouseenter", () => {
-      mainTitleAnimation(mainTitle);
-    });
-    mainTitle.addEventListener("click", () => {
-      mainTitleAnimation(mainTitle);
-    });
-  });
-  function mainTitleAnimation(title) {
-    title.classList.remove("unhovered");
-    title.classList.add("hovered");
-    setTimeout(() => {
-      title.classList.remove("hovered");
-      title.classList.add("unhovered");
-    }, 1500);
-  }
-
   //change heart in hover header
   const heartIcon = document.querySelector(".heart.fa-regular");
 
@@ -116,9 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
   globalModal.addEventListener("click", () => {
     closeNav();
   });
-  if (currentPage && window.matchMedia("(max-width:1000px)").matches) {
-    currentPage.addEventListener("click", closeNav);
-  }
+
+  document.querySelectorAll(".main-header ul.tile-wrds li").forEach((icon) => {
+    icon.addEventListener("click", closeNav);
+  });
 
   function appearModal() {
     globalModal.classList.add("d-block");
@@ -127,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       body.classList.add("fix");
     }, 2);
   }
+
   function disappearModal() {
     globalModal.classList.remove("active");
     body.classList.remove("fix");
@@ -141,13 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
     disappearModal();
 
     setTimeout(() => {
-      headerWords.style.display = "none";
+      headerWords.classList.add("disappear");
     }, 300);
   }
   function openNav() {
     headerMenu.classList.add("active");
+    headerWords.classList.remove("disappear");
 
-    headerWords.style.display = "grid";
     setTimeout(() => {
       headerWords.classList.add("active");
       appearModal();
@@ -170,25 +152,5 @@ document.addEventListener("DOMContentLoaded", () => {
       behavior: "smooth",
     });
   });
-
-  shoppingCartCounter();
-  function shoppingCartCounter() {
-    const fileName = window.location.pathname.split("/").pop(),
-      src =
-        fileName === "" || fileName === "index.html"
-          ? "assets/json/cart.json"
-          : "../json/cart.json";
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        document
-          .querySelector(".fa-solid.fa-cart-shopping.cart-shopping")
-          .setAttribute("data-counter", data.length);
-      });
-  }
+  CartService.shoppingCartCounter(1);
 });

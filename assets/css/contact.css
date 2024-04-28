@@ -178,70 +178,20 @@
   transform: translateY(-50%);
   left: 25px;
   pointer-events: none;
-  min-width: 33px;
-}
-.form-control #email + label,
-.form-control #emailcreate + label,
-.form-control #emailsignin + label {
-  min-width: 100px;
-  justify-content: left;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.form-control label span {
+  width: fit-content;
   background-color: var(--main-background-color);
   display: inline-block;
   font-size: 18px;
   border-left: 1px solid var(--main-background-color);
   color: var(--font-color);
 }
-.form-control .field.delay + label span,
-.form-control label.txtar-la.delay span {
+.form-control .field.delay + label,
+.form-control label.txtar-la.delay {
   transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.form-control .field.delay + label span:first-child,
-.form-control label.txtar-la.delay span:first-child {
-  transition-delay: 0ms;
-}
-.form-control .field.delay + label span:nth-child(2),
-.form-control label.txtar-la.delay span:nth-child(2) {
-  transition-delay: 50ms;
-}
-.form-control .field.delay + label span:nth-child(3),
-.form-control label.txtar-la.delay span:nth-child(3) {
-  transition-delay: 150ms;
-}
-.form-control .field.delay + label span:nth-child(4),
-.form-control label.txtar-la.delay span:nth-child(4) {
-  transition-delay: 200ms;
-}
-.form-control .field.delay + label span:nth-child(5),
-.form-control label.txtar-la.delay span:nth-child(5) {
-  transition-delay: 250ms;
-}
-.form-control .field.delay + label span:nth-child(6),
-.form-control label.txtar-la.delay span:nth-child(6) {
-  transition-delay: 300ms;
-}
-.form-control .field.delay + label span:nth-child(7),
-.form-control label.txtar-la.delay span:nth-child(7) {
-  transition-delay: 350ms;
-}
-.form-control .field.delay + label span:nth-child(8),
-.form-control label.txtar-la.delay span:nth-child(8) {
-  transition-delay: 400ms;
-}
-.form-control .field.delay + label span:nth-child(9),
-.form-control label.txtar-la.delay span:nth-child(9) {
-  transition-delay: 450ms;
-}
-.form-control label span:not(:first-of-type) {
-  margin-left: -6px;
-}
-.form-control input.active + label span {
+.form-control input.active + label {
   color: var(--main-color) !important;
-  transform: translateY(-22.5px) !important;
+  transform: translateY(-37px) !important;
 }
 .textarea {
   min-width: 100%;
@@ -269,7 +219,7 @@
   outline: 0;
   border-color: var(--main-color);
 }
-.form-control label.txtar-la.active span {
+.form-control label.txtar-la.active {
   color: var(--main-color);
   transform: translateY(-22.5px);
 }
