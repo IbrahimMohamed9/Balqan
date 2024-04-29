@@ -713,6 +713,7 @@ var UserService = {
       null
     ).done(() => {
       UserService.requestsFriendModal(requested_id);
+      if (status) UserService.loadFriends(requested_id);
     });
   },
   loadFriends: (user_id) => {

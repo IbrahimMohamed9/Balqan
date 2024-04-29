@@ -179,8 +179,24 @@ class UserDao extends BaseDao
     }
     public function delete_friend($friendship_id)
     {
-        $query = "DELETE FROM user_friends WHERE friendship_id = :friendship_id";
-        $this->execute($query, ['friendship_id' => $friendship_id]);
+        // TODO send the requester_id and requested_id from js
+        $get_ids = "SELECT uf.friend_id, uf.user_id FROM 
+        user_friends uf
+        WHERE uf.friendship_id = :friendship_id";
+
+        $ids =  $this->query_unique_last($get_ids, ['friendship_id' => $friendship_id]);
+
+        $change_number_of_freinds = "UPDATE users SET 
+        number_of_friends = number_of_friends - 1
+        WHERE user_id = :requester_id OR user_id = :requested_id";
+
+        $this->execute($change_number_of_freinds, [
+            'requester_id' => $ids['user_id'],
+            'requested_id' => $ids['friend_id']
+        ]);
+
+        $delete_friend = "DELETE FROM user_friends WHERE friendship_id = :friendship_id";
+        $this->execute($delete_friend, ['friendship_id' => $friendship_id]);
     }
     public function edit_user_draft($draft)
     {
