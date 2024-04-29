@@ -177,6 +177,11 @@ class UserDao extends BaseDao
         $query = "DELETE FROM users WHERE user_id = :user_id";
         $this->execute($query, ['user_id' => $user_id]);
     }
+    public function delete_friend($friendship_id)
+    {
+        $query = "DELETE FROM user_friends WHERE friendship_id = :friendship_id";
+        $this->execute($query, ['friendship_id' => $friendship_id]);
+    }
     public function edit_user_draft($draft)
     {
         $query = "UPDATE drafts SET 
