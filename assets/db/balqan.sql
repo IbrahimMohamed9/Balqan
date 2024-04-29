@@ -45,7 +45,6 @@ CREATE TABLE `user_friends`
     FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`),
     CONSTRAINT `chk_different_users` CHECK (`user_id` <> `friend_id`)
 );
-
 CREATE TABLE `password_history`
 (
     `user_id`     INT,

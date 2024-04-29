@@ -83,11 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
     templateDir: "./profilePages/",
   });
 
-  // const user_id = 1;
+  const user_id = 1;
   // const user_id = 2;
   // const user_id = 3;
   // const user_id = 4;
-  const user_id = 5;
+  // const user_id = 5;
+
+  UserService.mainImage(user_id);
   app.route({
     view: "profile",
     load: "profile.html",
@@ -334,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
           content += `
               </div>
               <div class="info between-flex">
-                <div class="prog bg-eee">
+                <div class="prog bg-eee d-none">
                   <span class="bg-red" style="width: ${project.progress}%"></span>
                 </div>
                 <div class="fs-14 c-grey">

@@ -2,7 +2,6 @@ var UserService = {
   fetchUserInfo: async (user_id) => {
     try {
       let data = localStorage.getItem("userInfo");
-      let widgets = localStorage.getItem("userWidgets");
       if (data === null) {
         data = await new Promise((resolve, reject) => {
           RestClient.get(
@@ -49,6 +48,10 @@ var UserService = {
     } catch (error) {
       console.error("Error fetching Profile data:", error);
     }
+  },
+  mainImage: async (user_id) => {
+    const data = await UserService.fetchUserInfo(user_id);
+    $($(".content .head .icons img")[0]).attr("src", data.img);
   },
   deleteUserInfoFormLocalStorage: () => {
     localStorage.removeItem("userInfo");
