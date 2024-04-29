@@ -59,80 +59,7 @@ var UserService = {
   loadProfile: async (user_id) => {
     UserService.deleteUserInfoFormLocalStorage();
     const data = await UserService.fetchUserInfo(user_id),
-      ratingsArray = data.ratings.split(" "),
-      content = `
-            <div class="avatar-box txt-c p-20">
-              <img class="rad-half mb-10" src="${data.img}" alt="Profile Img" />
-              <h3 class="m-0">${data.name}</h3>
-              <p class="c-grey mt-10">Level ${data.level}</p>
-              <div class="level rad-6 bg-eee p-relative">
-                <span style="width: ${data.level}%"></span>
-              </div>
-              <div class="rating mt-10 mb-10">
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-              </div>
-              <p class="c-grey m-0 fs-13">${ratingsArray.length} Rating</p>
-            </div>
-            <div class="info-box w-full txt-c-mobile">
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey fs-15 m-0 w-full">General Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Full Name</span>
-                  <span>${data.name}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Gender:</span>
-                  <span>${data.gender}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Nationality:</span>
-                  <span>${data.nationality}</span>
-                </div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Personal Information</h4>
-                <div class="fs-14 d-flex align-center center-mobile">
-                  <span class="c-grey">Email:</span>
-                  <span class="email">&nbsp;${data.email}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Phone:</span>
-                  <span>${data.phone}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Date Of Birth:</span>
-                  <span>${data.DOB}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Job Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Title:</span>
-                  <span>${data.jobTitle}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Country:</span>
-                  <span>${data.country}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Years Of Experience:</span>
-                  <span>${data.YOE}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-            </div>
-          `;
+      content = UserService.loadMainProfileWidget(data, user_id, true);
     const skills = data.skills.split(" ");
     let skillsList = "";
     for (let i = 0; i < skills.length; i += 3) {
@@ -147,6 +74,102 @@ var UserService = {
       skillsList;
 
     document.querySelector(".screen .overview").innerHTML = content;
+  },
+  loadMainProfileWidget: (data, user_id, profilePage) => {
+    let content = `
+            <div class="avatar-box txt-c p-20">
+              <img class="rad-half mb-10" src="${data.img}" alt="Profile Img" />
+              <h3 class="m-0">${data.name}</h3>
+              <p class="c-grey mt-10">Level ${data.level}</p>
+              <div class="level rad-6 bg-eee p-relative">
+                <span style="width: ${data.level}%"></span>
+              </div>
+              <div class="rating mt-10 mb-10">
+                <i class="fa-solid fa-star c-orange fs-13"></i>
+                <i class="fa-solid fa-star c-orange fs-13"></i>
+                <i class="fa-solid fa-star c-orange fs-13"></i>
+                <i class="fa-solid fa-star c-orange fs-13"></i>
+                <i class="fa-solid fa-star c-orange fs-13"></i>
+              </div>
+              <p class="c-grey m-0 fs-13">${
+                data.ratings.split(" ").length
+              } Rating</p>
+            </div>
+            <div class="info-box w-full txt-c-mobile">
+              <!-- Start Information Row -->
+              <div class="box p-20 d-flex align-center">
+                <h4 class="c-grey fs-15 m-0 w-full">General Information</h4>
+                <div class="fs-14">
+                  <span class="c-grey">Full Name</span>
+                  <span>${data.name}</span>
+                </div>
+                <div class="fs-14">
+                  <span class="c-grey">Gender:</span>
+                  <span>${data.gender}</span>
+                </div>
+                ${
+                  profilePage
+                    ? `<div class="fs-14">
+                        <span class="c-grey">Nationality:</span>
+                        <span>${data.nationality}</span>
+                      </div>`
+                    : ""
+                }
+                  <div class="fs-14">
+                  <span class="c-grey">User ID:</span>
+                  <span>${user_id}</span>
+                </div>
+              </div>
+              <!-- End Information Row -->
+              <!-- Start Information Row -->
+              <div class="box p-20 d-flex align-center">
+                <h4 class="c-grey w-full fs-15 m-0">Personal Information</h4>
+                <div class="fs-14 d-flex align-center center-mobile">
+                  <span class="c-grey">Email:</span>
+                  <span class="email">&nbsp;${data.email}</span>
+                </div>
+                <div class="fs-14">
+                  <span class="c-grey">Phone:</span>
+                  <span>${data.phone}</span>
+                </div>
+
+                ${
+                  profilePage
+                    ? `<div class="fs-14">
+                        <span class="c-grey">Date Of Birth:</span>
+                        <span>${data.DOB}</span>
+                      </div>`
+                    : `<div class="fs-14">
+                        <span class="c-grey">Job Title:</span>
+                        <span>${data.job_title}</span>
+                      </div>`
+                }
+              </div>
+              <!-- End Information Row -->`;
+    if (profilePage)
+      content += `
+              <!-- Start Information Row -->
+              <div class="box p-20 d-flex align-center">
+                <h4 class="c-grey w-full fs-15 m-0">Job Information</h4>
+                <div class="fs-14">
+                  <span class="c-grey">Title:</span>
+                  <span>${data.job_title}</span>
+                </div>
+                <div class="fs-14">
+                  <span class="c-grey">Country:</span>
+                  <span>${data.country}</span>
+                </div>
+                <div class="fs-14">
+                  <span class="c-grey">Years Of Experience:</span>
+                  <span>${data.YOE}</span>
+                </div>
+                <div class="fs-14"></div>
+              </div>
+              <!-- End Information Row -->
+            </div>
+          `;
+
+    return content;
   },
   loadLatestActivity: (user_id) => {
     RestClient.get(
@@ -197,7 +220,7 @@ var UserService = {
                 <div class="fs-13-f">
                   ${data.name}
                   <span class="d-block c-grey fs-14 mt-10 fs-10-f">${
-                    data.jobTitle
+                    data.job_title
                   }</span>
                 </div>
                 <div class="fs-13-f">
@@ -504,7 +527,7 @@ var UserService = {
     </div>
     <button
       class="bg-main-color d-block c-white fs-15 rad-6 c-white w-fit btn-shape btn-position"
-      onclick="UserService.eidtPassword(${user_id}, ${data.password}, this)"
+      onclick="UserService.eidtPassword(${user_id}, '${data.password}', this)"
       >
       Change
     </button>
@@ -599,6 +622,198 @@ var UserService = {
         Utils.removeModal(false, modal);
       }
     );
+  },
+  addFriend: (user_id) => {
+    const addFriendForm = $("#add-friend-form"),
+      addFriendBtn = $("#add-friend"),
+      addFriendInput = addFriendForm.find("#requested_id"),
+      addFriendIcon = addFriendForm.find("i.add-friend"),
+      addFriendBtnsAnimation = () => {
+        addFriendForm.hasClass("d-none")
+          ? addFriendForm.removeClass("d-none").addClass("between-flex")
+          : setTimeout(() => {
+              addFriendForm.addClass("d-none").removeClass("between-flex");
+            }, 300);
+
+        addFriendBtn.toggleClass("hidden-by-width");
+
+        setTimeout(() => {
+          addFriendInput.toggleClass("hidden-by-width");
+          addFriendIcon.toggleClass("fs-0");
+        }, 0);
+      };
+
+    addFriendBtn.click(addFriendBtnsAnimation);
+    // TODO user_id can't be same friend_id
+    // const ids = localStorage.getItem("friendsId");
+    // if ($(addFriendInput).val())
+      Utils.submit(
+        "add-friend-form",
+        "users/add/add_friend_request.php?requester_id=" + user_id,
+        "Friend added successfully",
+        () => {
+          addFriendBtnsAnimation();
+        }
+      );
+  },
+  requestsFriendModal: (user_id, el) => {
+    Utils.block_ui(el, true);
+    RestClient.get(
+      "users/get/get_friend_requests.php?user_id=" + user_id,
+      (data) => {
+        const modal = $("#myModal")[0];
+        let modalContent = `
+        <div class="master-container">
+              <div class="card cart">
+                <div class="top-title">
+                  <span class="title">Friend requests</span>
+                  <i class="fa-solid fa-xmark x"></i>
+                </div>
+                <div class="products p-5">
+        `;
+        data.map((requester) => {
+          modalContent += `
+            <div class="product mb-0">
+              <img class="modal-img" src="${requester.img}" alt="friend image" title="${requester.name}"/>
+              <div class="col-2 w-full">
+                <p class="item-name">${requester.name}</p>
+                <p class="item-description">${requester.job_title}</p>
+              </div>
+              <div class="d-flex align-center gap-10">
+                <button type="button" class="btn btn-danger"
+                onclick="UserService.editFriendRequestStatus(${user_id}, ${requester.user_id}, 0)"
+                >
+                  <i class="fa-solid fa-circle-minus fa-lg"></i>
+                </button>
+                <button type="button" class="btn btn-success"
+                onclick="UserService.editFriendRequestStatus(${user_id}, ${requester.user_id}, 1)"
+                >
+                  <i class="fa-solid fa-circle-check fa-lg"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        modalContent += `</div></div></div>`;
+        $(modal).html(modalContent);
+        Utils.setupModalActions();
+        Utils.appearModal(false);
+        Utils.unblock_ui(el);
+      }
+    );
+  },
+  editFriendRequestStatus: (requested_id, requester_id, status) => {
+    $.post(
+      Constants.API_BASE_URL +
+        "users/edit/edit_friend_request_status.php?requested_id=" +
+        requested_id +
+        "&requester_id=" +
+        requester_id,
+      "&status=" + status,
+      null
+    ).done(() => {
+      UserService.requestsFriendModal(requested_id);
+    });
+  },
+  loadFriends: (user_id) => {
+    RestClient.get("users/get/get_friends.php?user_id=" + user_id, (data) => {
+      let content = "",
+        friendStorage = [],
+        friendsId = "";
+      data.forEach((friend, index) => {
+        friendStorage.push(friend);
+        friendsId += friend.user_id + " ";
+        content += `
+          <div class="friend bg-fourth rad-6 p-20 p-relative">
+          <div class="contact">
+            <a 
+              href="tel:${friend.phone}" 
+              class="d-inline" 
+              title="${friend.phone}"
+            >
+              <i class="fa-solid fa-phone"></i>
+            </a>
+            <a 
+              href="mailto:${friend.email}" 
+              class="d-inline" 
+              title="${friend.email}"
+            >
+              <i class="fa-regular fa-envelope"></i>
+            </a>
+          </div>
+          <div class="txt-c">
+            <img
+              class="rad-half mt-10 mb-10 w-100 h-100"
+              src="${friend.img}"
+              alt="friend image"
+              title="${friend.name}"
+            />
+            <h4 class="m-0">${friend.name}</h4>
+            <p class="c-grey fs-13 mt-5 mb-0">${friend.job_title}</p>
+          </div>
+          <div class="icons fs-14 p-relative">
+            <div class="mb-10">
+              <i class="fa-regular fa-face-smile fa-fw"></i>
+              <span>${friend.number_of_friends} Friends</span>
+            </div>
+            <div class="mb-10">
+              <i class="fa-solid fa-code-commit fa-fw"></i>
+              <span>${friend.projects} Projects</span>
+            </div>
+            ${
+              friend.level > 30
+                ? '<span class="vip fw-bold c-orange">VIP</span>'
+                : ""
+            }
+          </div>
+          <div class="info between-flex fs-13">
+            <span 
+              class="c-grey"
+            >
+              Joined ${Utils.dateOfTimestamp(friend.joined_date)}
+            </span>
+            <div class="d-flex gap-5">
+              <button 
+                type="button" 
+                class="bg-blue c-white btn-shape"
+                onclick="UserService.friendProfile(${index}, this)"
+              >
+                Profile
+              </button>
+              <button 
+                type="button" 
+                class="bg-red c-white btn-shape"
+                onclick="UserService.friendProfile(${friend})"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      });
+      localStorage.setItem("friends", JSON.stringify(friendStorage));
+      localStorage.setItem("friendsId", JSON.stringify(friendsId));
+      document.querySelector(".screen.friends-page").innerHTML = content;
+    });
+  },
+  friendProfile: (index, el) => {
+    Utils.block_ui(el, true);
+    const data = JSON.parse(localStorage.getItem("friends"))[index],
+      content =
+        `<div class="master-container profile-page ">
+        <div class="card cart overview bg-fourth rad-10 d-flex align-center">
+                <div class="top-title">
+                  <span class="title">Friend</span>
+                  <i class="fa-solid fa-xmark x"></i>
+                </div>
+                ` +
+        UserService.loadMainProfileWidget(data, data.user_id, false) +
+        "</div>";
+    $("#myModal").html(content);
+    Utils.setupModalActions();
+    Utils.appearModal(false);
+    Utils.unblock_ui(el);
   },
   signIn: (form_id) => {
     const form = $("#" + form_id),

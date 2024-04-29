@@ -7,23 +7,46 @@ CREATE DATABASE `balqan` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `balqan`;
 CREATE TABLE `users`
 (
-    `user_id`     INT AUTO_INCREMENT PRIMARY KEY,
-    `name`        VARCHAR(255),
-    `password`    VARCHAR(255),
-    `email`       VARCHAR(255) UNIQUE,
-    `img`         VARCHAR(255),
-    `DOB`         DATE, # Date Of Birth
-    `phone`       VARCHAR(30) UNIQUE,
-    `country`     VARCHAR(255),
-    `jobTitle`    VARCHAR(255),
-    `YOE`         INT,  # Years Of Experience
-    `level`       INT,
-    `gender`      VARCHAR(15),
-    `nationality` VARCHAR(255),
-    `skills`      TEXT,
-    `ratings`     TEXT,
-    `friends`     TEXT
+    `user_id`           INT AUTO_INCREMENT PRIMARY KEY,
+    `joined_date`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `name`              VARCHAR(255),
+    `password`          VARCHAR(255),
+    `email`             VARCHAR(255) UNIQUE,
+    `img`               VARCHAR(255),
+    `DOB`               DATE, # Date Of Birth
+    `phone`             VARCHAR(30) UNIQUE,
+    `country`           VARCHAR(255),
+    `job_title`          VARCHAR(255),
+    `YOE`               INT,  # Years Of Experience
+    `level`             INT,
+    `number_of_friends` INT DEFAULT 0,
+    `gender`            VARCHAR(15),
+    `nationality`       VARCHAR(255),
+    `skills`            TEXT,
+    `ratings`           TEXT
 );
+CREATE TABLE `friend_requests`
+(
+    `request_id`   INT AUTO_INCREMENT PRIMARY KEY,
+    `requester_id` INT,
+    `requested_id` INT,
+    `added_time`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `status`       BOOLEAN,
+    FOREIGN KEY (`requester_id`) REFERENCES `users` (`user_id`),
+    FOREIGN KEY (`requested_id`) REFERENCES `users` (`user_id`)
+);
+
+CREATE TABLE `user_friends`
+(
+    `friendship_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id`       INT, #requester
+    `friend_id`     INT, #requested
+    `added_time`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+    FOREIGN KEY (`friend_id`) REFERENCES `users` (`user_id`),
+    CONSTRAINT `chk_different_users` CHECK (`user_id` <> `friend_id`)
+);
+
 CREATE TABLE `password_history`
 (
     `user_id`     INT,
@@ -157,7 +180,7 @@ CREATE TABLE `articles`
     `category`    VARCHAR(255),
     `title`       VARCHAR(255),
     `country`     VARCHAR(255),
-    `added_time`  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `added_time`  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `description` TEXT,
     `content`     TEXT,
     `status`      VARCHAR(255)

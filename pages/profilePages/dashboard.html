@@ -17,7 +17,7 @@
       <p class="mt-0 mb-20 fs-15 c-grey">Write A Draft For Your Ideas</p>
       <form id="draft-form">
         <input
-          class="d-block border-ccc rad-6 w-full p-10 b-none bg-third c-main-font"
+          class="d-block border-ccc rad-6 w-full p-10 bg-third c-main-font"
           type="text"
           name="title"
           id="title"
@@ -26,9 +26,9 @@
           required
           placeholder="Title"
         />
-        <div class="textarea border-ccc mt-20 rad-6 w-full b-none">
+        <div class="textarea border-ccc mt-20 rad-6 w-full">
           <textarea
-            class="d-block rad-6 w-full p-10 b-none bg-third c-main-font"
+            class="d-block rad-6 w-full p-10 bg-third c-main-font"
             name="content"
             id="content"
             minlength="3"
@@ -38,7 +38,7 @@
         </div>
 
         <input
-          class="save b-none d-block mt-20 fs-15 rad-6 bg-main-color btn-position c-white w-fit btn-shape"
+          class="save d-block mt-20 fs-15 rad-6 bg-main-color btn-position c-white w-fit btn-shape"
           type="submit"
           value="Save"
         />
@@ -65,6 +65,9 @@
   </div>
   <!-- End Ticket Wedget -->
   <!-- Start Latest Uploads Widget -->
+  <!-- 
+    TODO connect this with db
+  -->
   <div class="latest-uploads p-20 bg-fourth rad-10 p-10-f d-none">
     <h2 class="mt-0 mb-20">Latest Uploads</h2>
     <ul class="m-0">
@@ -135,7 +138,7 @@
   <div class="d-none">
     <!-- 
       TODO connect this with db
-     -->
+    -->
     <div class="last-project p-20 bg-fourth rad-10 p-relative p-10-f">
       <h2 class="mt-0 mb-20">Last Project Progress</h2>
       <ul class="m-0 p-relative"></ul>

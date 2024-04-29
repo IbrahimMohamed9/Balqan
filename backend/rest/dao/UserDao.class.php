@@ -12,6 +12,10 @@ class UserDao extends BaseDao
     {
         $this->insert("users", $user);
     }
+    public function add_friend_request($ids)
+    {
+        $this->insert("friend_requests", $ids);
+    }
     public function get_users()
     {
         $query = "SELECT * FROM users";
@@ -25,8 +29,62 @@ class UserDao extends BaseDao
                             LEFT JOIN password_history ph ON u.user_id = ph.user_id
                     WHERE u.user_id = :user_id
                     GROUP BY u.user_id";
-
         return $this->query_unique_first($query, ['user_id' => $user_id]);
+    }
+    public function get_friend_requests($user_id)
+    {
+        $query = "SELECT 
+        u.user_id, 
+        u.name, 
+        u.img, 
+        u.job_title
+        FROM 
+            users AS u
+        RIGHT JOIN 
+            friend_requests fr ON u.user_id = fr.requester_id
+        WHERE 
+            fr.status IS NULL 
+            AND fr.requested_id = :user_id
+        GROUP BY 
+            u.user_id, 
+            u.name, 
+            u.img, 
+            u.job_title";
+        return $this->query($query, ['user_id' => $user_id]);
+    }
+    public function get_friends($user_id)
+    {
+        // TODO retrieve just card and retrieve friend by other function
+        $query = "SELECT u.name,
+        u.email,
+        u.user_id,
+        u.phone,
+        u.img,
+        u.joined_date,
+        u.job_title,
+        u.level,
+        u.ratings,
+        uf.friendship_id,
+        u.gender,
+        COUNT(up.user_id) AS projects,
+        u.number_of_friends
+    FROM user_friends AS uf
+            JOIN users u ON u.user_id = uf.user_id OR u.user_id = uf.friend_id
+            LEFT JOIN user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+    WHERE (uf.user_id = :user_id OR uf.friend_id = :user_id) AND u.user_id != :user_id
+    GROUP BY u.name,
+            u.email,
+            u.img,
+            u.phone,
+            u.joined_date,
+            u.job_title,
+            u.level,
+            u.ratings,
+            uf.friendship_id,
+            u.gender,
+            u.user_id,
+            u.number_of_friends";
+        return $this->query($query, ['user_id' => $user_id]);
     }
     public function user_login($email, $password)
     {
@@ -167,5 +225,36 @@ class UserDao extends BaseDao
         $query .= " WHERE user_id = :user_id";
 
         $this->execute($query, $data);
+    }
+    public function editFriendRequestStatus($request)
+    {
+        $query = "UPDATE friend_requests SET 
+            status = :status
+            WHERE requester_id = :requester_id AND requested_id = :requested_id";
+
+        $this->execute($query, [
+            'requester_id' => $request['requester_id'],
+            'requested_id' => $request['requested_id'],
+            'status' => $request['status']
+        ]);
+
+        if ($request['status']) {
+            $this->insert(
+                'user_friends',
+                [
+                    'user_id' => $request['requester_id'],
+                    'friend_id' => $request['requested_id']
+                ]
+            );
+
+            $query = "UPDATE users SET 
+            number_of_friends = number_of_friends + 1
+            WHERE user_id = :requester_id OR user_id = :requested_id";
+
+            $this->execute($query, [
+                'requester_id' => $request['requester_id'],
+                'requested_id' => $request['requested_id']
+            ]);
+        }
     }
 }
