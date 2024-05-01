@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultView: "#home",
     templateDir: "pages/homePages/",
   });
-
   app.route({
     view: "home",
     load: "home.html",
@@ -157,13 +156,13 @@ document.addEventListener("DOMContentLoaded", () => {
       switchButton(4);
     },
   });
-
+  const cart_id = 1;
   app.route({
     view: "cart",
     load: "cart.html",
     onCreate: function () {},
     onReady: function () {
-      CartService.loadCart(1);
+      CartService.loadRows(cart_id);
       switchButton(null);
     },
   });

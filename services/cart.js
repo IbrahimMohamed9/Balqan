@@ -29,9 +29,7 @@ var CartService = {
       })
       .fail((xhr) => {
         Utils.unblock_ui(block);
-
         if (modal) Utils.removeModal(true, modal);
-
         Utils.appearFailAlert(xhr.responseText);
       });
   },
@@ -42,6 +40,7 @@ var CartService = {
         RestClient.get(
           "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
           (data) => {
+            console.log(data.counter);
             resolve(Number(data.counter));
           },
           (error) => {
@@ -58,7 +57,7 @@ var CartService = {
       .setAttribute("data-counter", counter);
     localStorage.setItem("counter", JSON.stringify(counter));
   },
-  loadCart: (cart_id) => {
+  loadRows: (cart_id) => {
     RestClient.get(
       "carts/get_cart_items_by_id.php?cart_id=" + cart_id,
       (data) => {
@@ -409,7 +408,7 @@ var CartService = {
     if (items !== null && items !== undefined) {
       items.forEach((data) => {
         if (data.changed) {
-          RestClient.post("carts/update_item_cart.php", data);
+          RestClient.put("carts/update_item_cart.php", data);
         }
       });
     }
@@ -428,7 +427,7 @@ var CartService = {
         () => {},
         (error) => {
           console.log(error);
-          CartService.loadCart(1);
+          CartService.loadRows(cart_id);
           Utils.appearFailAlert(name + " was deleted");
           CartService.shoppingCartCounter(cart_id, -1);
         }

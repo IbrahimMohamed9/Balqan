@@ -109,11 +109,9 @@ CREATE TABLE `projects`
     `team`             TEXT,
     `tasks`            TEXT,
     `progress_persent` INT,
-    `status`           VARCHAR(255),
-    `client`           INT,
+    `status`           VARCHAR(30),
     `price`            DECIMAL(10, 2),
-    `progress`         TEXT,
-    CONSTRAINT `fk_project_client` FOREIGN KEY (`client`) REFERENCES `users` (`user_id`)
+    `progress`         TEXT
 );
 CREATE TABLE `user_projects`
 (
