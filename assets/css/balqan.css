@@ -29,6 +29,7 @@
   --third-background-color: #ffffff80;
   --grey-color: grey;
   --footer-color: #ededed;
+  --border-color: #303030;
 }
 .dark-theme {
   --main-color: #f7af01;
@@ -46,6 +47,7 @@
   --product-color: #e7e7e7;
   --secondary-product-color: #dbdbdb;
   --third-background-color: #161616;
+  --border-color: #eee;
 }
 /* 
 ====================================================================

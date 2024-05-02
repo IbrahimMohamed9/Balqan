@@ -169,7 +169,7 @@ var Utils = {
         quantityNumber2
       );
 
-      $("#myModal .checkout .checkout-btn").on("click", () => {
+      $("#myModal .checkout .checkout-btn").click(() => {
         CartService.addToCart(
           1,
           item_id,
@@ -231,7 +231,7 @@ var Utils = {
   totalPriceModal: (total, totalPriceModal, itemPrice, price) => {
     totalPriceModal[1].textContent = Math.floor(total);
     totalPriceModal[2].textContent = Utils.checkDec(total);
-    itemPrice.textContent = `${price} KM`;
+    itemPrice.textContent = `${Utils.checkDecWithInt(price)} KM`;
   },
   getPrice: (category, itemData) => {
     return category === "package"

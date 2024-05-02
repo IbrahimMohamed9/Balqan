@@ -670,7 +670,6 @@ var ItemService = {
         `;
 
         moreItemWrapper.innerHTML += moreItemCon;
-        console.log(moreItemWrapper.innerHTML);
       });
       Utils.carouselSplide(".splide");
     });
