@@ -17,7 +17,7 @@ SELECT *
 FROM friend_requests;
 
 SELECT *
-FROM user_friends;
+FROM cart_items;
 
 SELECT user_id, number_of_friends
 FROM users;

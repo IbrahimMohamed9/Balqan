@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
           content += `
               </div>
               <!--<div class="do d-flex">`;
-
+          // project tasks (for example cities)
           // project.tasks.forEach((task) => {
           //   content += `<span class="fs-13 rad-6 bg-eee">${task}</span>`;
           // });

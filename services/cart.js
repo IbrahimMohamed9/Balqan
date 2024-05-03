@@ -91,10 +91,10 @@ var CartService = {
             totalDecimalPart = Utils.checkDec(totalPrice),
             imgSrc = Utils.firstLink(itemData.imgs_srcs);
           totalPriceModal = totalPrice + parseFloat(totalPriceModal);
-
           itemsLocalStorage.push({
             item_id: itemData.item_id,
             cart_id: itemData.cart_id,
+            cart_item_id: itemData.cart_item_id,
             persons_selected: itemData.persons_selected,
             days_selected: itemData.days_selected,
             category: category,
@@ -404,20 +404,28 @@ var CartService = {
       }
     );
   },
-  // updateCart: (removeLocalStorage) => {
-  //   const items = JSON.parse(localStorage.getItem("cart_items"));
-  //   if (items !== null && items !== undefined) {
-  //     items.forEach((data) => {
-  //       if (data.changed) {
-  //         RestClient.put("carts/update_item_cart.php", data);
-  //       }
-  //     });
-  //   }
-  //   if (removeLocalStorage) {
-  //     localStorage.removeItem("cart_items");
-  //     localStorage.removeItem("totalPrice");
-  //   }
-  // },
+  updateCart: (removeLocalStorage) => {
+    const items = JSON.parse(localStorage.getItem("cart_items"));
+    if (items !== null && items !== undefined) {
+      items.forEach((data) => {
+        if (data.changed) {
+          RestClient.put(
+            "carts/update_item_cart.php?cart_item_id=" +
+              data.cart_item_id +
+              "&persons_selected=" +
+              data.persons_selected +
+              "&days_selected=" +
+              data.days_selected,
+            null
+          );
+        }
+      });
+    }
+    if (removeLocalStorage) {
+      localStorage.removeItem("cart_items");
+      localStorage.removeItem("totalPrice");
+    }
+  },
   removeItemCart: (cart_id, item_id, name) => {
     if (confirm("Do you want to delete " + name + "?") == true) {
       // TODO: fix this amazing error the function call
@@ -465,7 +473,31 @@ var CartService = {
       );
     });
   },
-  checkOut: () => {},
+  checkOut: (user_id, price, position, item_id, cart_id) => {
+    const registerBtn = $("button.checkout-btn");
+    Utils.block_ui(registerBtn);
+
+    const data = {
+      user_id: user_id,
+      price: price,
+      position: position,
+      item_id: item_id,
+      cart_id: cart_id,
+    };
+
+    RestClient.post(
+      "projects/add_project.php",
+      data,
+      (data) => {
+        Utils.unblock_ui(registerBtn);
+      },
+      (error) => {
+        Utils.unblock_ui(registerBtn);
+
+        Utils.appearFailAlert(error);
+      }
+    );
+  },
 };
 /*
           if (category == "package") {

@@ -25,6 +25,7 @@ class CartDao extends BaseDao
                       ite.min_persons,
                       ite.max_persons,
                       car_ite.days_selected,
+                      car_ite.cart_item_id, 
                       car_ite.persons_selected,
                       car_ite.item_id,
                       car_ite.cart_id
@@ -36,7 +37,13 @@ class CartDao extends BaseDao
   }
   public function get_cart_item_by_id($ids)
   {
-    $query = "SELECT ite.name, ite.imgs_srcs, ite.person_price, ite.day_price, car_ite.days_selected, car_ite.persons_selected 
+    $query = "SELECT ite.name, 
+                ite.imgs_srcs,
+                ite.person_price,
+                ite.day_price,
+                car_ite.cart_item_id, 
+                car_ite.days_selected, 
+                car_ite.persons_selected 
                 FROM carts AS cart
                 JOIN cart_items AS car_ite ON car_ite.cart_id = cart.cart_id
                 JOIN items AS ite ON ite.item_id = car_ite.item_id
@@ -65,8 +72,9 @@ class CartDao extends BaseDao
   public function update_item_cart($cart)
   {
     $query = "UPDATE cart_items 
-      SET days_selected = :days_selected, persons_selected = :persons_selected 
-      WHERE cart_id = :cart_id AND item_id = :item_id";
+      SET days_selected = :days_selected,
+      persons_selected = :persons_selected 
+      WHERE cart_item_id = :cart_item_id";
     $this->execute($query, $cart);
   }
   public function check_coupon($code)

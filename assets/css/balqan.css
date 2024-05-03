@@ -2506,7 +2506,9 @@ footer p {
 ====================================================================
 ====================================================================
 */
-
+main section {
+  min-height: calc(100vh - 332px);
+}
 section#articles .wrap {
   background-color: var(--secondary-background-color);
   padding: 50px 0 1px;

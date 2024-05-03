@@ -164,6 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
     onReady: () => {
       CartService.loadRows(cart_id);
       switchButton(null);
+      $(window).one("hashchange", () => {
+        CartService.updateCart();
+      });
     },
   });
 

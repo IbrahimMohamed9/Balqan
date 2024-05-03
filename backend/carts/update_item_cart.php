@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../rest/services/CartService.class.php';
 
 $cart = array(
-  'cart_id' => $_REQUEST['cart_id'],
-  'item_id' => $_REQUEST['item_id'],
+  'cart_item_id' => $_REQUEST['cart_item_id'],
   'persons_selected' => $_REQUEST['persons_selected'],
   'days_selected' => $_REQUEST['days_selected']
 );
