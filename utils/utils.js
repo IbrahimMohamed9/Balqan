@@ -318,17 +318,17 @@ var Utils = {
           );
         }
       });
-      if (cart && Utils.counter() === 1) {
-        $(window).on("hashchange", Utils.handleHashChange);
-        $(window).on("beforeunload", Utils.handleHashChange);
-      }
+      // if (cart && Utils.counter() === 1) {
+      //   $(window).on("hashchange", Utils.handleHashChange);
+      //   $(window).on("beforeunload", Utils.handleHashChange);
+      // }
     });
   },
-  handleHashChange: () => {
-    CartService.updateCart(true);
-    $(window).off("hashchange", Utils.handleHashChange);
-    $(window).off("beforeunload", Utils.handleHashChange);
-  },
+  // handleHashChange: () => {
+  //   CartService.updateCart(true);
+  //   $(window).off("hashchange", Utils.handleHashChange);
+  //   $(window).off("beforeunload", Utils.handleHashChange);
+  // },
   appearFailAlert: (message) => {
     const quantityAlert = document.querySelector(
       ".alert.alert-danger.decrease"

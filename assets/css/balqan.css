@@ -516,20 +516,20 @@ img {
 .main-header .icons .heart:hover {
   color: var(--main-color);
 }
-.main-header .icons .cart-shopping {
+.main-header .icons .shopping-cart-icon {
   margin: 0 3px 0 15px;
   position: relative;
   cursor: pointer;
 }
-.main-header .icons .cart-shopping:hover {
+.main-header .icons .shopping-cart-icon:hover {
   color: var(--main-color);
 }
 @media (max-width: 1000px) {
-  .main-header .icons .cart-shopping {
+  .main-header .icons .shopping-cart-icon {
     margin: 0 3px 0 11px;
   }
 }
-.main-header .icons .cart-shopping::after {
+.main-header .icons .shopping-cart-icon::after {
   content: attr(data-counter);
   background-color: var(--font-color);
   color: var(--secondary-background-color);
@@ -545,7 +545,7 @@ img {
   left: -10px;
   transition: background-color 0.3s, color 0.3s;
 }
-.main-header .icons .cart-shopping:hover::after {
+.main-header .icons .shopping-cart-icon:hover::after {
   color: var(--font-color);
   background-color: var(--main-color);
   border-color: var(--main-color);

@@ -34,26 +34,27 @@ var CartService = {
       });
   },
   shoppingCartCounter: async (cart_id, change) => {
-    let counter = localStorage.getItem("counter");
-    if (counter === null || counter === undefined) {
-      counter = await new Promise((resolve, reject) => {
-        RestClient.get(
-          "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
-          (data) => {
-            console.log(data.counter);
-            resolve(Number(data.counter));
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
-    } else {
-      counter = Number(JSON.parse(counter)) + change;
-    }
+    // const cart_items = JSON.parse(localStorage.getItem("cart_items"));
+    // let counter = localStorage.getItem("counter");
+    // if (counter === null || counter === undefined) {
+    const counter = await new Promise((resolve, reject) => {
+      RestClient.get(
+        "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
+        (data) => {
+          resolve(Number(data.counter));
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+    // } else {
+    //   if (change && counter.filter)
+    //     counter = Number(JSON.parse(counter)) + change;
+    // }
 
     document
-      .querySelector(".fa-solid.fa-cart-shopping.cart-shopping")
+      .querySelector(".shopping-cart-icon")
       .setAttribute("data-counter", counter);
     localStorage.setItem("counter", JSON.stringify(counter));
   },
@@ -403,20 +404,20 @@ var CartService = {
       }
     );
   },
-  updateCart: (removeLocalStorage) => {
-    const items = JSON.parse(localStorage.getItem("cart_items"));
-    if (items !== null && items !== undefined) {
-      items.forEach((data) => {
-        if (data.changed) {
-          RestClient.put("carts/update_item_cart.php", data);
-        }
-      });
-    }
-    if (removeLocalStorage) {
-      localStorage.removeItem("cart_items");
-      localStorage.removeItem("totalPrice");
-    }
-  },
+  // updateCart: (removeLocalStorage) => {
+  //   const items = JSON.parse(localStorage.getItem("cart_items"));
+  //   if (items !== null && items !== undefined) {
+  //     items.forEach((data) => {
+  //       if (data.changed) {
+  //         RestClient.put("carts/update_item_cart.php", data);
+  //       }
+  //     });
+  //   }
+  //   if (removeLocalStorage) {
+  //     localStorage.removeItem("cart_items");
+  //     localStorage.removeItem("totalPrice");
+  //   }
+  // },
   removeItemCart: (cart_id, item_id, name) => {
     if (confirm("Do you want to delete " + name + "?") == true) {
       // TODO: fix this amazing error the function call
