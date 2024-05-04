@@ -1,7 +1,7 @@
 var CartService = {
-  addToCart: (cart_id, item_id, persons, days) => {
+  addToCart: (user_id, item_id, persons, days) => {
     const data = {
-      cart_id: cart_id,
+      user_id: user_id,
       item_id: item_id,
       persons_selected: persons ?? 0,
       days_selected: days ?? 0,
@@ -20,12 +20,12 @@ var CartService = {
     Utils.block_ui(block);
     modal = $("#myModal")[0];
     $.post(Constants.API_BASE_URL + to, data)
-      .done((data) => {
+      .done((response) => {
         Utils.unblock_ui(block);
         if (modal) Utils.removeModal(true, modal);
 
         Utils.appearSuccAlert(success_mge);
-        CartService.shoppingCartCounter(1, 1);
+        CartService.shoppingCartCounter(data.user_id, 1);
       })
       .fail((xhr) => {
         Utils.unblock_ui(block);
@@ -33,13 +33,13 @@ var CartService = {
         Utils.appearFailAlert(xhr.responseText);
       });
   },
-  shoppingCartCounter: async (cart_id, change) => {
+  shoppingCartCounter: async (user_id, change) => {
     // const cart_items = JSON.parse(localStorage.getItem("cart_items"));
     // let counter = localStorage.getItem("counter");
     // if (counter === null || counter === undefined) {
     const counter = await new Promise((resolve, reject) => {
       RestClient.get(
-        "carts/get_cart_items_number_by_id.php?cart_id=" + cart_id,
+        "carts/get_cart_items_number_by_id.php?user_id=" + user_id,
         (data) => {
           resolve(Number(data.counter));
         },
@@ -53,14 +53,12 @@ var CartService = {
     //     counter = Number(JSON.parse(counter)) + change;
     // }
 
-    document
-      .querySelector(".shopping-cart-icon")
-      .setAttribute("data-counter", counter);
+    $(".shopping-cart-icon").attr("data-counter", counter);
     localStorage.setItem("counter", JSON.stringify(counter));
   },
-  loadRows: (cart_id) => {
+  loadRows: (user_id) => {
     RestClient.get(
-      "carts/get_cart_items_by_id.php?cart_id=" + cart_id,
+      "carts/get_cart_items_by_id.php?user_id=" + user_id,
       (data) => {
         Utils.setupModalActions("Items Registered Successfully!", false, true);
         const items = document.querySelector(".cart.shopping .cart-rows");
@@ -94,11 +92,13 @@ var CartService = {
           itemsLocalStorage.push({
             item_id: itemData.item_id,
             cart_id: itemData.cart_id,
+            cart_id: itemData.cart_id,
             cart_item_id: itemData.cart_item_id,
             persons_selected: itemData.persons_selected,
             days_selected: itemData.days_selected,
             category: category,
             name: itemData.name,
+            price: price,
             changed: false,
           });
 
@@ -388,19 +388,22 @@ var CartService = {
               itemsLocalStorage[Math.floor(removeIconCounter)];
             $(icon).click(() => {
               CartService.removeItemCart(
+                currentItem["cart_item_id"],
                 currentItem["cart_id"],
-                currentItem["item_id"],
                 currentItem["name"]
               );
             });
             removeIconCounter += 0.5;
           }
         );
-        document
-          .querySelector(".coupons .form#coupon")
-          .addEventListener("click", () => {
-            CartService.coupon("coupon", sumOfTotalModal);
-          });
+        // TODO fix coupon part apply one times
+        // and remove from local storage
+        $(".coupons .form#coupon").click(() => {
+          CartService.coupon("coupon", sumOfTotalModal);
+        });
+        $("button.checkout-btn").click((el) => {
+          CartService.checkOut(data[0].user_id, "customer", el.currentTarget);
+        });
       }
     );
   },
@@ -426,26 +429,25 @@ var CartService = {
       localStorage.removeItem("totalPrice");
     }
   },
-  removeItemCart: (cart_id, item_id, name) => {
+  removeItemCart: (cart_item_id, user_id, name) => {
     if (confirm("Do you want to delete " + name + "?") == true) {
       // TODO: fix this amazing error the function call
       // callback_error instead of call back
 
       RestClient.delete(
-        "carts/delete_item_cart.php?cart_id=" + cart_id + "&item_id=" + item_id,
+        "carts/delete_item_cart.php?cart_item_id=" + cart_item_id,
         () => {},
         (error) => {
           console.log(error);
-          CartService.loadRows(cart_id);
+          CartService.loadRows(user_id);
           Utils.appearFailAlert(name + " was deleted");
-          CartService.shoppingCartCounter(cart_id, -1);
+          CartService.shoppingCartCounter(user_id, -1);
         }
       );
     }
   },
   coupon: (form_id, totalPriceModal) => {
     const form = $("#" + form_id);
-
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(form);
       RestClient.post(
@@ -454,49 +456,71 @@ var CartService = {
         (data) => {
           form[0].reset();
           Utils.unblock_ui(form);
+          if (data) {
+            let coupons = JSON.parse(localStorage.getItem("coupons")) ?? [];
 
-          let currentTotal = Number(localStorage.getItem("totalPrice"));
-          currentTotal = data.amount
-            ? currentTotal - data.amount
-            : currentTotal - data.percentage * currentTotal;
+            let currentTotal = Number(localStorage.getItem("totalPrice"));
+            currentTotal = data.amount
+              ? currentTotal - data.amount
+              : currentTotal - data.percentage * currentTotal;
 
-          totalPriceModal[1].innerHTML = Math.floor(currentTotal);
-          totalPriceModal[2].innerHTML = Utils.checkDec(currentTotal);
+            totalPriceModal[1].innerHTML = Math.floor(currentTotal);
+            totalPriceModal[2].innerHTML = Utils.checkDec(currentTotal);
 
-          localStorage.setItem("totalPrice", currentTotal);
+            coupons.push(data);
+            localStorage.setItem("coupons", JSON.stringify(coupons));
+            localStorage.setItem("totalPrice", currentTotal);
+          } else {
+            Utils.appearFailAlert("Invalid coupon");
+          }
         },
         (error) => {
           Utils.unblock_ui(form);
-
           Utils.appearFailAlert(error);
         }
       );
     });
   },
-  checkOut: (user_id, price, position, item_id, cart_id) => {
-    const registerBtn = $("button.checkout-btn");
-    Utils.block_ui(registerBtn);
+  checkOut: (user_id, position, btn) => {
+    Utils.block_ui(btn);
+    CartService.updateCart();
+    const coupons = JSON.parse(localStorage.getItem("coupons")),
+      items = JSON.parse(localStorage.getItem("cart_items"));
 
-    const data = {
-      user_id: user_id,
-      price: price,
-      position: position,
-      item_id: item_id,
-      cart_id: cart_id,
-    };
+    const totalAmount = coupons.reduce(
+        (acc, coupon) => acc + (coupon.amount ?? 0),
+        0
+      ),
+      totalPercentage = coupons
+        .reduce(
+          (acc, coupon) =>
+            `${acc.length > 1 ? acc + " " : ""}${coupon.percentage ?? ""}`,
+          ""
+        )
+        .split(" ");
 
-    RestClient.post(
-      "projects/add_project.php",
-      data,
-      (data) => {
-        Utils.unblock_ui(registerBtn);
-      },
-      (error) => {
-        Utils.unblock_ui(registerBtn);
-
-        Utils.appearFailAlert(error);
-      }
-    );
+    items.forEach((item) => {
+      const percentage = totalPercentage.reduce(
+        (acc, percentage) => acc + price * parseFloat(percentage),
+        0
+      );
+      const data = {
+        user_id: user_id,
+        price: item.price,
+        position: position,
+        item_id: item.cart_item_id,
+      };
+      RestClient.post(
+        "projects/add_project.php",
+        data,
+        (data) => {},
+        (error) => {
+          Utils.appearFailAlert(error);
+        }
+      );
+    });
+    Utils.unblock_ui(btn);
+    Utils.unblock_ui(btn);
   },
 };
 /*

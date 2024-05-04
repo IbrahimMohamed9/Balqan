@@ -8,16 +8,38 @@ class ProjectsDao extends BaseDao
     {
         parent::__construct('projects');
     }
-    public function add_project($project)
+    public function add_project($payload)
     {
-        $query = "BEGIN TRANSACTION;
-                    INSERT INTO projects (item_id, price) 
-                    VALUES (:item_id, :price);
-                    SET @project_id = LAST_INSERT_ID();
-                    INSERT INTO user_projects (user_id, project_id, price, position)
-                    VALUES (:user_id, @project_id, :price, :position);
-                    COMMIT;";
-        return $this->execute($query, $project);
+        try {
+            $user_project = [
+                'user_id' => $payload['user_id'],
+                'price' => $payload['price'],
+                'position' => $payload['position']
+            ];
+            $project = [
+                'price' => $payload['price'],
+                'item_id' => $payload['item_id']
+            ];
+            $this->beginTransaction();
+            $query = "INSERT INTO projects (item_id, price) VALUES (:item_id, :price)";
+            $this->execute($query, $project);
+
+            $query = "SELECT LAST_INSERT_ID() AS project_id";
+            $lastInserted = $this->query_unique_first($query, []);
+            if ($lastInserted && isset($lastInserted['project_id'])) {
+                $user_project['project_id'] = $lastInserted['project_id'];
+                $query = "INSERT INTO user_projects 
+                        (user_id, project_id, price, position) 
+                    VALUES (:user_id, :project_id, :price, :position)";
+                $this->execute($query, $user_project);
+
+                $this->commit();
+            } else {
+                $this->rollBack();
+            }
+        } catch (PDOException $e) {
+            $this->rollBack();
+        }
     }
     public function get_projects()
     {

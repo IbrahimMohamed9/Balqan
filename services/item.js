@@ -80,11 +80,11 @@ var ItemService = {
   </tr>
     `;
   },
-  loadCards: (category) => {
+  loadCards: (category, user_id) => {
     RestClient.get("items/get_items.php?category=" + category, (data) => {
       data.forEach((itemData) => {
         category === "car" || category === "hotel" || category === "package"
-          ? ItemService.loadCard(itemData)
+          ? ItemService.loadCard(itemData, user_id)
           : alert("check the category");
       });
       // TODO
@@ -94,7 +94,7 @@ var ItemService = {
       Utils.carouselSplide(`.splide.${category}s-carousel`, 20);
     });
   },
-  loadCard: (itemData) => {
+  loadCard: (itemData, user_id) => {
     // Package design
     // `
     //     <div class="item splide__slide">
@@ -135,6 +135,7 @@ var ItemService = {
         <button class="pckbtn" 
         onClick="Utils.itemModal(
         '${itemData.item_id}',
+        '${user_id}',
         '${itemData.persons}',
         '${itemData.days}',
         '${category}',

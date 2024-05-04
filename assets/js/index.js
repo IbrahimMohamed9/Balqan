@@ -92,13 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultView: "#home",
     templateDir: "pages/homePages/",
   });
+  const user_id = 2;
+
   app.route({
     view: "home",
     load: "home.html",
     onCreate: () => {
       mainTitleAnimation();
       switchButton(0);
-      ItemService.loadCards("package");
+      ItemService.loadCards("package", user_id);
       expandGraph();
       ArticleService.loadArticleCrousel();
     },
@@ -148,23 +150,23 @@ document.addEventListener("DOMContentLoaded", () => {
       mainTitleAnimation();
       Utils.setupModalActions("Item added successfully", true, false);
 
-      ItemService.loadCards("package");
-      ItemService.loadCards("car");
-      ItemService.loadCards("hotel");
+      ItemService.loadCards("package", user_id);
+      ItemService.loadCards("car", user_id);
+      ItemService.loadCards("hotel", user_id);
     },
     onReady: () => {
       switchButton(4);
     },
   });
-  const cart_id = 1;
   app.route({
     view: "cart",
     load: "cart.html",
     onCreate: () => {},
     onReady: () => {
-      CartService.loadRows(cart_id);
+      CartService.loadRows(user_id);
       switchButton(null);
       $(window).one("hashchange", () => {
+        localStorage.removeItem("coupons");
         CartService.updateCart();
       });
     },

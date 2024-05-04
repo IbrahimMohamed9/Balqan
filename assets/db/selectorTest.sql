@@ -17,7 +17,16 @@ SELECT *
 FROM friend_requests;
 
 SELECT *
+FROM projects;
+
+SELECT *
+FROM carts;
+
+SELECT *
 FROM cart_items;
+
+SELECT *
+FROM user_projects;
 
 SELECT user_id, number_of_friends
 FROM users;

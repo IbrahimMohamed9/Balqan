@@ -254,11 +254,12 @@ VALUES (1),
        (2),
        (3),
        (4),
-       (5);
+       (5),
+       (1);
 INSERT INTO `coupon` (`max_times`, `code`, `amount`, `percentage`)
-VALUES (5, 'SAVE50', 0, 0.15),
-       (10, 'SALE20', 10, NULL),
-       (3, 'FOODIE15', 0, 0.75);
+VALUES (5, '%50', NULL, 0.50),
+       (10, '10', 10, NULL),
+       (3, '%75', NULL, 0.75);
 INSERT INTO activities (user_id, img_src, name, description, date, time)
 VALUES (1,
         'https://raw.githubusercontent.com/IbrahimMoatazMohamed/IT-207-Introduction-to-Web-Programming/main/assets/images/profile/activity-01.png',

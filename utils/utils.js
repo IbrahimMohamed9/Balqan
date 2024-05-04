@@ -84,7 +84,7 @@ var Utils = {
   },
   itemModal: (
     item_id,
-    // cart_id,
+    user_id,
     persons,
     days,
     category,
@@ -171,7 +171,7 @@ var Utils = {
 
       $("#myModal .checkout .checkout-btn").click(() => {
         CartService.addToCart(
-          1,
+          user_id,
           item_id,
           quantityNumber.textContent,
           quantityNumber2.textContent
@@ -202,9 +202,14 @@ var Utils = {
       );
       $("#myModal .checkout .checkout-btn").on("click", () => {
         category === "package"
-          ? CartService.addToCart(1, item_id, quantityNumber.textContent, days)
+          ? CartService.addToCart(
+              user_id,
+              item_id,
+              quantityNumber.textContent,
+              days
+            )
           : CartService.addToCart(
-              1,
+              user_id,
               item_id,
               persons,
               quantityNumber.textContent
