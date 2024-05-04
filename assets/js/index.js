@@ -150,8 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
       mainTitleAnimation();
       Utils.setupModalActions("Item added successfully", true, false);
 
-      ItemService.loadCards("package", user_id);
       ItemService.loadCards("car", user_id);
+      ItemService.loadCards("package", user_id);
       ItemService.loadCards("hotel", user_id);
     },
     onReady: () => {
@@ -163,11 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
     load: "cart.html",
     onCreate: () => {},
     onReady: () => {
+      const modalBtn = $("button.checkout-btn")[0];
       CartService.loadRows(user_id);
       switchButton(null);
+      modalBtn.click((el) => {
+        CartService.checkOut(user_id, "customer", el.currentTarget);
+      });
       $(window).one("hashchange", () => {
         localStorage.removeItem("coupons");
         CartService.updateCart();
+        Utils.removeAllEventListeners(modalBtn);
       });
     },
   });

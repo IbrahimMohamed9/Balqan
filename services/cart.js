@@ -91,8 +91,7 @@ var CartService = {
           totalPriceModal = totalPrice + parseFloat(totalPriceModal);
           itemsLocalStorage.push({
             item_id: itemData.item_id,
-            cart_id: itemData.cart_id,
-            cart_id: itemData.cart_id,
+            user_id: user_id,
             cart_item_id: itemData.cart_item_id,
             persons_selected: itemData.persons_selected,
             days_selected: itemData.days_selected,
@@ -389,7 +388,7 @@ var CartService = {
             $(icon).click(() => {
               CartService.removeItemCart(
                 currentItem["cart_item_id"],
-                currentItem["cart_id"],
+                currentItem["user_id"],
                 currentItem["name"]
               );
             });
@@ -400,9 +399,6 @@ var CartService = {
         // and remove from local storage
         $(".coupons .form#coupon").click(() => {
           CartService.coupon("coupon", sumOfTotalModal);
-        });
-        $("button.checkout-btn").click((el) => {
-          CartService.checkOut(data[0].user_id, "customer", el.currentTarget);
         });
       }
     );
@@ -486,24 +482,26 @@ var CartService = {
     CartService.updateCart();
     const coupons = JSON.parse(localStorage.getItem("coupons")),
       items = JSON.parse(localStorage.getItem("cart_items"));
-
-    const totalAmount = coupons.reduce(
-        (acc, coupon) => acc + (coupon.amount ?? 0),
-        0
-      ),
-      totalPercentage = coupons
-        .reduce(
-          (acc, coupon) =>
-            `${acc.length > 1 ? acc + " " : ""}${coupon.percentage ?? ""}`,
-          ""
-        )
-        .split(" ");
-
+    if (coupons) {
+      const totalAmount = coupons.reduce(
+          (acc, coupon) => acc + (coupon.amount ?? 0),
+          0
+        ),
+        totalPercentage = coupons
+          .reduce(
+            (acc, coupon) =>
+              `${acc.length > 1 ? acc + " " : ""}${coupon.percentage ?? ""}`,
+            ""
+          )
+          .split(" ");
+    }
     items.forEach((item) => {
-      const percentage = totalPercentage.reduce(
-        (acc, percentage) => acc + price * parseFloat(percentage),
-        0
-      );
+      if (coupons) {
+        const percentage = totalPercentage.reduce(
+          (acc, percentage) => acc + price * parseFloat(percentage),
+          0
+        );
+      }
       const data = {
         user_id: user_id,
         price: item.price,

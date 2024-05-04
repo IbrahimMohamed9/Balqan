@@ -95,6 +95,11 @@ var ItemService = {
     });
   },
   loadCard: (itemData, user_id) => {
+    const items = document.querySelector(
+        `.items.${itemData.category}s .container`
+      ),
+      category = itemData.category,
+      price = Utils.checkDecWithInt(Utils.getPrice(category, itemData));
     // Package design
     // `
     //     <div class="item splide__slide">
@@ -117,8 +122,6 @@ var ItemService = {
     //     <button class="pckbtn"></button>
     //   </div>
     //   `;
-    const category = itemData.category,
-      price = Utils.checkDecWithInt(Utils.getPrice(category, itemData));
 
     const content = `
       <div class="item splide__slide">
@@ -157,9 +160,6 @@ var ItemService = {
       </div>
     `;
 
-    const items = document.querySelector(
-      `.items.${itemData.category}s .container`
-    );
     items.innerHTML += content;
   },
   addItemModal: (category, edit) => {
