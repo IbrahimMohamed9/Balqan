@@ -13,6 +13,10 @@ class ProjectsService
     {
         return $this->projects_dao->add_project($projects);
     }
+    public function add_user_project($projects)
+    {
+        return $this->projects_dao->add_user_project($projects);
+    }
     public function get_projects()
     {
         return $this->projects_dao->get_projects();

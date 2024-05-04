@@ -627,35 +627,33 @@ var UserService = {
     );
   },
   addFriend: (user_id) => {
-    const addFriendForm = $("#add-friend-form"),
-      addFriendBtn = $("#add-friend"),
-      addFriendInput = addFriendForm.find("#requested_id"),
-      addFriendIcon = addFriendForm.find("i.add-friend"),
-      addFriendBtnsAnimation = () => {
-        addFriendForm.hasClass("d-none")
-          ? addFriendForm.removeClass("d-none").addClass("between-flex")
-          : setTimeout(() => {
-              addFriendForm.addClass("d-none").removeClass("between-flex");
-            }, 300);
+    const addFriendForm = $("#add-friend-form");
+    const addFriendBtn = $("#add-friend");
+    const addFriendInput = addFriendForm.find("#requested_id");
+    const addFriendIcon = addFriendForm.find("i.add-friend");
 
-        addFriendBtn.toggleClass("hidden-by-width");
-
-        setTimeout(() => {
-          addFriendInput.toggleClass("hidden-by-width");
-          addFriendIcon.toggleClass("fs-0");
-        }, 0);
-      };
-
-    addFriendBtn.click(addFriendBtnsAnimation);
+    addFriendBtn.click(() => {
+      Utils.addBtnsAnimation(
+        addFriendForm,
+        addFriendBtn,
+        addFriendInput,
+        addFriendIcon
+      );
+    });
     // TODO user_id can't be same friend_id
     // const ids = localStorage.getItem("friendsId");
     // if ($(addFriendInput).val())
     Utils.submit(
       "add-friend-form",
       "users/add/add_friend_request.php?requester_id=" + user_id,
-      "Friend added successfully",
+      "Friend request sent successfully",
       () => {
-        addFriendBtnsAnimation();
+        Utils.addBtnsAnimation(
+          addFriendForm,
+          addFriendBtn,
+          addFriendInput,
+          addFriendIcon
+        );
       }
     );
   },

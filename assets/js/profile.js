@@ -126,7 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "projects",
     load: "projects.html",
     onCreate: () => {
-      loadProjects("../assets/json/projects.json");
+      // loadProjects("../assets/json/projects.json");
+      projectService.loadProjects();
     },
     onReady: () => {
       switchButton(3);

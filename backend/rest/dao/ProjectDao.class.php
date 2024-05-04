@@ -18,10 +18,11 @@ class ProjectsDao extends BaseDao
             ];
             $project = [
                 'price' => $payload['price'],
+                'end_date' => $payload['end_date'],
                 'item_id' => $payload['item_id']
             ];
             $this->beginTransaction();
-            $query = "INSERT INTO projects (item_id, price) VALUES (:item_id, :price)";
+            $query = "INSERT INTO projects (item_id, price, end_date) VALUES (:item_id, :price, :end_date)";
             $this->execute($query, $project);
 
             $query = "SELECT LAST_INSERT_ID() AS project_id";
@@ -41,9 +42,40 @@ class ProjectsDao extends BaseDao
             $this->rollBack();
         }
     }
+    public function add_user_project($payload)
+    {
+        $user_project = [
+            'user_id' => $payload['user_id'],
+            'project_id' => $payload['project_id'],
+            'position' => $payload['position']
+        ];
+        $query = "INSERT INTO user_projects (user_id, project_id, position)
+            VALUES (:user_id, :project_id, :position)";
+        $this->execute($query, $user_project);
+    }
     public function get_projects()
     {
-        $query = "SELECT * FROM projects";
+        $query = "SELECT p.project_id,
+                    p.start_date,
+                    p.status,
+                    p.price AS project_price,
+                    i.name  AS item_name,
+                    i.intro AS item_intro,
+                    GROUP_CONCAT(
+                            CONCAT_WS('|', u.user_id, up.position, u.name, u.img)
+                            SEPARATOR ',') AS project_team
+                    FROM projects p
+                            JOIN items i ON p.item_id = i.item_id
+                            JOIN user_projects up ON p.project_id = up.project_id
+                            JOIN users u ON u.user_id = up.user_id
+                    GROUP BY p.project_id,
+                            p.start_date,
+                            p.status,
+                            project_price,
+                            item_name,
+                            item_intro
+                    ORDER BY p.status DESC";
+
         return $this->query($query, []);
     }
     public function get_projects_by_category($category)

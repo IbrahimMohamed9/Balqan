@@ -515,8 +515,8 @@ var Utils = {
       Utils.fieldAnimation(field);
     });
   },
-  submit: (form_id, to, success_mge, callBack, modal) => {
-    const form = $("#" + form_id),
+  submit: (form_id, to, success_mge, callBack, modal, formElement) => {
+    const form = formElement ? formElement : $("#" + form_id),
       block = form.find("*[type=submit]").first();
 
     FormValidation.validate(form, {}, (data) => {
@@ -567,5 +567,38 @@ var Utils = {
   },
   dateOfTimestamp: (date) => {
     return date.split(" ")[0];
+  },
+  addBtnsAnimation: (form, btn, inputField, icon) => {
+    form.hasClass("d-none")
+      ? form.removeClass("d-none").addClass("between-flex")
+      : setTimeout(() => {
+          form.addClass("d-none").removeClass("between-flex");
+        }, 300);
+
+    btn.toggleClass("hidden-by-width");
+
+    setTimeout(() => {
+      inputField.toggleClass("hidden-by-width");
+      if (icon) icon.toggleClass("fs-0");
+    }, 0);
+  },
+  addDaysToDate: (daysToAdd) => {
+    try {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + daysToAdd);
+
+      // Format the date components
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Zero-based month
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const hours = String(currentDate.getHours()).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+      const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return formattedTimestamp;
+    } catch (error) {
+      return "Error occurred while calculating the new timestamp.";
+    }
   },
 };
