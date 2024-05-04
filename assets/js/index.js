@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     buttons.forEach((button, index) => {
       button.addEventListener("click", () => {
-        let span = this.querySelector("span");
-        let paragraph = this.nextElementSibling;
+        let span = button.querySelector("span");
+        let paragraph = button.nextElementSibling;
 
         paragraph.classList.toggle("show");
 
