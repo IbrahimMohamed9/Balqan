@@ -15,12 +15,15 @@ var CartService = {
       "#myModal .checkout .checkout-btn"
     );
   },
-  submit: (to, data, success_mge, block_selector, modal) => {
+  submit: async (to, data, success_mge, block_selector, modal) => {
     const block = $(block_selector);
     Utils.block_ui(block);
     modal = $("#myModal")[0];
+    //TODO fix that to add
+    localStorage.removeItem("cart_items");
+
     $.post(Constants.API_BASE_URL + to, data)
-      .done((response) => {
+      .done(async (response) => {
         Utils.unblock_ui(block);
         if (modal) Utils.removeModal(true, modal);
 
@@ -34,75 +37,106 @@ var CartService = {
       });
   },
   shoppingCartCounter: async (user_id, change) => {
+    // try {
+    // TODO make it in localstorage
     // const cart_items = JSON.parse(localStorage.getItem("cart_items"));
     // let counter = localStorage.getItem("counter");
     // if (counter === null || counter === undefined) {
-    const counter = await new Promise((resolve, reject) => {
-      RestClient.get(
-        "carts/get_cart_items_number_by_id.php?user_id=" + user_id,
-        (data) => {
-          resolve(Number(data.counter));
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
+    // const counter = await new Promise((resolve, reject) => {
+    RestClient.get(
+      "carts/get_cart_items_number_by_id.php?user_id=" + user_id,
+      (data) => {
+        $(".shopping-cart-icon").attr("data-counter", data.counter);
+        // resolve(Number(data.counter));
+      },
+      (data) => {
+        $(".shopping-cart-icon").attr("data-counter", data.counter);
+        // resolve(Number(data.counter));
+      }
+      // (error) => {
+      // reject(error);
+      // }
+    );
+    // });
     // } else {
     //   if (change && counter.filter)
     //     counter = Number(JSON.parse(counter)) + change;
     // }
 
-    $(".shopping-cart-icon").attr("data-counter", counter);
-    localStorage.setItem("counter", JSON.stringify(counter));
+    // $(".shopping-cart-icon").attr("data-counter", counter);
+    // localStorage.setItem("counter", JSON.stringify(counter));
+    // } catch (error) {
+    //   console.error("Error fetching cart items count:", error);
+    // }
   },
-  loadRows: (user_id) => {
-    RestClient.get(
-      "carts/get_cart_items_by_id.php?user_id=" + user_id,
-      (data) => {
-        Utils.setupModalActions("Items Registered Successfully!", false, true);
-        const items = document.querySelector(".cart.shopping .cart-rows");
-        let content, modalContent;
+  fetchCartItems: async (user_id) => {
+    try {
+      let data = localStorage.getItem("cart_items");
 
-        const modal = document.getElementById("cartModal"),
-          modalProducts = modal.querySelector(".products"),
-          sumOfTotalModal = modal.querySelector(
-            ".checkout .checkout--footer .price"
-          ).children;
-        let totalPricesCart,
-          totalPriceModal = 0;
-        modalProducts.innerHTML = "";
-        Utils.counter(true);
-        Utils.removeAllChildrenExcept(items, [
-          $(".cart .containerr .products .row:first-child")[0],
-          $(".cart .containerr .products .footer")[0],
-        ]);
-        let itemsLocalStorage = [];
-        data.forEach((itemData) => {
-          const category = itemData.category,
-            price = Utils.getPrice(category, itemData),
-            decimalPart = Utils.checkDec(price),
-            totalPrice =
-              Number(itemData.person_price) *
-                Number(itemData.persons_selected) +
-              Number(itemData.day_price) * Number(itemData.days_selected),
-            totalDecimalPart = Utils.checkDec(totalPrice),
-            imgSrc = Utils.firstLink(itemData.imgs_srcs);
-          totalPriceModal = totalPrice + parseFloat(totalPriceModal);
-          itemsLocalStorage.push({
-            item_id: itemData.item_id,
-            user_id: user_id,
-            cart_item_id: itemData.cart_item_id,
-            persons_selected: itemData.persons_selected,
-            days_selected: itemData.days_selected,
-            category: category,
-            name: itemData.name,
-            price: price,
-            changed: false,
-          });
+      if (data === null) {
+        data = await new Promise((resolve, reject) => {
+          RestClient.get(
+            "carts/get_cart_items_by_id.php?user_id=" + user_id,
+            (data) => {
+              resolve(
+                data.map((itemData) => ({
+                  ...itemData,
+                  price: Utils.getPrice(itemData.category, itemData),
+                  changed: false,
+                  user_id: user_id,
+                }))
+              );
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+        });
+        localStorage.setItem("cart_items", JSON.stringify(data));
+        return data;
+      } else {
+        return JSON.parse(data);
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  },
+  loadRows: async (user_id) => {
+    const items = $(".cart.shopping .cart-rows")[0];
+    const cartItems = await CartService.fetchCartItems(user_id);
+    const modal = document.getElementById("cartModal");
+    const modalProducts = modal.querySelector(".products");
+    const sumOfTotalModal = modal.querySelector(
+      ".checkout .checkout--footer .price"
+    ).children;
 
-          // add package plan here
-          modalContent = `
+    let content,
+      modalContent,
+      totalPricesCart,
+      totalPriceModal = 0;
+
+    modalProducts.innerHTML = "";
+    Utils.setupModalActions("Items Registered Successfully!", false, true);
+
+    Utils.counter(true);
+    Utils.removeAllChildrenExcept(items, [
+      //first row title of table
+      $(".cart .containerr .products .row:first-child")[0],
+      //check out buttom
+      $(".cart .containerr .products .footer")[0],
+    ]);
+    cartItems.forEach((itemData) => {
+      const category = itemData.category,
+        price = itemData.price,
+        decimalPart = Utils.checkDec(price),
+        totalPrice =
+          Number(itemData.person_price) * Number(itemData.persons_selected) +
+          Number(itemData.day_price) * Number(itemData.days_selected),
+        totalDecimalPart = Utils.checkDec(totalPrice),
+        imgSrc = Utils.firstLink(itemData.imgs_srcs);
+      totalPriceModal = totalPrice + parseFloat(totalPriceModal);
+      // add package plan here
+      modalContent = `
               <div class="products">
                 <div class="product ${category === "hotel" ? "hotel" : ""}">
                   <img class="modal-img" src="${imgSrc}" alt="${category} Image" />
@@ -168,7 +202,8 @@ var CartService = {
                 </div>
               </div>
               `;
-          content = `
+
+      content = `
               <div class="row">
                 <div class="image">
                   <img src="${imgSrc}" alt="" />
@@ -249,177 +284,155 @@ var CartService = {
                   </p>
                 </div>
               </div>`;
-          // } the closer of else block for package plan
+      // } the closer of else block for package plan
 
-          items.innerHTML += content;
-          modalProducts.innerHTML += modalContent;
-        });
+      items.innerHTML += content;
+      modalProducts.innerHTML += modalContent;
+    });
 
-        localStorage.setItem("cart_items", JSON.stringify(itemsLocalStorage));
+    const sumOfInts = Math.floor(totalPriceModal),
+      sumOfDecs = Utils.checkDec(totalPriceModal);
+    sumOfTotalModal[1].innerHTML = sumOfInts;
+    sumOfTotalModal[2].innerHTML = sumOfDecs;
 
-        const sumOfInts = Math.floor(totalPriceModal),
-          sumOfDecs = Utils.checkDec(totalPriceModal);
-        sumOfTotalModal[1].innerHTML = sumOfInts;
-        sumOfTotalModal[2].innerHTML = sumOfDecs;
-
-        //total column
-        totalPricesCart = Array.from(
-          items.querySelectorAll(".cart .containerr .products .row .total p")
-        );
-        //total in the modal footer
-        totalPriceModal = Array.from(
-          modal.querySelectorAll(".card .small.price")
-        );
-        const quantitiesCart = document.querySelectorAll(
-            ".cart .containerr .products .row .quantity"
-          ),
-          quantities2Cart = document.querySelectorAll(
-            ".cart .containerr .products .row .quantity-2"
-          ),
-          quantitiesModal = document.querySelectorAll(
-            "#cartModal .master-container .cart .quantity"
-          ),
-          quantities2Modal = document.querySelectorAll(
-            "#cartModal .master-container .cart .quantity-2"
-          );
-        let counter = 0.0;
-        quantitiesCart.forEach((cartQuantity, index) => {
-          const itemData = data[index],
-            category = itemData.category,
-            quantityBtnsModal = Array.from(quantitiesCart[index].children),
-            quantityBtnsCart = Array.from(quantitiesModal[index].children),
-            quantityTxtCart = quantityBtnsCart[1],
-            quantityTxtModal = quantityBtnsModal[1],
-            quantities2CartArray =
-              quantities2Cart !== undefined
-                ? Array.from(
-                    quantities2Cart[Math.floor(counter)]?.children || []
-                  )
-                : [];
-          quantities2ModalArray =
-            quantities2Modal !== undefined
-              ? Array.from(
-                  quantities2Modal[Math.floor(counter)]?.children || []
-                )
-              : [];
-          localStorage.setItem(
-            "totalPrice",
-            String(Number(sumOfInts) + Number(sumOfDecs))
-          );
-          buttom = (
-            quantityBtnsArray,
-            quantityTxtCart,
-            quantityTxtModal,
-            quantityBtns2Array,
-            otherQuantityBtn2
-          ) => {
-            quantityBtnsArray.splice(1, 1);
-            if (category !== "hotel") {
-              Utils.quantityBtnFunction(
-                category === "package"
-                  ? itemData.min_persons
-                  : itemData.min_days,
-                category === "package"
-                  ? itemData.max_persons
-                  : itemData.max_days,
-                category === "package"
-                  ? itemData.person_price
-                  : itemData.day_price,
-                quantityTxtModal,
-                sumOfTotalModal,
-                quantityBtnsArray,
-                -1,
-                -1,
-                -1,
-                "",
-                true,
-                totalPricesCart[index],
-                quantityTxtCart,
-                "",
-                index
-              );
-            } else {
-              const quantityNumber2Cart = quantityBtns2Array[1];
-              Utils.quantityBtnFunction(
-                itemData.min_days,
-                itemData.max_days,
-                itemData.day_price,
-                quantityTxtModal,
-                sumOfTotalModal,
-                quantityBtnsArray.concat([
-                  quantityBtns2Array[0],
-                  quantityBtns2Array[2],
-                ]),
-                itemData.min_persons,
-                itemData.max_persons,
-                itemData.person_price,
-                quantityNumber2Cart,
-                true,
-                totalPricesCart[index],
-                quantityTxtCart,
-                otherQuantityBtn2[1],
-                index
-              );
-              counter += 0.5;
-            }
-          };
-
-          buttom(
-            quantityBtnsCart,
-            quantityTxtCart,
-            quantityTxtModal,
-            quantities2CartArray,
-            quantities2ModalArray
-          );
-          buttom(
-            quantityBtnsModal,
-            quantityTxtCart,
-            quantityTxtModal,
-            quantities2ModalArray,
-            quantities2CartArray
-          );
-        });
-        let removeIconCounter = 0.0;
-        $.each(
-          $(".cart .containerr .products .row .total p i"),
-          (index, icon) => {
-            const currentItem =
-              itemsLocalStorage[Math.floor(removeIconCounter)];
-            $(icon).click(() => {
-              CartService.removeItemCart(
-                currentItem["cart_item_id"],
-                currentItem["user_id"],
-                currentItem["name"]
-              );
-            });
-            removeIconCounter += 0.5;
-          }
-        );
-        // TODO fix coupon part apply one times
-        // and remove from local storage
-        $(".coupons .form#coupon").click(() => {
-          CartService.coupon("coupon", sumOfTotalModal);
-        });
-      }
+    //total column
+    totalPricesCart = Array.from(
+      items.querySelectorAll(".cart .containerr .products .row .total p")
     );
-  },
-  updateCart: (removeLocalStorage) => {
-    const items = JSON.parse(localStorage.getItem("cart_items"));
-    if (items !== null && items !== undefined) {
-      items.forEach((data) => {
-        if (data.changed) {
-          RestClient.put(
-            "carts/update_item_cart.php?cart_item_id=" +
-              data.cart_item_id +
-              "&persons_selected=" +
-              data.persons_selected +
-              "&days_selected=" +
-              data.days_selected,
-            null
+    //total in the modal footer
+    totalPriceModal = Array.from(modal.querySelectorAll(".card .small.price"));
+    const quantitiesCart = document.querySelectorAll(
+        ".cart .containerr .products .row .quantity"
+      ),
+      quantities2Cart = document.querySelectorAll(
+        ".cart .containerr .products .row .quantity-2"
+      ),
+      quantitiesModal = document.querySelectorAll(
+        "#cartModal .master-container .cart .quantity"
+      ),
+      quantities2Modal = document.querySelectorAll(
+        "#cartModal .master-container .cart .quantity-2"
+      );
+    let counter = 0.0;
+    quantitiesCart.forEach((cartQuantity, index) => {
+      const itemData = cartItems[index],
+        category = itemData.category,
+        quantityBtnsModal = Array.from(quantitiesCart[index].children),
+        quantityBtnsCart = Array.from(quantitiesModal[index].children),
+        quantityTxtCart = quantityBtnsCart[1],
+        quantityTxtModal = quantityBtnsModal[1],
+        quantities2CartArray =
+          quantities2Cart !== undefined
+            ? Array.from(quantities2Cart[Math.floor(counter)]?.children || [])
+            : [];
+      quantities2ModalArray =
+        quantities2Modal !== undefined
+          ? Array.from(quantities2Modal[Math.floor(counter)]?.children || [])
+          : [];
+      localStorage.setItem(
+        "totalPrice",
+        String(Number(sumOfInts) + Number(sumOfDecs))
+      );
+      buttom = (
+        quantityBtnsArray,
+        quantityTxtCart,
+        quantityTxtModal,
+        quantityBtns2Array,
+        otherQuantityBtn2
+      ) => {
+        quantityBtnsArray.splice(1, 1);
+        if (category !== "hotel") {
+          Utils.quantityBtnFunction(
+            category === "package" ? itemData.min_persons : itemData.min_days,
+            category === "package" ? itemData.max_persons : itemData.max_days,
+            category === "package" ? itemData.person_price : itemData.day_price,
+            quantityTxtModal,
+            sumOfTotalModal,
+            quantityBtnsArray,
+            -1,
+            -1,
+            -1,
+            "",
+            true,
+            totalPricesCart[index],
+            quantityTxtCart,
+            "",
+            index
           );
+        } else {
+          const quantityNumber2Cart = quantityBtns2Array[1];
+          Utils.quantityBtnFunction(
+            itemData.min_days,
+            itemData.max_days,
+            itemData.day_price,
+            quantityTxtModal,
+            sumOfTotalModal,
+            quantityBtnsArray.concat([
+              quantityBtns2Array[0],
+              quantityBtns2Array[2],
+            ]),
+            itemData.min_persons,
+            itemData.max_persons,
+            itemData.person_price,
+            quantityNumber2Cart,
+            true,
+            totalPricesCart[index],
+            quantityTxtCart,
+            otherQuantityBtn2[1],
+            index
+          );
+          counter += 0.5;
         }
+      };
+
+      buttom(
+        quantityBtnsCart,
+        quantityTxtCart,
+        quantityTxtModal,
+        quantities2CartArray,
+        quantities2ModalArray
+      );
+      buttom(
+        quantityBtnsModal,
+        quantityTxtCart,
+        quantityTxtModal,
+        quantities2ModalArray,
+        quantities2CartArray
+      );
+    });
+    let removeIconCounter = 0.0;
+    $.each($(".cart .containerr .products .row .total p i"), (index, icon) => {
+      const currentItem = cartItems[Math.floor(removeIconCounter)];
+      $(icon).click(() => {
+        CartService.removeItemCart(
+          currentItem["cart_item_id"],
+          currentItem["user_id"],
+          currentItem["name"]
+        );
       });
-    }
+      removeIconCounter += 0.5;
+    });
+    // TODO fix coupon part apply one times
+    // and remove from local storage
+    $(".coupons .form#coupon").click(() => {
+      CartService.coupon("coupon", sumOfTotalModal);
+    });
+  },
+  updateCart: async (user_id, removeLocalStorage) => {
+    const items = await CartService.fetchCartItems(user_id);
+    items.forEach((data) => {
+      if (data.changed) {
+        RestClient.put(
+          "carts/update_item_cart.php?cart_item_id=" +
+            data.cart_item_id +
+            "&persons_selected=" +
+            data.persons_selected +
+            "&days_selected=" +
+            data.days_selected,
+          null
+        );
+      }
+    });
     if (removeLocalStorage) {
       localStorage.removeItem("cart_items");
       localStorage.removeItem("totalPrice");
@@ -434,6 +447,8 @@ var CartService = {
         "carts/delete_item_cart.php?cart_item_id=" + cart_item_id,
         () => {},
         (error) => {
+          // TODO make it withou remove from localStorage
+          localStorage.removeItem("cart_items");
           console.log(error);
           CartService.loadRows(user_id);
           Utils.appearFailAlert(name + " was deleted");
@@ -477,31 +492,35 @@ var CartService = {
       );
     });
   },
-  checkOut: (user_id, position, btn) => {
-    Utils.block_ui(btn);
-    CartService.updateCart();
-    const coupons = JSON.parse(localStorage.getItem("coupons")),
-      items = JSON.parse(localStorage.getItem("cart_items"));
-    if (coupons) {
-      const totalAmount = coupons.reduce(
-          (acc, coupon) => acc + (coupon.amount ?? 0),
-          0
-        ),
-        totalPercentage = coupons
-          .reduce(
-            (acc, coupon) =>
-              `${acc.length > 1 ? acc + " " : ""}${coupon.percentage ?? ""}`,
-            ""
-          )
-          .split(" ");
-    }
+  checkOut: async (user_id, position, btn) => {
+    Utils.block_ui(btn, true);
+    CartService.updateCart(user_id);
+
+    const couponsString = localStorage.getItem("coupons");
+    const items = await CartService.fetchCartItems(user_id);
+    let coupons;
+    if (couponsString) coupons = JSON.parse(couponsString);
+
+    const totalAmount = coupons
+      ? coupons.reduce((acc, coupon) => acc + (coupon.amount ?? 0), 0)
+      : 0;
+    const totalPercentage = coupons
+      ? coupons.map((coupon) => coupon.percentage ?? 0)
+      : 0;
+
     items.forEach((item) => {
       if (coupons) {
-        const percentage = totalPercentage.reduce(
-          (acc, percentage) => acc + price * parseFloat(percentage),
-          0
-        );
+        const percentageToAmount = totalPercentage.reduce((acc, percentage) => {
+          if (acc === 0) {
+            return item.price * parseFloat(percentage);
+          } else {
+            return acc + acc * parseFloat(percentage);
+          }
+        }, 0);
+
+        item.price -= percentageToAmount + totalAmount / items.length;
       }
+
       const data = {
         user_id: user_id,
         price: item.price,
@@ -517,8 +536,23 @@ var CartService = {
         }
       );
     });
-    Utils.unblock_ui(btn);
-    Utils.unblock_ui(btn);
+    RestClient.post(
+      "carts/add_new_cart_for_user.php",
+      { user_id: user_id },
+      (data) => {
+        // TODO make it more logic remove one by one
+        localStorage.removeItem("coupons");
+        localStorage.removeItem("totalPrice");
+        localStorage.removeItem("cart_items");
+        CartService.loadRows(user_id);
+        CartService.shoppingCartCounter(user_id, 0);
+        Utils.unblock_ui(btn);
+      },
+      (error) => {
+        Utils.appearFailAlert(error);
+        Utils.unblock_ui(btn);
+      }
+    );
   },
 };
 /*

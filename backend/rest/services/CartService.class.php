@@ -9,9 +9,9 @@ class CartService
     {
         $this->cart_dao = new CartDao();
     }
-    public function add_cart($cart)
+    public function add_new_cart_for_user($user_id)
     {
-        return $this->cart_dao->add_cart($cart);
+        return $this->cart_dao->add_new_cart_for_user($user_id);
     }
     public function get_cart_item_by_id($id)
     {

@@ -163,16 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
     load: "cart.html",
     onCreate: () => {},
     onReady: () => {
-      const modalBtn = $("button.checkout-btn")[0];
+      const modalBtn = $("button.checkout-btn").eq(0);
       CartService.loadRows(user_id);
       switchButton(null);
-      modalBtn.click((el) => {
-        CartService.checkOut(user_id, "customer", el.currentTarget);
+      modalBtn.click(() => {
+        CartService.checkOut(user_id, "customer", modalBtn);
       });
       $(window).one("hashchange", () => {
         localStorage.removeItem("coupons");
-        CartService.updateCart();
-        Utils.removeAllEventListeners(modalBtn);
+        CartService.updateCart(user_id);
+        Utils.removeAllEventListeners(modalBtn[0]);
       });
     },
   });

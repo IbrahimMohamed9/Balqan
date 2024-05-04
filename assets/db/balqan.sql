@@ -143,7 +143,7 @@ CREATE TABLE `projects`
     `item_id`    INT,
     `start_date` TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
     `end_date`   TIMESTAMP,
-    `status`     VARCHAR(30) DEFAULT 'pending',
+    `status`     INT DEFAULT 0,
     `price`      DECIMAL(10, 2),
     CONSTRAINT fk_projects_item_id
         FOREIGN KEY (item_id) REFERENCES cart_items (cart_item_id)

@@ -8,10 +8,10 @@ class CartDao extends BaseDao
   {
     parent::__construct('carts');
   }
-  public function add_cart($cart)
+  public function add_new_cart_for_user($user_id)
   {
     $table = $this->getTable();
-    return $this->insert($table, $cart);
+    return $this->insert($table, $user_id);
   }
   public function get_cart_items_by_id($user_id)
   {

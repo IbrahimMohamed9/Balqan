@@ -25,6 +25,7 @@ var Utils = {
       Utils.removeModal(removeeBtn, modal);
     });
     if (removeeBtn || cartModal) {
+      //TODO make it with unbock ui
       modal.querySelector(".checkout-btn").addEventListener("click", () => {
         Utils.removeModal(removeeBtn, modal);
         Utils.appearSuccAlert(message);
