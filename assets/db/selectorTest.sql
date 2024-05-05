@@ -118,3 +118,27 @@ GROUP BY p.project_id,
          item_intro
 ORDER BY p.status DESC;
 
+SELECT u.name,
+        u.email,
+        u.user_id,
+        u.phone,
+        u.img,
+        u.joined_date,
+        u.job_title,
+        u.level,
+        u.ratings,
+        u.gender,
+        COUNT(up.user_id) AS projects
+    FROM users AS u
+            LEFT JOIN user_projects up ON u.user_id = up.user_id AND up.position != 'customer'
+    WHERE up.user_id = :user_id AND up.project_id = :project_id
+    GROUP BY u.name,
+            u.email,
+            u.img,
+            u.phone,
+            u.joined_date,
+            u.job_title,
+            u.level,
+            u.ratings,
+            u.gender,
+            u.user_id

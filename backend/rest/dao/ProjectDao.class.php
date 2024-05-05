@@ -88,6 +88,38 @@ class ProjectsDao extends BaseDao
         $query = "SELECT * FROM projects WHERE project_id = :project_id";
         return $this->query_unique_first($query, ['project_id' => $project_id]);
     }
+    public function get_user_project($id)
+    {
+        $query = "SELECT u.name,
+        u.email,
+        u.user_id,
+        u.phone,
+        u.img,
+        u.joined_date,
+        u.job_title,
+        u.level,
+        u.ratings,
+        u.gender,
+        COUNT(up.user_id) AS projects
+    FROM users AS u
+            LEFT JOIN user_projects up ON u.user_id = up.user_id
+    WHERE up.user_id = :user_id AND up.project_id = :project_id
+    GROUP BY u.name,
+            u.email,
+            u.img,
+            u.phone,
+            u.joined_date,
+            u.job_title,
+            u.level,
+            u.ratings,
+            u.gender,
+            u.user_id";
+
+        return $this->query_unique_first($query, [
+            'user_id' => $id['user_id'],
+            'project_id' => $id['project_id']
+        ]);
+    }
     public function delete_project($project_id)
     {
         $query = "DELETE FROM projects WHERE project_id = :project_id";

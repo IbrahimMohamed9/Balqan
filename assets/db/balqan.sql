@@ -151,7 +151,7 @@ CREATE TABLE `projects`
 );
 CREATE TABLE `user_projects`
 (
-    `user_id`    INT,
+    `user_id`    INT unique,
     `project_id` INT,
     `price`      DECIMAL(10, 2),
     `position`   VARCHAR(30),
