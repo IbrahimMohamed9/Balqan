@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultView: "#home",
     templateDir: "pages/homePages/",
   });
-  const user_id = 2;
+  const user_id = 1;
 
   app.route({
     view: "home",

@@ -17,7 +17,7 @@ SELECT *
 FROM items;
 
 SELECT *
-FROM friend_requests;
+FROM balqan.user_friends;
 
 SELECT *
 FROM projects;
@@ -31,7 +31,7 @@ FROM cart_items;
 SELECT *
 FROM user_projects;
 
-SELECT user_id, number_of_friends
+SELECT *
 FROM users;
 
 

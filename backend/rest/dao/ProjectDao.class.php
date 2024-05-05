@@ -21,18 +21,16 @@ class ProjectsDao extends BaseDao
                 'end_date' => $payload['end_date'],
                 'item_id' => $payload['item_id']
             ];
-            $this->beginTransaction();
-            $query = "INSERT INTO projects (item_id, price, end_date) VALUES (:item_id, :price, :end_date)";
-            $this->execute($query, $project);
 
-            $query = "SELECT LAST_INSERT_ID() AS project_id";
-            $lastInserted = $this->query_unique_first($query, []);
+            $this->beginTransaction();
+            $this->insert("projects", $project);
+
+            $query = "SELECT LAST_INSERT_ID() AS project_id FROM projects";
+
+            $lastInserted = $this->query_unique_last($query, []);
             if ($lastInserted && isset($lastInserted['project_id'])) {
                 $user_project['project_id'] = $lastInserted['project_id'];
-                $query = "INSERT INTO user_projects 
-                        (user_id, project_id, price, position) 
-                    VALUES (:user_id, :project_id, :price, :position)";
-                $this->execute($query, $user_project);
+                $this->insert("user_projects", $user_project);
 
                 $this->commit();
             } else {
