@@ -135,7 +135,8 @@ CREATE TABLE `cart_items`
     `days_selected`    INT,
     `persons_selected` INT,
     CONSTRAINT `fk_cart_item_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`),
-    CONSTRAINT `fk_cart_item_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`)
+    CONSTRAINT `fk_cart_item_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`),
+    UNIQUE KEY `unique_item_cart` (`item_id`, `cart_id`)
 );
 CREATE TABLE `projects`
 (

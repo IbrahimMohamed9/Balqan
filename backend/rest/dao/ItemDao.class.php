@@ -11,8 +11,6 @@ class ItemDao extends BaseDao
 
     public function add_item($item)
     {
-        $table = $this->getTable();
-
         if (isset($item['category'])) {
             $category = $item['category'];
 

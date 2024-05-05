@@ -17,14 +17,14 @@ var CartService = {
   },
   submit: async (to, data, success_mge, block_selector, modal) => {
     const block = $(block_selector);
-    Utils.block_ui(block);
+    //TODO add unblock_ui and use remove modal in this time
+    // Utils.block_ui(block);
     modal = $("#myModal")[0];
     //TODO fix that to add
     localStorage.removeItem("cart_items");
 
     $.post(Constants.API_BASE_URL + to, data)
       .done(async (response) => {
-        Utils.unblock_ui(block);
         if (modal) Utils.removeModal(true, modal);
 
         Utils.appearSuccAlert(success_mge);
@@ -517,23 +517,23 @@ var CartService = {
       : 0;
 
     items.forEach((item) => {
+      let price = CartService.getTotalItemPrice(item, true);
       if (coupons) {
         const percentageToAmount = totalPercentage.reduce((acc, percentage) => {
           if (acc === 0) {
-            return item.price * parseFloat(percentage);
+            return price * parseFloat(percentage);
           } else {
             return acc + acc * parseFloat(percentage);
           }
         }, 0);
 
-        item.price -= percentageToAmount + totalAmount / items.length;
+        price -= percentageToAmount + totalAmount / items.length;
       }
-
       const data = {
         user_id: user_id,
-        price: CartService.getTotalItemPrice(item, true),
+        price: price,
         position: position,
-        item_id: item.cart_item_id,
+        item_id: item.item_id,
         end_date: Utils.addDaysToDate(item.days_selected),
       };
       RestClient.post("projects/add_project.php", data);
