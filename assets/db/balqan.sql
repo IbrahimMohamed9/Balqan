@@ -151,13 +151,13 @@ CREATE TABLE `projects`
 );
 CREATE TABLE `user_projects`
 (
-    `user_id`    INT unique,
+    `user_id`    INT,
     `project_id` INT,
     `price`      DECIMAL(10, 2),
     `position`   VARCHAR(30),
     CONSTRAINT `fk_user_projects_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
     CONSTRAINT `fk_user_projects_project_id` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE,
-    PRIMARY KEY (user_id, project_id)
+    UNIQUE KEY `unique_user_project` (`user_id`, `project_id`)
 );
 CREATE TABLE `coupon`
 (

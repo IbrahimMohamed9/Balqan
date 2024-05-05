@@ -11,32 +11,31 @@ class ProjectsDao extends BaseDao
     public function add_project($payload)
     {
         try {
-            $user_project = [
-                'user_id' => $payload['user_id'],
-                'price' => $payload['price'],
-                'position' => $payload['position']
-            ];
-            $project = [
+            $this->beginTransaction();
+            $this->insert("projects", [
                 'price' => $payload['price'],
                 'end_date' => $payload['end_date'],
                 'item_id' => $payload['item_id']
-            ];
-
-            $this->beginTransaction();
-            $this->insert("projects", $project);
+            ]);
 
             $query = "SELECT LAST_INSERT_ID() AS project_id FROM projects";
+            $project_id = $this->query_unique_last($query, [])['project_id'];
 
-            $lastInserted = $this->query_unique_last($query, []);
-            if ($lastInserted && isset($lastInserted['project_id'])) {
-                $user_project['project_id'] = $lastInserted['project_id'];
-                $this->insert("user_projects", $user_project);
+            if ($project_id) {
+                $this->insert("user_projects", [
+                    'user_id' => $payload['user_id'],
+                    'price' => $payload['price'],
+                    'position' => $payload['position'],
+                    'project_id' => $project_id
+                ]);
 
                 $this->commit();
             } else {
                 $this->rollBack();
             }
         } catch (PDOException $e) {
+            print_r($e);
+
             $this->rollBack();
         }
     }
