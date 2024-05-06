@@ -228,3 +228,68 @@ Flight::group("/users", function () {
     Flight::json($counter);
   });
 });
+
+/**
+ * @OA\Schema(
+ *     schema="SeeUser",
+ *     title="User in modal",
+ *     description="User model for viewing a user's info",
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         example="John Doe"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         format="email",
+ *         example="john@example.com"
+ *     ),
+ *     @OA\Property(
+ *         property="user_id",
+ *         type="integer",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="phone",
+ *         type="string",
+ *         example="123456789"
+ *     ),
+ *     @OA\Property(
+ *         property="img",
+ *         type="string",
+ *         example="user.jpg"
+ *     ),
+ *     @OA\Property(
+ *         property="joined_date",
+ *         type="string",
+ *         format="date",
+ *         example="2024-05-07"
+ *     ),
+ *     @OA\Property(
+ *         property="job_title",
+ *         type="string",
+ *         example="Developer"
+ *     ),
+ *     @OA\Property(
+ *         property="level",
+ *         type="integer",
+ *         example=12
+ *     ),
+ *     @OA\Property(
+ *         property="ratings",
+ *         type="string",
+ *         example="2 4 5 1 4.3"
+ *     ),
+ *     @OA\Property(
+ *         property="gender",
+ *         type="string",
+ *         example="Male"
+ *     ),
+ *     @OA\Property(
+ *         property="projects",
+ *         type="integer",
+ *         example=3
+ *     )
+ * )
+ */

@@ -148,6 +148,7 @@ Flight::group("/feedbacks", function () {
 /**
  * @OA\Schema(
  *     schema="Feedback",
+ *     description="Feedback table",
  *     required={"name", "email", "phone", "message"},
  *     @OA\Property(property="feedback_id", type="integer", example=1, description="Feedback ID"),
  *     @OA\Property(property="name", type="string", example="Problem in add to cart", description="Name of the person giving feedback"),

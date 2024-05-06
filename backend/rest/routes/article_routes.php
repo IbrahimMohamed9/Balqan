@@ -163,6 +163,7 @@ Flight::group("/articles", function () {
 /**
  * @OA\Schema(
  *     schema="Article",
+ *     description="Article table",
  *     required={"article_id", "title", "img_src", "country", "category", "status", "content", "description", "img_desc"},
  *     @OA\Property(property="article_id", type="string", example="1", description="Article ID"),
  *     @OA\Property(property="title", type="string", example="Some title", description="Article title"),

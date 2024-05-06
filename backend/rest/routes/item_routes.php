@@ -191,6 +191,7 @@ Flight::group("/items", function () {
 /**
  * @OA\Schema(
  *     schema="Item",
+ *     description="Item table",
  *     @OA\Property(property="name", type="string", example="14 day package"),
  *     @OA\Property(property="description", type="string", example="14 day in Bosina"),
  *     @OA\Property(property="day_price", type="number", example=null),
