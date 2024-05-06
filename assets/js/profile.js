@@ -83,9 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
     templateDir: "./profilePages/",
   });
 
-  const user_id = 1;
+  // const user_id = 1;
   // const user_id = 2;
-  // const user_id = 3;
+  const user_id = 3;
   // const user_id = 4;
   // const user_id = 5;
 

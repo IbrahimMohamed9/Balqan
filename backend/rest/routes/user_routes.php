@@ -4,6 +4,7 @@ require_once __DIR__ . '/../services/UserService.class.php';
 Flight::set('user_service', new UserService());
 
 Flight::group("/users", function () {
+
   Flight::group("/get", function () {
     Flight::route('GET /', function () {
       $users = Flight::get('user_service')->get_users();
@@ -11,7 +12,6 @@ Flight::group("/users", function () {
       Flight::json($users);
     });
 
-    //test it
     Flight::route('GET /requests/@user_id', function ($user_id) {
       $requests = Flight::get('user_service')->get_friend_requests($user_id);
 
@@ -30,7 +30,6 @@ Flight::group("/users", function () {
       Flight::json($user);
     });
 
-    //test it
     Flight::route('GET /friends/@user_id', function ($user_id) {
       $friends = Flight::get('user_service')->get_friends($user_id);
 
@@ -110,23 +109,38 @@ Flight::group("/users", function () {
       );
     });
 
+    //MAKE IT PUT
     Flight::route('POST /password', function () {
       $payload = Flight::request()->data;
 
       Flight::get('user_service')->edit_user_password($payload);
     });
 
-    Flight::route('POST /draft', function () {
-      $payload = Flight::request()->data;
-
-      Flight::get('user_service')->edit_user_password($payload);
-    });
-
-    //test it
-    Flight::route('PUT /request', function () {
+    Flight::route('POST /friend_request', function () {
       $payload = Flight::request()->query;
 
       Flight::get('user_service')->editFriendRequestStatus($payload);
+    });
+
+    //MAKE IT PUT
+    Flight::route('POST /draft', function () {
+      $payload = Flight::request()->data;
+
+      $draft = [
+        'title' => $payload['title'],
+        'content' => $payload['content'],
+        'draft_id' => $payload['draft_id']
+      ];
+
+
+      Flight::get('user_service')->edit_user_draft($draft);
+
+      Flight::json(
+        [
+          'message' => "you have successfully added the draft",
+          'data' => $payload
+        ]
+      );
     });
   });
 
@@ -155,7 +169,6 @@ Flight::group("/users", function () {
   });
 
   Flight::group("/add", function () {
-    //done
     Flight::route('POST /draft', function () {
       $payload = Flight::request()->data;
 
@@ -172,5 +185,46 @@ Flight::group("/users", function () {
         ['message' => "you have successfully added the draft"]
       );
     });
+
+    Flight::route('POST /friend_request', function () {
+      $request = [
+        'requester_id' => Flight::request()->query['requester_id'],
+        'requested_id' => Flight::request()->data['requested_id']
+      ];
+
+      Flight::get('user_service')->add_friend_request($request);
+
+      Flight::json(
+        ['message' => "you have successfully added the request"]
+      );
+    });
+
+    Flight::route('POST /user', function () {
+      $payload = Flight::request()->data;
+
+      $user = [
+        'password' => $payload['password'],
+        'email' => $payload['email'],
+        'name' => $payload['name']
+      ];
+
+      Flight::get('user_service')->add_user($user);
+
+      Flight::json(
+        ['message' => "you have successfully added the request"]
+      );
+    });
+  });
+
+  Flight::route('GET /login', function () {
+    $payload = Flight::request()->query;
+
+    $email = $payload['sign_email'];
+    $password = $payload['signin_password'];
+
+
+    $counter = Flight::get('user_service')->user_login($email, $password);
+
+    Flight::json($counter);
   });
 });

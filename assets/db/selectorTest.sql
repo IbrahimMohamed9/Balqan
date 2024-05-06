@@ -7,7 +7,7 @@ FROM widgets;
 SELECT *
 FROM items;
 
-SELECT user_id, password
+SELECT *
 FROM balqan.users;
 
 SELECT *
@@ -23,5 +23,5 @@ SELECT *
 FROM user_projects;
 
 SELECT *
-FROM feedbacks;
+FROM friend_requests;
 

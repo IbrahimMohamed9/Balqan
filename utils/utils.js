@@ -518,14 +518,13 @@ var Utils = {
   submit: (post, form_id, to, success_mge, callBack, modal, formElement) => {
     const form = formElement ? formElement : $("#" + form_id),
       block = form.find("*[type=submit]").first();
-    // url, method, data, callback, error_callback)
 
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
-      const method = post ? "POST" : "PUT";
+
       RestClient.request(
         to,
-        method,
+        post ? "POST" : "PUT",
         data,
         (data) => {
           form[0].reset();

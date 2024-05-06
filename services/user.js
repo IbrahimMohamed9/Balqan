@@ -280,7 +280,7 @@ var UserService = {
     $("profile-btn").click(() => {
       switchButton(0);
     });
-    UserService.addDraft(user_id);
+    UserService.operateDraft(user_id, true);
   },
   loadDashboardWidgets: async (user_id) => {
     const widgets = await UserService.fetchUserWidgets(user_id);
@@ -387,27 +387,24 @@ var UserService = {
       Utils.unblock_ui(draftWidget);
     });
   },
-  addDraft: (user_id) => {
-    Utils.submit(
-      "draft-form",
-      "users/add/draft?user_id=" + user_id,
-      "Draft added successfully",
-      () => {
-        UserService.loadDrafts(user_id);
-      }
-    );
-  },
-  editDraft: (user_id, draft_id, modal) => {
-    Utils.submit(
-      "edit-draft-form",
-      "users/add/add_draft.php?draft_id=" + draft_id,
-      "Draft edited successfully",
-      () => {
-        UserService.loadDrafts(user_id);
+  operateDraft: (user_id, add, modal) => {
+    const form_id = add ? "draft-form" : "edit-draft-form";
+
+    const url =
+      `users/${add ? "add" : "edit"}/draft` +
+      (add ? "?user_id=" + user_id : "");
+
+    const message = `Draft ${add ? "added" : "edited"} successfully`;
+
+    // TODO make true to be add
+    Utils.submit(true, form_id, url, message, () => {
+      UserService.loadDrafts(user_id);
+      if (!add) {
         Utils.removeModal(false, modal);
       }
-    );
+    });
   },
+
   getDraft: (user_id, draft_id, el) => {
     Utils.block_ui(el);
     RestClient.get("users/get/draft/" + draft_id, (data) => {
@@ -463,7 +460,7 @@ var UserService = {
       Utils.setupModalActions();
       Utils.appearModal(false);
       Utils.unblock_ui(el);
-      UserService.editDraft(user_id, data.draft_id, modal);
+      UserService.operateDraft(user_id, false, modal);
     });
   },
   removeDraft: (user_id, draft_id, el) => {
@@ -650,7 +647,7 @@ var UserService = {
     Utils.submit(
       true,
       "add-friend-form",
-      "users/add/add_friend_request.php?requester_id=" + user_id,
+      "users/add/friend_request?requester_id=" + user_id,
       "Friend request sent successfully",
       () => {
         Utils.addBtnsAnimation(
@@ -706,13 +703,15 @@ var UserService = {
     });
   },
   editFriendRequestStatus: (requested_id, requester_id, status) => {
-    RestClient.put(
-      "users/edit/edit_friend_request_status.php?requested_id=" +
+    //TODO make it put and fix this bug
+    RestClient.post(
+      "users/edit/friend_request?requested_id=" +
         requested_id +
         "&requester_id=" +
         requester_id +
         "&status=" +
         status,
+      () => {},
       () => {
         UserService.requestsFriendModal(requested_id);
         if (status) UserService.loadFriends(requested_id);
@@ -830,10 +829,10 @@ var UserService = {
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
       RestClient.get(
-        "users/user_login.php?sign_email=" +
-          data.sign_email +
+        "users/login?sign_email=" +
+          data.email +
           "&signin_password=" +
-          data.signin_password,
+          data.password,
         (data) => {
           Utils.unblock_ui(block);
           if (data["counter"]) {
@@ -854,7 +853,7 @@ var UserService = {
     });
   },
   signUp: () => {
-    Utils.submit(true, "sign_up_form", "users/add/add_user.php", false, () => {
+    Utils.submit(true, "sign_up_form", "users/add/user", false, () => {
       Utils.resetFormAnimation();
       //TODO insert cart_id
     });
