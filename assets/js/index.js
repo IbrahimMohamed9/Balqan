@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Utils.formAnimation();
       Utils.submit(
         "contact-form",
-        "feedbacks/add_feedback.php",
+        "feedbacks/add",
         "Feedback added successfully",
         () => {
           Utils.resetFormAnimation();
