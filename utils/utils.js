@@ -539,6 +539,57 @@ var Utils = {
         });
     });
   },
+  submitPost: (form_id, to, success_mge, callBack, modal, formElement) => {
+    const form = formElement ? formElement : $("#" + form_id),
+      block = form.find("*[type=submit]").first();
+
+    FormValidation.validate(form, {}, (data) => {
+      Utils.block_ui(block);
+      $.post(Constants.API_BASE_URL + to, data)
+        .done((data) => {
+          form[0].reset();
+          Utils.unblock_ui(block);
+          if (modal) Utils.removeModal(false, modal);
+
+          if (success_mge) Utils.appearSuccAlert(success_mge);
+          if (callBack) callBack();
+        })
+        .fail((xhr) => {
+          Utils.unblock_ui(block);
+
+          if (modal) Utils.removeModal(false, modal);
+
+          Utils.appearFailAlert(xhr.responseText);
+        });
+    });
+  },
+  submitPut: (form_id, to, success_mge, callBack, modal, formElement) => {
+    const form = formElement ? formElement : $("#" + form_id),
+      block = form.find("*[type=submit]").first();
+
+    FormValidation.validate(form, {}, (data) => {
+      Utils.block_ui(block);
+      RestClient.put(
+        to,
+        data,
+        (data) => {
+          form[0].reset();
+          Utils.unblock_ui(block);
+          if (modal) Utils.removeModal(false, modal);
+
+          if (success_mge) Utils.appearSuccAlert(success_mge);
+          if (callBack) callBack();
+        },
+        (xhr) => {
+          Utils.unblock_ui(block);
+
+          if (modal) Utils.removeModal(false, modal);
+
+          Utils.appearFailAlert(xhr.responseText);
+        }
+      );
+    });
+  },
   formSetup: (modal, submit) => {
     Utils.formAnimation();
     if (modal) {

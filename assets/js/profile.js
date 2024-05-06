@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ItemService.addItemModal("hotel", false);
       });
       $("#add-article").on("click", () => {
-        ArticleService.addArticleModal("Article added successfully");
+        ArticleService.addArticleModal("Article added successfully", true);
       });
       $("#add-feedback").on("click", () => {
         FeedbackService.addFeedbackModal();
