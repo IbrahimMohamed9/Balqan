@@ -94,6 +94,8 @@ var FeedbackService = {
     `;
     Utils.formSetup(modal, () => {
       Utils.submit(
+        //TODO make it false
+        true,
         "feedback-form",
         "feedbacks/add",
         message,

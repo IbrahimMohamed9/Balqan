@@ -515,28 +515,34 @@ var Utils = {
       Utils.fieldAnimation(field);
     });
   },
-  submit: (form_id, to, success_mge, callBack, modal, formElement) => {
+  submit: (post, form_id, to, success_mge, callBack, modal, formElement) => {
     const form = formElement ? formElement : $("#" + form_id),
       block = form.find("*[type=submit]").first();
+    // url, method, data, callback, error_callback)
 
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
-      $.post(Constants.API_BASE_URL + to, data)
-        .done((data) => {
+      const method = post ? "POST" : "PUT";
+      RestClient.request(
+        to,
+        method,
+        data,
+        (data) => {
           form[0].reset();
           Utils.unblock_ui(block);
           if (modal) Utils.removeModal(false, modal);
 
           if (success_mge) Utils.appearSuccAlert(success_mge);
           if (callBack) callBack();
-        })
-        .fail((xhr) => {
+        },
+        (xhr) => {
           Utils.unblock_ui(block);
 
           if (modal) Utils.removeModal(false, modal);
 
           Utils.appearFailAlert(xhr.responseText);
-        });
+        }
+      );
     });
   },
   submitPost: (form_id, to, success_mge, callBack, modal, formElement) => {

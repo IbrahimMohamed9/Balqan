@@ -171,6 +171,7 @@ var ArticleService = {
     `;
     Utils.formSetup(modal, () => {
       Utils.submit(
+        true,
         "article-form",
         "articles/add",
         message,

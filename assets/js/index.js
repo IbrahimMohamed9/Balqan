@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mainTitleAnimation();
       Utils.formAnimation();
       Utils.submit(
+        true,
         "contact-form",
         "feedbacks/add",
         "Feedback added successfully",

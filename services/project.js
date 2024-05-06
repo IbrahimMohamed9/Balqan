@@ -97,9 +97,10 @@ var projectService = {
             formChildren.eq(2).children().eq(0)
           );
         });
-        // form_id, to, success_mge, callBack, modal, formElement
 
         Utils.submit(
+          //TODO make it false
+          true,
           false,
           "projects/add_user?project_id=" + projects[index]["project_id"],
           "User added successfully",

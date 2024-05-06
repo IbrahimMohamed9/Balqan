@@ -415,6 +415,8 @@ var ItemService = {
         Utils.capitalizeFirstLetter(category) +
         (edit ? " edited successfully" : " added successfully");
       Utils.submit(
+        //TODO make it false
+        true,
         category + "-form",
         "items/add",
         message,
