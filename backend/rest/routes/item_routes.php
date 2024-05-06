@@ -64,3 +64,25 @@ Flight::group("/items", function () {
     Flight::get('item_service')->delete_item($item_id);
   });
 });
+
+/**
+ * @OA\Schema(
+ *     schema="Item",
+ *     @OA\Property(property="name", type="string", example="14 day package"),
+ *     @OA\Property(property="description", type="string", example="14 day in Bosina"),
+ *     @OA\Property(property="day_price", type="number", example=null),
+ *     @OA\Property(property="person_price", type="number", example="23"),
+ *     @OA\Property(property="stock_quantity", type="integer", example="2"),
+ *     @OA\Property(property="imgs_srcs", type="string", example="Some image url"),
+ *     @OA\Property(property="min_days", type="integer", example=null),
+ *     @OA\Property(property="days", type="integer", example="14"),
+ *     @OA\Property(property="max_days", type="integer", example=null),
+ *     @OA\Property(property="min_persons", type="string", example="5"),
+ *     @OA\Property(property="persons", type="string", example=null),
+ *     @OA\Property(property="max_persons", type="string", example="9"),
+ *     @OA\Property(property="category", type="string", example="package"),
+ *     @OA\Property(property="title", type="string", example="Some item title"),
+ *     @OA\Property(property="intro", type="string", example="Some item intro"),
+ *     @OA\Property(property="status", type="string", example="available")
+ * )
+ */
