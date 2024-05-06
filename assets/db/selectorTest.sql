@@ -25,3 +25,9 @@ FROM user_projects;
 SELECT *
 FROM friend_requests;
 
+SELECT * FROM items
+WHERE category = 'package'
+ORDER BY added_time
+LIMIT 2;
+
+SELECT * FROM items;
