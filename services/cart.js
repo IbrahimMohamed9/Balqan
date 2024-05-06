@@ -534,10 +534,10 @@ var CartService = {
         user_id: user_id,
         price: price,
         position: position,
-        item_id: item.item_id,
+        cart_item_id: item.cart_item_id,
         end_date: Utils.addDaysToDate(item.days_selected),
       };
-      RestClient.post("projects/add_project.php", data);
+      RestClient.post("projects/add", data);
     });
     RestClient.post(
       "carts/insert_cart/" + user_id,
