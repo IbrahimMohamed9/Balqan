@@ -22,19 +22,21 @@ var CartService = {
     modal = $("#myModal")[0];
     //TODO fix that to add
     localStorage.removeItem("cart_items");
-
-    $.post(Constants.API_BASE_URL + to, data)
-      .done(async (response) => {
+    RestClient.post(
+      to,
+      data,
+      async (response) => {
         if (modal) Utils.removeModal(true, modal);
 
         Utils.appearSuccAlert(success_mge);
         CartService.shoppingCartCounter(data.user_id, 1);
-      })
-      .fail((xhr) => {
+      },
+      (xhr) => {
         Utils.unblock_ui(block);
         if (modal) Utils.removeModal(true, modal);
         Utils.appearFailAlert(xhr.responseText);
-      });
+      }
+    );
   },
   shoppingCartCounter: async (user_id, change) => {
     // try {
