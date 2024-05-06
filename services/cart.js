@@ -9,7 +9,7 @@ var CartService = {
 
     // TODO fix when add two same item to cart
     CartService.submit(
-      "carts/add_item_cart.php",
+      "carts/add_item",
       data,
       "Item added successfully",
       "#myModal .checkout .checkout-btn"
@@ -44,7 +44,7 @@ var CartService = {
     // if (counter === null || counter === undefined) {
     // const counter = await new Promise((resolve, reject) => {
     RestClient.get(
-      "carts/get_cart_items_number_by_id.php?user_id=" + user_id,
+      "carts/counter/" + user_id,
       (data) => {
         $(".shopping-cart-icon").attr("data-counter", data.counter);
         // resolve(Number(data.counter));
@@ -76,8 +76,9 @@ var CartService = {
       if (data === null) {
         data = await new Promise((resolve, reject) => {
           RestClient.get(
-            "carts/get_cart_items_by_id.php?user_id=" + user_id,
+            "carts/get/" + user_id,
             (data) => {
+              data = data.data;
               resolve(
                 data.map((itemData) => ({
                   ...itemData,
@@ -414,7 +415,7 @@ var CartService = {
     });
     // TODO fix coupon part apply one times
     // and remove from local storage
-    $(".coupons .form#coupon").click(() => {
+    $(".coupons #coupon input[type=submit]").click(() => {
       CartService.coupon("coupon", sumOfTotalModal);
     });
   },
@@ -431,7 +432,7 @@ var CartService = {
     items.forEach((data) => {
       if (data.changed) {
         RestClient.put(
-          "carts/update_item_cart.php?cart_item_id=" +
+          "carts/item?cart_item_id=" +
             data.cart_item_id +
             "&persons_selected=" +
             data.persons_selected +
@@ -452,7 +453,7 @@ var CartService = {
       // callback_error instead of call back
 
       RestClient.delete(
-        "carts/delete_item_cart.php?cart_item_id=" + cart_item_id,
+        "carts/delete/" + cart_item_id,
         () => {},
         (error) => {
           // TODO make it withou remove from localStorage
@@ -465,13 +466,13 @@ var CartService = {
       );
     }
   },
+  //TODO fix when user open the modal in cart and go out
   coupon: (form_id, totalPriceModal) => {
     const form = $("#" + form_id);
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(form);
-      RestClient.post(
-        "carts/check_coupon.php",
-        data,
+      RestClient.get(
+        "carts/coupon?code=" + data.code,
         (data) => {
           form[0].reset();
           Utils.unblock_ui(form);
@@ -500,7 +501,7 @@ var CartService = {
       );
     });
   },
-  checkOut: async (user_id, position, btn) => {
+  checkout: async (user_id, position, btn) => {
     Utils.block_ui(btn, true);
     CartService.updateCart(user_id);
 
@@ -539,8 +540,8 @@ var CartService = {
       RestClient.post("projects/add_project.php", data);
     });
     RestClient.post(
-      "carts/add_new_cart_for_user.php",
-      { user_id: user_id },
+      "carts/insert_cart/" + user_id,
+      null,
       (data) => {
         // TODO make it more logic remove one by one
         localStorage.removeItem("coupons");

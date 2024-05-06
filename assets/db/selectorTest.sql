@@ -32,7 +32,7 @@ SELECT *
 FROM user_projects;
 
 SELECT *
-FROM users;
+FROM coupon;
 
 
 SELECT u.user_id,
