@@ -563,7 +563,32 @@ Flight::group("/users", function () {
   });
 
   Flight::group("/delete", function () {
-    //done
+    /**
+     * @OA\Delete(
+     *     path="/users/delete/draft/{draft_id}",
+     *     tags={"Users"},
+     *     summary="Delete a draft",
+     *     description="Deletes a draft identified by its ID",
+     *     operationId="deleteDraft",
+     *     @OA\Parameter(
+     *         name="draft_id",
+     *         in="path",
+     *         description="ID of the draft to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Draft deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="if Draft id did provided, it will return error with status code 500"
+     *     )
+     * )
+     */
     Flight::route('DELETE /draft/@draft_id', function ($draft_id) {
       if (!$draft_id) {
         Flight::halt(500, "Try again later");
@@ -571,6 +596,32 @@ Flight::group("/users", function () {
       Flight::get('user_service')->delete_user_draft($draft_id);
     });
 
+    /**
+     * @OA\Delete(
+     *     path="/users/delete/friend/{friendship_id}",
+     *     tags={"Users"},
+     *     summary="Delete a friend",
+     *     description="Deletes a friend identified by its friendship ID",
+     *     operationId="deleteFriend",
+     *     @OA\Parameter(
+     *         name="friendship_id",
+     *         in="path",
+     *         description="ID of the friendship to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Friend deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     Flight::route('DELETE /friend/@friendship_id', function ($friendship_id) {
       if (!$friendship_id) {
         Flight::halt(500, "Try again later");

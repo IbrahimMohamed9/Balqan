@@ -5,7 +5,7 @@ SELECT *
 FROM widgets;
 
 SELECT *
-FROM items;
+FROM drafts;
 
 SELECT *
 FROM targets;
