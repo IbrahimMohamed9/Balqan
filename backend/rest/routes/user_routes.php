@@ -563,7 +563,32 @@ Flight::group("/users", function () {
   });
 
   Flight::group("/delete", function () {
-    //done
+    /**
+     * @OA\Delete(
+     *     path="/users/delete/draft/{draft_id}",
+     *     tags={"Users"},
+     *     summary="Delete a draft",
+     *     description="Deletes a draft identified by its ID",
+     *     operationId="deleteDraft",
+     *     @OA\Parameter(
+     *         name="draft_id",
+     *         in="path",
+     *         description="ID of the draft to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Draft deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="if Draft id did provided, it will return error with status code 500"
+     *     )
+     * )
+     */
     Flight::route('DELETE /draft/@draft_id', function ($draft_id) {
       if (!$draft_id) {
         Flight::halt(500, "Try again later");
@@ -571,6 +596,32 @@ Flight::group("/users", function () {
       Flight::get('user_service')->delete_user_draft($draft_id);
     });
 
+    /**
+     * @OA\Delete(
+     *     path="/users/delete/friend/{friendship_id}",
+     *     tags={"Users"},
+     *     summary="Delete a friend",
+     *     description="Deletes a friend identified by its friendship ID",
+     *     operationId="deleteFriend",
+     *     @OA\Parameter(
+     *         name="friendship_id",
+     *         in="path",
+     *         description="ID of the friendship to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Friend deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="if friendship id did provided, it will return error with status code 500"
+     *     )
+     * )
+     */
     Flight::route('DELETE /friend/@friendship_id', function ($friendship_id) {
       if (!$friendship_id) {
         Flight::halt(500, "Try again later");
@@ -578,6 +629,30 @@ Flight::group("/users", function () {
       Flight::get('user_service')->delete_friend($friendship_id);
     });
 
+    /**
+     * @OA\Delete(
+     *     path="/users/delete/user/{user_id}",
+     *     tags={"Users"},
+     *     summary="Delete a user",
+     *     description="Deletes a user identified by its ID",
+     *     operationId="deleteUser",
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         description="ID of the user to delete",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="if user id did provided, it will return error with status code 500"
+     *     )
+     * )
+     */
     Flight::route('DELETE /user/@user_id', function ($user_id) {
       if (!$user_id) {
         Flight::halt(500, "Try again later");
@@ -587,6 +662,48 @@ Flight::group("/users", function () {
   });
 
   Flight::group("/add", function () {
+
+    /**
+     * @OA\Post(
+     *     path="/users/add/draft",
+     *     tags={"Users"},
+     *     summary="Add a draft",
+     *     description="Adds a new draft",
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         description="User id",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         example=1
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Draft object",
+     *         @OA\JsonContent(
+     *            required={"title", "content", "user_id", "draft_id", "time"},
+     *            @OA\Property(
+     *                property="title",
+     *                type="string",
+     *                description="Draft title",
+     *                example="Draft Title"
+     *            ),
+     *            @OA\Property(
+     *                property="content",
+     *                type="string",
+     *                description="Draft content",
+     *                example="Draft Content"
+     *            )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *        response=200,
+     *        description="Draft added successfully"
+     *    )
+     * )
+     */
     Flight::route('POST /draft', function () {
       $payload = Flight::request()->data;
 
@@ -604,6 +721,37 @@ Flight::group("/users", function () {
       );
     });
 
+    /**
+     * @OA\Post(
+     *     path="/users/add/friend_request",
+     *     tags={"Users"},
+     *     summary="Add a friend request",
+     *     description="Adds a new friend request",
+     *     operationId="addFriendRequest",
+     *     @OA\Parameter(
+     *         name="requester_id",
+     *         in="query",
+     *         description="Requester id who send the request",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         example=1
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Requested id who receive the request",
+     *         @OA\JsonContent(
+     *             required={"requested_id"},
+     *             @OA\Property(property="requested_id", type="integer", example=3)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Friend request added successfully"
+     *     )
+     * )
+     */
     Flight::route('POST /friend_request', function () {
       $request = [
         'requester_id' => Flight::request()->query['requester_id'],
@@ -617,6 +765,28 @@ Flight::group("/users", function () {
       );
     });
 
+    /**
+     * @OA\Post(
+     *     path="/users/add/user",
+     *     tags={"Users"},
+     *     summary="Add a user",
+     *     description="Adds a new user",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="User object",
+     *         @OA\JsonContent(
+     *             required={"password", "email", "name"},
+     *             @OA\Property(property="email", type="string", example="example@example.com"),
+     *             @OA\Property(property="password", type="string", example="3123112"),
+     *             @OA\Property(property="name", type="string", example="ibrahim Mohamed")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User added successfully"
+     *     )
+     * )
+     */
     Flight::route('POST /user', function () {
       $payload = Flight::request()->data;
 
@@ -796,6 +966,7 @@ Flight::group("/users", function () {
  *     schema="Draft",
  *     title="Draft",
  *     description="Draft table",
+ *     required={"title", "content", "user_id", "draft_id", "time"},
  *     @OA\Property(
  *         property="title",
  *         type="string",
@@ -809,20 +980,25 @@ Flight::group("/users", function () {
  *         example="Draft Content"
  *     ),
  *     @OA\Property(
- *         property="time",
- *         type="string",
- *         description="Draft time",
- *         example="2024-05-07 13:30:00"
- *     ),
- *     @OA\Property(
  *         property="draft_id",
  *         type="integer",
  *         description="Draft ID",
  *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="user_id",
+ *         type="integer",
+ *         description="User ID",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="time",
+ *         type="string",
+ *         description="Draft time",
+ *         example="2024-05-07 12:00:00"
  *     )
  * )
  */
-
 
 /**
  * @OA\Schema(

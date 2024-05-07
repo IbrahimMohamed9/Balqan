@@ -5,7 +5,7 @@ SELECT *
 FROM widgets;
 
 SELECT *
-FROM items;
+FROM drafts;
 
 SELECT *
 FROM targets;
@@ -25,6 +25,9 @@ FROM cart_items;
 
 SELECT *
 FROM user_projects;
+
+SELECT *
+FROM user_friends;
 
 SELECT *
 FROM friend_requests;
