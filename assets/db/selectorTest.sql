@@ -27,6 +27,9 @@ SELECT *
 FROM user_projects;
 
 SELECT *
+FROM user_friends;
+
+SELECT *
 FROM friend_requests;
 
 SELECT * FROM items
