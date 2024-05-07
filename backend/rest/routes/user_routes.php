@@ -11,7 +11,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get",
      *     summary="Get all users",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Response(
      *         response=200,
      *         description="A list of users",
@@ -32,7 +32,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/requests/{user_id}",
      *     summary="Get friend requests for a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -62,7 +62,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/activity/{user_id}",
      *     summary="Get activity for a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -92,7 +92,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/user/{user_id}",
      *     summary="Get user by ID",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -119,7 +119,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/friends/{user_id}",
      *     summary="Get friends of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -149,7 +149,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/draft/{draft_id}",
      *     summary="Get a draft by ID",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="draft_id",
      *         in="path",
@@ -178,7 +178,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/drafts/{user_id}",
      *     summary="Get drafts of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -208,7 +208,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/latest_activity/{user_id}/{limit}",
      *     summary="Get latest activity of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -253,7 +253,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/targets/{user_id}",
      *     summary="Get targets of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -283,7 +283,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/tickets/{user_id}",
      *     summary="Get tickets of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -313,7 +313,7 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/widgets/{user_id}",
      *     summary="Get widgets of a user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="path",
@@ -345,7 +345,7 @@ Flight::group("/users", function () {
      * @OA\Put(
      *     path="/users/edit/widgets",
      *     summary="Edit user widgets",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="query",
@@ -396,7 +396,7 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/user",
      *     summary="Edit user information",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
      *         in="query",
@@ -447,7 +447,7 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/password",
      *     summary="Edit user password",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\RequestBody(
      *         required=true,
      *         description="Payload for editing user password",
@@ -474,7 +474,7 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/friend_request",
      *     summary="Edit friend request status",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\Parameter(
      *         name="requester_id",
      *         in="query",
@@ -518,7 +518,7 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/draft",
      *     summary="Edit user draft",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     @OA\RequestBody(
      *         required=true,
      *         description="Payload for editing user draft",
@@ -566,7 +566,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Delete(
      *     path="/users/delete/draft/{draft_id}",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Delete a draft",
      *     description="Deletes a draft identified by its ID",
      *     operationId="deleteDraft",
@@ -599,7 +599,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Delete(
      *     path="/users/delete/friend/{friendship_id}",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Delete a friend",
      *     description="Deletes a friend identified by its friendship ID",
      *     operationId="deleteFriend",
@@ -632,7 +632,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Delete(
      *     path="/users/delete/user/{user_id}",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Delete a user",
      *     description="Deletes a user identified by its ID",
      *     operationId="deleteUser",
@@ -666,7 +666,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Post(
      *     path="/users/add/draft",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Add a draft",
      *     description="Adds a new draft",
      *     @OA\Parameter(
@@ -724,7 +724,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Post(
      *     path="/users/add/friend_request",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Add a friend request",
      *     description="Adds a new friend request",
      *     operationId="addFriendRequest",
@@ -768,7 +768,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Post(
      *     path="/users/add/user",
-     *     tags={"Users"},
+     *     tags={"users"},
      *     summary="Add a user",
      *     description="Adds a new user",
      *     @OA\RequestBody(
