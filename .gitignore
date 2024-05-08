@@ -1,3 +1,4 @@
 backend/vendor
 h.html
 assets/db/selectorTest.sql
+backend/config.php

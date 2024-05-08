@@ -1,4 +1,4 @@
-USE `balqan`;
+USE `balqgivg_main`;
 
 INSERT
 INTO items(imgs_srcs,

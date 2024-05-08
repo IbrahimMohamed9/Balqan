@@ -1,5 +1,4 @@
-USE `balqan`;
-
+USE `balqgivg_main`;
 
 SELECT *
 FROM widgets;
@@ -11,7 +10,7 @@ SELECT *
 FROM targets;
 
 SELECT user_id, password, phone, name
-FROM balqan.users;
+FROM users;
 
 SELECT * FROM articles WHERE article_id = :article_id;
 SELECT *
