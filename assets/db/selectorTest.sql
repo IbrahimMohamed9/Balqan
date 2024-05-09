@@ -9,7 +9,7 @@ FROM drafts;
 SELECT *
 FROM targets;
 
-SELECT user_id, password, phone, name
+SELECT user_id, password, phone, name,email
 FROM users;
 
 SELECT * FROM articles WHERE article_id = :article_id;

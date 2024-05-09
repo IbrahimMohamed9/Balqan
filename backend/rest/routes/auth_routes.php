@@ -73,8 +73,7 @@ Flight::group('/auth', function () {
       if ($token) {
         $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
         Flight::json([
-          'jwt_decoded' => $decoded_token,
-          'user' => $decoded_token->user
+          'jwt_decoded' => $decoded_token
         ]);
       }
     } catch (\Exception $e) {
