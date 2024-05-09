@@ -1,11 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../services/AuthService.class.php';
-
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+require_once __DIR__ . '/AuthClass.class.php';
 
 Flight::set('auth_service', new AuthService());
+Flight::set('token', new AuthClass());
+Flight::set('user_service', new UserService());
 
 Flight::group('/auth', function () {
 
@@ -18,35 +18,76 @@ Flight::group('/auth', function () {
    *           response=200,
    *           description="User data and JWT token"
    *      ),
-   *      @OA\RequestBody(
-   *          description="User credentials",
-   *          @OA\JsonContent(
-   *             required={"email", "password"},
-   *             @OA\Property(property="email", required=true, type="string", example="becir.isakovic@ibu.edu.ba"),
-   *             @OA\Property(property="password", required=true, type="string", example="pass")
-   *           )
-   *      ),
+   *     @OA\Parameter(
+   *         name="email",
+   *         in="query",
+   *         description="email of the user",
+   *         required=true,
+   *         @OA\Schema(
+   *             type="string"
+   *         ),
+   *         example="i@b.n"
+   *     ),
+   *     @OA\Parameter(
+   *         name="password",
+   *         in="query",
+   *         description="password of the user",
+   *         required=true,
+   *         @OA\Schema(
+   *             type="string"
+   *         ),
+   *         example="1234"
+   *     )
    * )
    */
   Flight::route('POST /login', function () {
-    $payload = Flight::request()->data->getData();
+    $payload = Flight::request()->query;
     $user = Flight::get('auth_service')->get_user_by_email($payload['email']);
 
     if (!$user || $payload['password'] !== $user['password'])
       Flight::halt(500, "Invalid username or password");
 
-    unset($user['password']);
-    $payload = [
-      'user' => $user,
-      'iat' => time(),
-      'exp' => time() + 1296000 //valid for 15 day
+    $token = Flight::get('token')->generateToken($user);
+
+    Flight::json([
+      'user' => array_merge($user, ['token' => $token])
+    ]);
+  });
+
+  /**
+   * @OA\Post(
+   *     path="/auth/signUp",
+   *     tags={"auth"},
+   *     summary="Add a user",
+   *     description="Adds a new user",
+   *     @OA\RequestBody(
+   *         required=true,
+   *         description="User object",
+   *         @OA\JsonContent(
+   *             required={"password", "email", "name"},
+   *             @OA\Property(property="email", type="string", example="example@example.com"),
+   *             @OA\Property(property="password", type="string", example="3123112"),
+   *             @OA\Property(property="name", type="string", example="ibrahim Mohamed")
+   *         )
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="User added successfully"
+   *     )
+   * )
+   */
+  Flight::route('POST /signUp', function () {
+    $payload = Flight::request()->data;
+
+    $data = [
+      'password' => $payload['password'],
+      'email' => $payload['email'],
+      'name' => $payload['name']
     ];
 
-    $token = JWT::encode(
-      $payload,
-      JWT_SECRET,
-      'HS256'
-    );
+    $user = Flight::get('user_service')->add_user($data);
+
+    $token = Flight::get('token')->generateToken($user);
 
     Flight::json([
       'user' => array_merge($user, ['token' => $token])
@@ -68,16 +109,10 @@ Flight::group('/auth', function () {
    * )
    */
   Flight::route('POST /logout', function () {
-    try {
-      $token = Flight::request()->getHeader('Authentication');
-      if ($token) {
-        $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
-        Flight::json([
-          'jwt_decoded' => $decoded_token
-        ]);
-      }
-    } catch (\Exception $e) {
-      Flight::halt(401, 'Try again please');
-    }
+    $decoded_token = Flight::get('token')->decodeToken();
+
+    Flight::json([
+      'jwt_decoded' => $decoded_token
+    ]);
   });
 });

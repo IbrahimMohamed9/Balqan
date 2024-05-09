@@ -1,8 +1,15 @@
 <?php
 require_once __DIR__ . '/../services/UserService.class.php';
+require_once __DIR__ . '/AuthClass.class.php';
 
+Flight::set('token', new AuthClass());
 Flight::set('user_service', new UserService());
+// $decoded_token = Flight::get('token')->decodeToken();
 
+
+// *      security={
+// *          {"ApiKey": {}}
+// *      },
 Flight::group("/users", function () {
 
   Flight::group("/get", function () {
@@ -30,18 +37,12 @@ Flight::group("/users", function () {
 
     /**
      * @OA\Get(
-     *     path="/users/get/requests/{user_id}",
+     *     path="/users/get/requests/",
      *     summary="Get friend requests for a user",
      *     tags={"users"},
-     *     @OA\Parameter(
-     *         name="user_id",
-     *         in="path",
-     *         description="User ID",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     @OA\Response(
      *         response=200,
      *         description="List of friend requests, if there's no request, it will return empty array",
@@ -52,7 +53,9 @@ Flight::group("/users", function () {
      *     )
      * )
      */
-    Flight::route('GET /requests/@user_id', function ($user_id) {
+    Flight::route('GET /requests/', function () {
+      $decoded_token = Flight::get('token')->decodeToken();
+      $user_id = $decoded_token->user->user_id;
       $requests = Flight::get('user_service')->get_friend_requests($user_id);
 
       Flight::json($requests);
@@ -566,11 +569,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Delete(
      *     path="/users/delete/draft/{draft_id}",
-<<<<<<< HEAD
-     *     tags={"Users"},
-=======
      *     tags={"users"},
->>>>>>> c1cfd4da25705bcfb10662721b432524f8310f74
      *     summary="Delete a draft",
      *     description="Deletes a draft identified by its ID",
      *     operationId="deleteDraft",
@@ -603,11 +602,7 @@ Flight::group("/users", function () {
     /**
      * @OA\Delete(
      *     path="/users/delete/friend/{friendship_id}",
-<<<<<<< HEAD
-     *     tags={"Users"},
-=======
      *     tags={"users"},
->>>>>>> c1cfd4da25705bcfb10662721b432524f8310f74
      *     summary="Delete a friend",
      *     description="Deletes a friend identified by its friendship ID",
      *     operationId="deleteFriend",
@@ -626,11 +621,6 @@ Flight::group("/users", function () {
      *     ),
      *     @OA\Response(
      *         response=500,
-<<<<<<< HEAD
-     *         description="Internal server error"
-=======
-     *         description="if friendship id did provided, it will return error with status code 500"
->>>>>>> c1cfd4da25705bcfb10662721b432524f8310f74
      *     )
      * )
      */
@@ -771,44 +761,6 @@ Flight::group("/users", function () {
       ];
 
       Flight::get('user_service')->add_friend_request($request);
-
-      Flight::json(
-        ['message' => "you have successfully added the request"]
-      );
-    });
-
-    /**
-     * @OA\Post(
-     *     path="/users/add/user",
-     *     tags={"users"},
-     *     summary="Add a user",
-     *     description="Adds a new user",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="User object",
-     *         @OA\JsonContent(
-     *             required={"password", "email", "name"},
-     *             @OA\Property(property="email", type="string", example="example@example.com"),
-     *             @OA\Property(property="password", type="string", example="3123112"),
-     *             @OA\Property(property="name", type="string", example="ibrahim Mohamed")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="User added successfully"
-     *     )
-     * )
-     */
-    Flight::route('POST /user', function () {
-      $payload = Flight::request()->data;
-
-      $user = [
-        'password' => $payload['password'],
-        'email' => $payload['email'],
-        'name' => $payload['name']
-      ];
-
-      Flight::get('user_service')->add_user($user);
 
       Flight::json(
         ['message' => "you have successfully added the request"]

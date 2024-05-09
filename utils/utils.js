@@ -497,10 +497,12 @@ var Utils = {
       });
     });
 
-    $("#sign_up").click(UserService.signUp);
+    document.getElementById("sign_up").addEventListener("click", () => {
+      UserService.signUp("sign_up_form", modal);
+    });
 
     document.getElementById("sign_in").addEventListener("click", () => {
-      UserService.signIn("sign_in_form");
+      UserService.signIn("sign_in_form", modal);
     });
   },
   fieldAnimation: (field) => {
@@ -559,8 +561,10 @@ var Utils = {
     });
   },
   submit: (post, form_id, to, success_mge, callBack, modal, formElement) => {
-    const form = formElement ? formElement : $("#" + form_id),
-      block = form.find("*[type=submit]").first();
+    const form = formElement ? formElement : $("#" + form_id);
+    const block = form.find("*[type=submit]").first();
+
+    console.log(form);
 
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
@@ -577,13 +581,11 @@ var Utils = {
           if (modal) Utils.removeModal(false, modal);
 
           if (success_mge) Utils.appearSuccAlert(success_mge);
-          if (callBack) callBack();
+          if (callBack) callBack(data);
         },
         (xhr) => {
           Utils.unblock_ui(block);
-
           if (modal) Utils.removeModal(false, modal);
-
           Utils.appearFailAlert(xhr.responseText);
         }
       );

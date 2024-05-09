@@ -9,6 +9,8 @@ var RestClient = {
             "Authentication",
             Utils.get_from_localstorage("user").token
           );
+        } else {
+          Utils.loginModal();
         }
       },
       success: (response) => {
@@ -35,6 +37,8 @@ var RestClient = {
             "Authentication",
             Utils.get_from_localstorage("user").token
           );
+        } else {
+          Utils.loginModal();
         }
       },
     })

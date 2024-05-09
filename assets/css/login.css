@@ -1,6 +1,8 @@
 .login {
-  background-color: var(--third-background-color);
-  padding: 50px 0;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 25px));
 }
 .login .container .form-container .inputs .form-control {
   margin-top: 22px;

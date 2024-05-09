@@ -121,7 +121,8 @@ CREATE TABLE `carts`
 (
     `cart_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT,
-    CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+    CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`user_id`) ON DELETE CASCADE
 );
 CREATE TABLE `cart_items`
 (

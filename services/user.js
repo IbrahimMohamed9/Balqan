@@ -823,38 +823,45 @@ var UserService = {
     Utils.appearModal(false);
     Utils.unblock_ui(el);
   },
-  signIn: (form_id) => {
+  signIn: (form_id, modal) => {
     const form = $("#" + form_id),
       block = $(form).find("input[type=submit]");
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
-      RestClient.get(
-        "users/login?sign_email=" +
-          data.email +
-          "&signin_password=" +
-          data.password,
+      RestClient.post(
+        "auth/login?email=" + data.email + "&password=" + data.password,
+        null,
         (data) => {
           Utils.unblock_ui(block);
-          if (data["counter"]) {
-            window.location.pathname = "/";
-            Utils.appearFailAlert("Done.");
-          } else {
-            Utils.appearFailAlert(
-              "Invalid email or password. Please try again."
-            );
-          }
+          Utils.set_to_localstorage("user", data.user);
+          Utils.removeModal(false, modal[0]);
         },
         (xhr) => {
           Utils.unblock_ui(block);
-          Utils.appearFailAlert(xhr.responseText);
+          Utils.appearFailAlert("Try again please");
         }
       );
     });
   },
-  signUp: () => {
-    Utils.submit(true, "sign_up_form", "users/add/user", false, () => {
-      Utils.resetFormAnimation();
-      //TODO insert cart_id
+  signUp: (form_id, modal) => {
+    const form = $("#" + form_id);
+    const block = $(form).find("input[type=submit]");
+
+    FormValidation.validate(form, {}, (data) => {
+      Utils.block_ui(block);
+      RestClient.post(
+        "auth/signUp",
+        data,
+        (data) => {
+          Utils.unblock_ui(block);
+          Utils.set_to_localstorage("user", data.user);
+          Utils.removeModal(false, modal[0]);
+        },
+        (xhr) => {
+          Utils.unblock_ui(block);
+          Utils.appearFailAlert("Try again please");
+        }
+      );
     });
   },
   removeFriend: (friendship_id, user_id, el) => {
