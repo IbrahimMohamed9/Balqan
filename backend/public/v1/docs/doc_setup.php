@@ -21,4 +21,10 @@
  *     in="header",
  *     name="Authentication"
  * )
+ * @OA\SecurityScheme(
+ *     securityScheme="ApiKey",
+ *     type="apiKey",
+ *     in="header",
+ *     name="Authentication"
+ * )
  */

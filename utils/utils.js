@@ -668,4 +668,10 @@ var Utils = {
 
     return formattedDateTime;
   },
+  get_from_localstorage: (key) => {
+    return JSON.parse(localStorage.getItem(key));
+  },
+  set_to_localstorage: (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
 };

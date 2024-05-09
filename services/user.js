@@ -836,8 +836,7 @@ var UserService = {
         (data) => {
           Utils.unblock_ui(block);
           if (data["counter"]) {
-            window.location.pathname =
-              "/IT-207-Introduction-to-Web-Programming";
+            window.location.pathname = "/";
             Utils.appearFailAlert("Done.");
           } else {
             Utils.appearFailAlert(
