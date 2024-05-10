@@ -35,10 +35,13 @@ Flight::group("/users", function () {
       Flight::json($users);
     });
 
+
+    //Here is authentication
+
     /**
      * @OA\Get(
      *     path="/users/get/requests/",
-     *     summary="Get friend requests for a user",
+     *     summary="Get friend requests for a user by user id in token",
      *     tags={"users"},
      *      security={
      *          {"ApiKey": {}}
@@ -91,20 +94,16 @@ Flight::group("/users", function () {
       Flight::json($activity);
     });
 
+    //Here is authentication
+
     /**
      * @OA\Get(
-     *     path="/users/get/user/{user_id}",
-     *     summary="Get user by ID",
+     *     path="/users/get/user/",
+     *     summary="Get user by ID in token",
      *     tags={"users"},
-     *     @OA\Parameter(
-     *         name="user_id",
-     *         in="path",
-     *         description="User ID",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     @OA\Response(
      *         response=200,
      *         description="User data, if there is no user has this id it will return empty array",
@@ -112,29 +111,28 @@ Flight::group("/users", function () {
      *     )
      * )
      */
-    Flight::route('GET /user/@user_id', function ($user_id) {
+    Flight::route('GET /user/', function () {
+      $decoded_token = Flight::get('token')->decodeToken();
+      $user_id = $decoded_token->user->user_id;
+
       $user = Flight::get('user_service')->get_user_by_id($user_id);
 
       Flight::json($user);
     });
 
+    //Here is authentication
+
     /**
      * @OA\Get(
-     *     path="/users/get/friends/{user_id}",
-     *     summary="Get friends of a user",
+     *     path="/users/get/friends/",
+     *     summary="Get friends of a user by ID in token",
      *     tags={"users"},
-     *     @OA\Parameter(
-     *         name="user_id",
-     *         in="path",
-     *         description="User ID",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *     security={
+     *         {"ApiKey": {}}
+     *     },
      *     @OA\Response(
      *         response=200,
-     *         description="List of friends, it will return empty array if there is not friend for this user",
+     *         description="List of friends; returns an empty array if there are no friends for this user",
      *         @OA\JsonContent(
      *             type="array",
      *             @OA\Items(ref="#/components/schemas/Friend")
@@ -142,7 +140,10 @@ Flight::group("/users", function () {
      *     )
      * )
      */
-    Flight::route('GET /friends/@user_id', function ($user_id) {
+    Flight::route('GET /friends/', function () {
+      $decoded_token = Flight::get('token')->decodeToken();
+      $user_id = $decoded_token->user->user_id;
+
       $friends = Flight::get('user_service')->get_friends($user_id);
 
       Flight::json($friends);
@@ -766,18 +767,6 @@ Flight::group("/users", function () {
         ['message' => "you have successfully added the request"]
       );
     });
-  });
-
-  Flight::route('GET /login', function () {
-    $payload = Flight::request()->query;
-
-    $email = $payload['sign_email'];
-    $password = $payload['signin_password'];
-
-
-    $counter = Flight::get('user_service')->user_login($email, $password);
-
-    Flight::json($counter);
   });
 });
 

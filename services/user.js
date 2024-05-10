@@ -5,7 +5,7 @@ var UserService = {
       if (data === null) {
         data = await new Promise((resolve, reject) => {
           RestClient.get(
-            "users/get/user/" + user_id,
+            "users/get/user/",
             (data) => {
               resolve(data);
             },
@@ -661,7 +661,7 @@ var UserService = {
   },
   requestsFriendModal: (user_id, el) => {
     Utils.block_ui(el, true);
-    RestClient.get("users/get/requests/" + user_id, (data) => {
+    RestClient.get("users/get/requests/", (data) => {
       const modal = $("#myModal")[0];
       let modalContent = `
         <div class="master-container">
@@ -719,7 +719,7 @@ var UserService = {
     );
   },
   loadFriends: (user_id) => {
-    RestClient.get("users/get/friends/" + user_id, (data) => {
+    RestClient.get("users/get/friends/", (data) => {
       let content = "",
         friendStorage = [],
         friendsId = "";
