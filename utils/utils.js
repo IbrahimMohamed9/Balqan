@@ -564,8 +564,6 @@ var Utils = {
     const form = formElement ? formElement : $("#" + form_id);
     const block = form.find("*[type=submit]").first();
 
-    console.log(form);
-
     FormValidation.validate(form, {}, (data) => {
       Utils.block_ui(block);
       if (data["added_time"]) {
@@ -657,6 +655,11 @@ var Utils = {
   },
   capitalizeFirstLetter: (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+  capitalizeWords: (str) => {
+    return str.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
   },
   firstLink: (imgs_srcs) => {
     return `https${imgs_srcs.trim().split("https")[1]}`;

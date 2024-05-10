@@ -113,4 +113,137 @@ var Components = {
     </div>
   </div>
   `,
+  initialModalEditAdd: (category) => {
+    return `<div class="master-container">
+      <div class="card cart">
+        <div class="top-title">
+          <span class="title">Add ${category}</span>
+          <i class="fa-solid fa-xmark x"></i>
+        </div>
+        <div class="form">
+        <form id="${category}-form" name="${category}-form">
+            <div class="inputs">
+              <input
+                type="hidden"
+                id="category"
+                name="category"
+                value="${category}"
+              />
+              <input
+                type="hidden"
+                id="item_id"
+                name="item_id"
+              />`;
+  },
+  inputField: (id, required, type, classes, name) => {
+    name = name ?? id;
+    classes = classes ?? "field";
+    type = type ?? "text";
+    return `
+    <div class="form-control">
+      <input
+        type="${type}"
+        id="${id}"
+        name="${name}"
+        class="${classes}"
+        ${required ? "required" : ""}
+        autocomplete="${name}"
+        />
+      <label for="${name}">
+      ${Utils.capitalizeWords(name.replace(/_/g, " "))}
+      </label>
+    </div>
+    `;
+  },
+  textareaField: (id, required, label, name) => {
+    name = name ?? id;
+    label = label ?? name;
+    return `
+    <div class="form-control">
+      <div class="textarea">
+        <textarea
+          id="${id}"
+          name="${name}"
+          class="field"
+          ${required ? "required" : ""}
+        ></textarea>
+        </div>
+        <label for="${name}" class="txtar-la">
+          ${Utils.capitalizeWords(label.replace(/_/g, " "))}
+        </label>
+    </div>
+    `;
+  },
+  endInputFields: (withTime) => {
+    return withTime
+      ? `
+        <div class="form-control full">
+          <label for="added_time" class="d-none">
+            Added Time
+          </label>
+          <input type="datetime-local" id="added_time" name="added_time" />
+        </div>
+      </div>
+        `
+      : "</div>";
+  },
+  endModalEditAdd: () => {
+    return `
+              <input type="submit" class="submit" value="Submit" />
+            </form>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+  itemModal: (category) => {
+    let content = Components.initialModalEditAdd(category);
+    let inputs = [
+      { id: "name", required: true },
+      { id: "title", required: true },
+      { id: "stock_quantity", required: true, type: "number" },
+      { id: "status", required: true },
+    ];
+    if (category !== "package") {
+      inputs.push({ id: "min_days", required: true, type: "number" });
+      inputs.push({ id: "max_days", required: true, type: "number" });
+      inputs.push({ id: "day_price", required: true, type: "number" });
+
+      if (category === "car") {
+        inputs.push({ id: "persons", required: true, type: "number" });
+      }
+    }
+
+    if (category !== "car") {
+      inputs.push({ id: "min_persons", required: true, type: "number" });
+      inputs.push({ id: "max_persons", required: true, type: "number" });
+      inputs.push({ id: "person_price", required: true, type: "number" });
+
+      if (category === "package") {
+        inputs.push({ id: "days", required: true, type: "number" });
+      }
+    }
+
+    inputs.forEach((input) => {
+      content += Components.inputField(input.id, input.required, input.type);
+    });
+
+    content += Components.endInputFields(1);
+    content += '<div class="textareas">';
+    let textareas = [
+      { id: "description", required: true },
+      { id: "imgs_srcs", required: true, label: "Image Source" },
+    ];
+
+    textareas.forEach((textarea) => {
+      content += Components.textareaField(
+        textarea.id,
+        textarea.required,
+        textarea.label
+      );
+    });
+    content += "</div>";
+    content += Components.endModalEditAdd();
+    return content;
+  },
 };
