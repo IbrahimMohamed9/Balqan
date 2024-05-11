@@ -309,7 +309,7 @@ VALUES (1,2),
 
 INSERT INTO `friend_requests` (requester_id, requested_id)
 VALUES (1,3),
-       (2,4), 
+       (2,4),
        (3,2),
        (4,1),
        (5,1);
