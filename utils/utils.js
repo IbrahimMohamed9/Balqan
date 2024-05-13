@@ -722,4 +722,7 @@ var Utils = {
   set_to_localstorage: (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
   },
+  showImage: () => {
+    
+  },
 };

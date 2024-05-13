@@ -9,14 +9,20 @@ var RestClient = {
             "Authentication",
             Utils.get_from_localstorage("user").token
           );
-        } else {
-          Utils.loginModal();
         }
       },
       success: (response) => {
+        if (!Utils.get_from_localstorage("user")) {
+          Utils.loginModal();
+        }
+
         if (callback) callback(response);
       },
       error: (jqXHR, textStatus, errorThrown) => {
+        if (!Utils.get_from_localstorage("user")) {
+          Utils.loginModal();
+        }
+
         if (error_callback) {
           error_callback(jqXHR);
         } else {
@@ -37,15 +43,20 @@ var RestClient = {
             "Authentication",
             Utils.get_from_localstorage("user").token
           );
-        } else {
-          Utils.loginModal();
         }
       },
     })
       .done((response, status, jqXHR) => {
+        if (!Utils.get_from_localstorage("user")) {
+          Utils.loginModal();
+        }
+
         if (callback) callback(response);
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        if (!Utils.get_from_localstorage("user")) {
+          Utils.loginModal();
+        }
         if (error_callback) {
           error_callback(jqXHR, textStatus, errorThrown);
         } else {
