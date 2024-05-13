@@ -289,6 +289,7 @@ var ItemService = {
               <img
                 src="${srcsArray[0]}"
                 alt=""
+                onclick="Utils.showImage('${srcsArray[0]}')"
               />
             </div>
           `;
@@ -301,6 +302,7 @@ var ItemService = {
                 <img
                   src="${imgSrc}"
                   alt=""
+                  onclick="Utils.showImage('${imgSrc}')"
                 />
               </div>
             `;

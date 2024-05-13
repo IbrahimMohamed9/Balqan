@@ -471,6 +471,7 @@ var Utils = {
     setTimeout(() => {
       $(modal).addClass("active");
     }, 1);
+
     const signComponents = Array.from(
       document.querySelectorAll(".sign-component")
     );
@@ -722,7 +723,24 @@ var Utils = {
   set_to_localstorage: (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
   },
-  showImage: () => {
-    
+  showImage: (imgSrc) => {
+    modal = $("#loginModal");
+
+    modal.html(`<img src="${imgSrc}" alt="" class="img-modal">`);
+    $(modal).addClass("d-block");
+    $("body").addClass("fix");
+    setTimeout(() => {
+      $(modal).addClass("active");
+    }, 1);
+
+    $(modal).click(() => {
+      $(modal).removeClass("active");
+
+      $("body").removeClass("fix");
+
+      setTimeout(() => {
+        $(modal).removeClass("d-block");
+      }, 300);
+    });
   },
 };

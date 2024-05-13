@@ -2866,13 +2866,6 @@ section#articles .articles .container .row .col .card .card-body .card-text {
     z-index: 5;
   }
 }
-
-@media (max-width: 992px) {
-  .inputs .form-control.full input {
-    max-width: 95%;
-    min-width: 90%;
-  }
-}
 @media (max-width: 510px) {
   .inputs {
     min-width: 90%;
