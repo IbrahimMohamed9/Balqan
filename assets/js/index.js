@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll(".info .row .content button");
 
     buttons.forEach((button, index) => {
-      button.addEventListener("click", function () {
-        let span = this.querySelector("span");
-        let paragraph = this.nextElementSibling;
+      button.addEventListener("click", () => {
+        let span = button.querySelector("span");
+        let paragraph = button.nextElementSibling;
 
         paragraph.classList.toggle("show");
 
@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dashIcons = document.querySelectorAll(".main-header ul.tile-wrds li");
 
   let previous;
-  //dashboard
   function switchButton(clickedIndex) {
     if (
       previous !== null &&
@@ -92,18 +91,20 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultView: "#home",
     templateDir: "pages/homePages/",
   });
+  const user_id = 1;
 
   app.route({
     view: "home",
     load: "home.html",
-    onCreate: function () {
+    onCreate: () => {
       mainTitleAnimation();
       switchButton(0);
-      ItemService.loadCards("package");
+      // ItemService.loadCards("newPackages", user_id);
+      ItemService.loadCards("package", user_id, "home");
       expandGraph();
       ArticleService.loadArticleCrousel();
     },
-    onReady: function () {
+    onReady: () => {
       Utils.setupModalActions("Item added successfully", true, false);
       switchButton(0);
     },
@@ -112,33 +113,166 @@ document.addEventListener("DOMContentLoaded", () => {
   app.route({
     view: "contact",
     load: "contact-us.html",
-    onCreate: function () {
+    onCreate: () => {
       mainTitleAnimation();
       Utils.formAnimation();
       Utils.submit(
+        true,
         "contact-form",
-        "feedbacks/add_feedback.php",
+        "feedbacks/add",
         "Feedback added successfully",
-        "contact-form .submit",
         () => {
           Utils.resetFormAnimation();
+        },
+        false,
+        false,
+        {
+          name: {
+            required: true,
+          },
+          phone: {
+            required: true,
+            digits: true,
+            minlength: 6,
+            maxlength: 18,
+          },
+          email: {
+            required: true,
+            email: true,
+          },
+          message: {
+            required: true,
+          },
+        },
+        {
+          name: "Please enter your full name",
+          phone: {
+            required: "Please enter your phone number",
+            digits: "Please enter only digits",
+            minlength: "Your phone number must be at least 6 digits",
+            maxlength: "Your phone number must not exceed 18 digits",
+          },
+          email: "Please enter a valid email address",
+          message: "Please enter your message",
         }
       );
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(1);
+    },
+  });
+
+  app.route({
+    view: "pray-times",
+    load: "pray-times.html",
+    onCreate: () => {
+      mainTitleAnimation();
+      Utils.formAnimation();
+
+      const form = $("#pray-times-form");
+      FormValidation.validate(
+        form,
+        {
+          day: {
+            required: true,
+            range: [1, 31],
+          },
+          month: {
+            required: true,
+            range: [1, 12],
+          },
+          year: {
+            required: true,
+            minlength: 4,
+            maxlength: 4,
+          },
+          city: {
+            required: true,
+          },
+        },
+        {
+          day: {
+            required: "Please enter the day (1-31)",
+            range: "Day must be between 1 and 31",
+          },
+          month: {
+            required: "Please enter the month (1-12)",
+            range: "Month must be between 1 and 12",
+          },
+          year: {
+            required: "Please enter a valid year",
+            minlength: "Year must be 4 digits",
+            maxlength: "Year must be 4 digits",
+          },
+          city: "Please select a city",
+        },
+        (data) => {
+          $.ajax({
+            url: `https://api.aladhan.com/v1/calendarByCity/${data.year}/${data.month}?city=${data.city}&country=Bosnia%20and%20Herzegovina`,
+            type: "GET",
+          })
+            .done((response) => {
+              console.log(response.data[data.day - 1].date.hijri.date);
+              console.log(response.data[data.day - 1].date.hijri.month.en);
+              console.log(response.data[data.day - 1].date.hijri.weekday.en);
+
+              const prayTimes = response.data[data.day - 1].timings;
+
+              const timesTable = $("#pray-time-table");
+              timesTable.addClass("p-20 rad-10 p-10-f center-flex f-column");
+              timesTable.removeClass("d-none");
+
+              const getTime = (name) => {
+                return prayTimes[name].split(" ")[0];
+              };
+
+              $(timesTable).find("table").html(`
+                    <thead>
+                      <tr>
+                        <td>Fajr</td>
+                        <td>Sunrise</td>
+                        <td>Dhuhr</td>
+                        <td>Asr</td>
+                        <td>Maghrib</td>
+                        <td>Isha</td>
+                        <td>Midnight</td>
+                        <td>First Third</td>
+                        <td class="w-120">Last Third</td>
+                      </tr>
+                    </thead>
+                    <tr class="not-me">
+                      <td>${getTime("Fajr")}</td>
+                      <td>${getTime("Sunrise")}</td>
+                      <td>${getTime("Dhuhr")}</td>
+                      <td>${getTime("Asr")}</td>
+                      <td>${getTime("Maghrib")}</td>
+                      <td>${getTime("Isha")}</td>
+                      <td>${getTime("Midnight")}</td>
+                      <td>${getTime("Firstthird")}</td>
+                      <td>${getTime("Lastthird")}</td>
+                    </tr>
+              `);
+            })
+            .fail((jqXHR) => {
+              Utils.appearFailAlert("There is problem, try again please.");
+            });
+        }
+      );
+    },
+    onReady: () => {
+      switchButton(3);
     },
   });
 
   app.route({
     view: "articles",
     load: "articles.html",
-    onCreate: function () {
+    onCreate: () => {
       ArticleService.loadArticlesPage("cities");
       ArticleService.loadArticlesPage("Hotels");
       ArticleService.loadArticlesPage("Tourism");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(2);
     },
   });
@@ -146,26 +280,34 @@ document.addEventListener("DOMContentLoaded", () => {
   app.route({
     view: "shop",
     load: "shop.html",
-    onCreate: function () {
+    onCreate: () => {
       mainTitleAnimation();
       Utils.setupModalActions("Item added successfully", true, false);
 
-      ItemService.loadCards("package");
-      ItemService.loadCards("car");
-      ItemService.loadCards("hotel");
+      ItemService.loadCards("car", user_id, "shop");
+      ItemService.loadCards("package", user_id, "shop");
+      ItemService.loadCards("hotel", user_id, "shop");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(4);
     },
   });
-
   app.route({
     view: "cart",
     load: "cart.html",
-    onCreate: function () {},
-    onReady: function () {
-      CartService.loadCart(1);
+    onCreate: () => {},
+    onReady: () => {
+      const modalBtn = $("button.checkout-btn").eq(0);
+      CartService.loadRows(user_id);
       switchButton(null);
+      modalBtn.click(() => {
+        CartService.checkout(user_id, "customer", modalBtn);
+      });
+      $(window).one("hashchange", () => {
+        localStorage.removeItem("coupons");
+        CartService.updateCart(user_id);
+        Utils.removeAllEventListeners(modalBtn[0]);
+      });
     },
   });
 

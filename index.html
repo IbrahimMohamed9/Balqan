@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS files -->
+    <link rel="stylesheet" href="assets/css/profile/master.css" />
+    <link rel="stylesheet" href="assets/css/profile/framework.css" />
+
     <link
       href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
       rel="stylesheet"
@@ -19,7 +22,10 @@
     <link rel="stylesheet" href="assets/css/contact.css" />
     <link rel="stylesheet" href="assets/css/balqan.css" />
     <!-- Font Awesome Library -->
-    <link rel="stylesheet" href="assets/css/all.min.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,9 +98,9 @@
             </a>
           </li>
           <li>
-            <a href="pages/profile.html">
-              <i class="fa-regular fa-user"></i>
-              <span>Profile</span>
+            <a href="#pray-times">
+              <i class="fa-solid fa-mosque"></i>
+              <span>Pray Times</span>
             </a>
           </li>
           <li>
@@ -103,6 +109,20 @@
               <span>Shop</span>
             </a>
           </li>
+          <li class="profile">
+            <div>
+              <i class="fa-regular fa-user"></i>
+              <span>Profile</span>
+            </div>
+          </li>
+          <ul class="accordion-menu">
+            <li><a href="pages/profile.html#dashboard">Profile</a></li>
+            <li><a href="pages/profile.html#dashboard">Dashboard</a></li>
+            <li><a href="pages/profile.html#settings">Settings</a></li>
+            <li><a href="pages/profile.html#projects">Projects</a></li>
+            <li><a href="pages/profile.html#friends">Friends</a></li>
+            <li><a href="pages/profile.html#tables">Tables</a></li>
+          </ul>
         </ul>
         <div class="icons">
           <a href="">
@@ -111,7 +131,7 @@
           </a>
           <a href="#cart">
             <i
-              class="fa-solid fa-cart-shopping fa-lg cart-shopping"
+              class="fa-solid fa-cart-shopping fa-lg shopping-cart-icon"
               data-counter=""
             >
             </i>
@@ -153,7 +173,7 @@
             </label>
           </div>
         </div>
-        <button class="menu">
+        <button class="menu" aria-label="Navigation Control">
           <!-- <i class="fa-solid fa-bars"></i> -->
           <span></span>
           <span></span>
@@ -161,7 +181,7 @@
           <span class="close"></span>
           <span class="close"></span>
         </button>
-        <div class="modal" id="headerModal"></div>
+        <div class="modal" id="globalModal"></div>
       </div>
     </header>
     <!-- End Header -->
@@ -182,13 +202,16 @@
       <section id="articles" data-load="articles.html"></section>
       <section id="contact" data-load="contact-us.html"></section>
       <section id="cart" data-load="cart.html"></section>
+      <section id="pray-times" data-load="pray-times.html"></section>
     </main>
     <!-- Start Footer -->
     <footer>
       <div class="container">
         <div class="row">
           <div class="image">
-            <img src="assets/images/logo/logo.png" alt="" />
+            <a href="/" title="home">
+              <img src="assets/images/logo/logo.png" alt="Logo Image" />
+            </a>
           </div>
           <div class="icons">
             <a
@@ -216,18 +239,17 @@
         </div>
         <div class="row">
           <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="index.html#home">Home</a></li>
             <li><a href="">About</a></li>
-            <li><a href="assets/html/contact-us.html">Contact</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
           </ul>
         </div>
-        <p>
-          Copyright &#169;
-          <a href="pages/login.html" class="change-me">2024</a>
-        </p>
+        <p>Copyright &#169; 2024</p>
       </div>
     </footer>
     <!-- End Footer -->
+    <div id="loginModal" class="modal"></div>
+
     <div id="myModal" class="modal">
       <div class="master-container">
         <div class="card cart">
@@ -294,17 +316,20 @@
     </div>
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/index.js"></script>
     <script src="utils/utils.js"></script>
     <script src="utils/constants.js"></script>
     <script src="utils/rest_client.js"></script>
+    <script src="utils/htmlComponent.js"></script>
     <script src="utils/form_validation.js"></script>
     <script src="services/article.js"></script>
     <script src="services/item.js"></script>
     <script src="services/cart.js"></script>
+    <script src="services/user.js"></script>
     <script src="services/feedback.js"></script>
-    <script src="assets/js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="assets/js/jquery.spapp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"
@@ -312,6 +337,5 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="assets/js/jquery.spapp.min.js"></script>
   </body>
 </html>

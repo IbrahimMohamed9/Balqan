@@ -144,6 +144,10 @@
   background-color: transparent;
   border: none;
   padding: 0;
+  transition: var(--main-transition);
+}
+.form-control:has(label.error) {
+  margin-bottom: 20px;
 }
 .form-control input {
   border: solid 1.5px #9e9e9e;
@@ -172,7 +176,7 @@
   outline: 0;
   border-color: var(--main-color);
 }
-.form-control label {
+.form-control label:not(label.error) {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -185,11 +189,21 @@
   border-left: 1px solid var(--main-background-color);
   color: var(--font-color);
 }
-.form-control .field.delay + label,
+.form-control label.error {
+  position: absolute;
+  bottom: -25px;
+  left: 15px;
+  text-wrap: nowrap;
+  pointer-events: none;
+  width: fit-content;
+  font-size: 15px;
+  color: red;
+}
+.form-control .field.delay ~ label:not(label.error),
 .form-control label.txtar-la.delay {
   transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.form-control input.active + label {
+.form-control input.active ~ label:not(label.error) {
   color: var(--main-color) !important;
   transform: translateY(-37px) !important;
 }
@@ -219,25 +233,29 @@
   outline: 0;
   border-color: var(--main-color);
 }
+.form-control .textarea + label.txtar-la {
+  top: 5px;
+  transform: translateY(0);
+}
 .form-control label.txtar-la.active {
   color: var(--main-color);
   transform: translateY(-22.5px);
 }
-.form-control label.txtar-la {
-  top: 5px;
-  transform: translateY(0);
-}
 form .submit {
-  border: 0;
   border-radius: 1rem;
-  background-color: var(--main-color);
+  background-color: transparent;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   color: var(--font-color);
   width: 100px;
   margin: 30px 0;
+  border: 1px solid var(--main-color);
+  transition: var(--main-transition);
 }
-
+form .submit:hover {
+  background-color: var(--main-color);
+  color: white;
+}
 /* 
 ====================================================================
 ====================================================================

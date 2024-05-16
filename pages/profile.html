@@ -18,7 +18,10 @@
     <link rel="stylesheet" href="../assets/css/profile/framework.css" />
     <link rel="stylesheet" href="../assets/css/profile/master.css" />
     <!-- Font Awesome Library -->
-    <link rel="stylesheet" href="../assets/css/all.min.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -91,16 +94,22 @@
               <span>Articles</span>
             </a>
           </li>
-          <li class="current-page">
-            <a href="#profile">
-              <i class="fa-regular fa-user"></i>
-              <span>Profile</span>
-            </a>
-          </li>
           <li>
             <a href="../index.html#shop">
               <i class="fa-solid fa-shop"></i>
               <span>Shop</span>
+            </a>
+          </li>
+          <li>
+            <a href="../index.html#pray-times">
+              <i class="fa-solid fa-mosque"></i>
+              <span>Pray Times</span>
+            </a>
+          </li>
+          <li class="current-page">
+            <a href="#profile">
+              <i class="fa-regular fa-user"></i>
+              <span>Profile</span>
             </a>
           </li>
         </ul>
@@ -111,7 +120,7 @@
           </a>
           <a href="../index.html#cart">
             <i
-              class="fa-solid fa-cart-shopping fa-lg cart-shopping"
+              class="fa-solid fa-cart-shopping fa-lg shopping-cart-icon"
               data-counter=""
             >
             </i>
@@ -153,7 +162,7 @@
             </label>
           </div>
         </div>
-        <button class="menu">
+        <button class="menu" aria-label="Navbar Control">
           <!-- <i class="fa-solid fa-bars"></i> -->
           <span></span>
           <span></span>
@@ -161,7 +170,7 @@
           <span class="close"></span>
           <span class="close"></span>
         </button>
-        <div class="modal" id="headerModal"></div>
+        <div class="modal" id="globalModal"></div>
       </div>
     </header>
     <!-- End Header -->
@@ -201,45 +210,23 @@
                 class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
               >
                 <i class="fa-regular fa-chart-bar fa-fw"></i>
-                <span class="fs-14 ml-10">dashboard</span>
+                <span class="fs-14 ml-10">Dashboard</span>
               </a>
             </li>
             <li>
               <a
                 href="#settings"
-                class="d-none dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
               >
                 <i class="fa-solid fa-gear fa-fw"></i>
                 <span class="fs-14 ml-10">Settings</span>
               </a>
             </li>
             <li>
-              <!-- 
-
-
-
-
-
-
-
-
-
-              -->
               <a
                 href="#projects"
-                class="dash-icon d-flex d-none align-center fs-14 c-main-font rad-6 p-10"
+                class="dash-icon d-flex align-center fs-14 c-main-font rad-6 p-10"
               >
-                <!-- 
-
-
-
-
-
-
-
-
-
-              -->
                 <i class="projects fa-solid fa-diagram-project fa-fw"></i>
                 <span class="fs-14 ml-10">Projects</span>
               </a>
@@ -277,8 +264,8 @@
       <!-- End sidebar -->
       <div class="second-col">
         <!-- Start Head -->
-        <div class="head bg-third p-15 between-flex">
-          <div class="search">
+        <div class="head bg-third p-15">
+          <div class="search d-none">
             <input
               class="border-ccc p-10 rad-10 ml-5 pl-30"
               type="search"
@@ -286,12 +273,8 @@
               name="search"
             />
           </div>
-          <div class="icons d-flex align-center">
-            <img
-              class="ml-15"
-              src="../assets/images/profile/avatar.png"
-              alt=""
-            />
+          <div class="icons d-flex align-center" style="direction: rtl">
+            <img class="ml-15 rad-half" src="" alt="Main image" />
           </div>
         </div>
         <!-- End Head -->
@@ -311,7 +294,9 @@
       <div class="container">
         <div class="row">
           <div class="image">
-            <img src="../assets/images/logo/logo.png" alt="" />
+            <a href="../index.html" title="home">
+              <img src="../assets/images/logo/logo.png" alt="Logo Image" />
+            </a>
           </div>
           <div class="icons">
             <a
@@ -348,6 +333,8 @@
       </div>
     </footer>
     <!-- End Footer -->
+    <div id="myModal" class="modal"></div>
+    <div id="loginModal" class="modal"></div>
 
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/profile.js"></script>
@@ -355,8 +342,10 @@
     <script src="../utils/rest_client.js"></script>
     <script src="../utils/form_validation.js"></script>
     <script src="../utils/constants.js"></script>
+    <script src="../utils/htmlComponent.js"></script>
     <script src="../services/item.js"></script>
     <script src="../services/user.js"></script>
+    <script src="../services/project.js"></script>
     <script src="../services/article.js"></script>
     <script src="../services/cart.js"></script>
     <script src="../services/feedback.js"></script>

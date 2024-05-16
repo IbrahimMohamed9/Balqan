@@ -275,6 +275,9 @@ body .content + footer .container {
   margin: 20px 20px 40px;
   font-weight: bold;
 }
+.content .p-20 h1 {
+  margin: 0 0 20px;
+}
 .content h1::before,
 .content h1::after {
   content: "";
@@ -290,6 +293,22 @@ body .content + footer .container {
 .content h1::after {
   background-color: black;
   width: 40px;
+}
+.content div > .add-friend {
+  font-size: larger;
+  transition: var(--main-transition);
+  cursor: pointer;
+  padding: 20px;
+  position: relative;
+}
+.content div > .add-friend::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.content div > .add-friend:hover {
+  color: var(--main-color);
 }
 .content main {
   background-color: var(--main-background-color);
@@ -404,13 +423,13 @@ textarea {
 ====================================================================
 ====================================================================
 */
-.targets .target-row:first-of-type {
+.targets .target-row:nth-of-type(3n + 1) {
   --row-color: 0 255 0;
 }
-.targets .target-row:nth-of-type(2) {
+.targets .target-row:nth-of-type(3n + 2) {
   --row-color: 0 150 255;
 }
-.targets .target-row:nth-of-type(3) {
+.targets .target-row:nth-of-type(3n + 3) {
   --row-color: 255 0 0;
 }
 .targets .target-row .icon {
@@ -467,16 +486,16 @@ textarea {
 .tickets .box {
   width: calc(50% - 10px);
 }
-.tickets > div .box:first-of-type {
+.tickets > div .box:nth-of-type(4n + 1) {
   --row-color: 0 255 0;
 }
-.tickets .box:nth-of-type(2) {
+.tickets > div .box:nth-of-type(4n + 2) {
   --row-color: 255 0 0;
 }
-.tickets .box:nth-of-type(3) {
+.tickets > div .box:nth-of-type(4n + 3) {
   --row-color: 0 150 255;
 }
-.tickets .box:nth-of-type(4) {
+.tickets > div .box:nth-of-type(4n + 4) {
   --row-color: 20 200 106;
 }
 .tickets > div .box i {
@@ -553,6 +572,9 @@ textarea {
 ====================================================================
 ====================================================================
 */
+.last-project {
+  min-height: 200px;
+}
 .last-project ul::before {
   content: "";
   position: absolute;
@@ -600,35 +622,52 @@ textarea {
 
 ====================================================================
 ====================================================================
-======================== Start Reminders =========================
+======================== Start drafts =========================
 ====================================================================
 ====================================================================
 */
-.reminders ul li:first-of-type {
+.drafts ul li {
+  cursor: pointer;
+}
+.drafts ul li:nth-of-type(4n + 1) {
   --row-color: #0075ff;
 }
-.reminders ul li:nth-of-type(2) {
+.drafts ul li:nth-of-type(4n + 2) {
   --row-color: #f59e0b;
 }
-.reminders ul li:nth-of-type(3) {
+.drafts ul li:nth-of-type(4n + 3) {
   --row-color: #22c55e;
 }
-.reminders ul li:nth-of-type(4) {
+.drafts ul li:nth-of-type(4n + 4) {
   --row-color: #f44336;
 }
-.reminders ul li .key {
+.drafts ul li .key {
+  width: 30px;
+  height: 50px;
+  position: relative;
+}
+.drafts ul li .key::before {
+  content: "";
   width: 15px;
   height: 15px;
   background-color: var(--row-color);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: var(--main-transition);
 }
-.reminders ul li > span + div {
+.drafts ul li:hover .key::before {
+  border-radius: 0;
+}
+.drafts ul li > span + div {
   border-left: 2px solid var(--row-color);
 }
-
 /* 
 ====================================================================
 ====================================================================
-======================== End Reminders ========================
+======================== End drafts ========================
 ====================================================================
 ====================================================================
 
@@ -645,7 +684,13 @@ textarea {
   max-width: fit-content;
   height: fit-content;
   padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid #d7a120;
+  color: var(--font-color);
+}
+.table-holder .data-table-header .add-btn:hover {
   background-color: #d7a120;
+  color: white;
 }
 @media (max-width: 300px) {
   .table-holder .data-table-header .add-btn {
@@ -659,8 +704,10 @@ textarea {
   overflow-x: auto;
   border-radius: 12px;
 }
+.table-holder .responsive-table:not(.w-full) {
+  max-width: fit-content;
+}
 .table-holder table {
-  min-width: 1000px;
   border-spacing: 0;
 }
 .table-holder thead td {
@@ -673,10 +720,6 @@ textarea {
 .table-holder table tr td {
   padding: 10px;
 }
-.table-holder table tbody tr:hover td::selection {
-  color: var(--secondary-background-color);
-  background-color: #ecaf1c;
-}
 .table-holder tbody td {
   border-bottom: 1px solid #eee;
   border-left: 1px solid #eee;
@@ -688,8 +731,18 @@ textarea {
 .table-holder table tr td:last-child {
   width: 100px;
 }
-.table-holder tbody tr:hover td {
+.table-holder tbody tr:not(.not-me):hover td {
   background-color: var(--secondary-color);
+}
+.table-holder tbody tr:hover td:hover {
+  background-color: #f1c661;
+}
+.dark-theme .table-holder tbody tr td:hover {
+  background-color: #ffb300;
+}
+.table-holder table tbody tr:hover td::selection {
+  color: var(--secondary-background-color);
+  background-color: #ecaf1c;
 }
 .table-holder table .team img {
   width: 32px;
@@ -940,8 +993,8 @@ textarea {
 .settings-page :disabled {
   cursor: no-drop;
   background-color: var(--disable-color);
-  /* 757576  f0f4f8*/
   color: #bbb;
+  text-overflow: ellipsis;
 }
 /* End Settings */
 /* 
@@ -1140,29 +1193,31 @@ textarea {
     margin-top: 15px !important;
   }
 }
-
 .projects-page .project .team {
   position: relative;
-  min-height: 80px;
+  min-height: 50px;
 }
-.projects-page .project .team a {
+.projects-page .project .team span {
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 5px;
 }
-.projects-page .project .team a:nth-child(2) {
+/* 
+TODO is it good to use js instead of that
+.projects-page .project .team span:nth-child(2) {
   left: 25px;
 }
-.projects-page .project .team a:nth-child(3) {
+.projects-page .project .team span:nth-child(3) {
   left: 50px;
 }
-.projects-page .project .team a:nth-child(4) {
+.projects-page .project .team span:nth-child(4) {
   left: 75px;
 }
-.projects-page .project .team a:nth-child(5) {
+.projects-page .project .team span:nth-child(5) {
   left: 100px;
-}
-.projects-page .project .team a:hover {
+} 
+*/
+.projects-page .project .team span:hover {
   z-index: 1000;
 }
 .projects-page .project .team img {
@@ -1170,6 +1225,7 @@ textarea {
   height: 40px;
   border-radius: 50%;
   border: 2px solid white;
+  cursor: pointer;
 }
 .projects-page .project .do {
   justify-content: flex-end;
@@ -1232,11 +1288,16 @@ textarea {
 
 ====================================================================
 ====================================================================
-======================== Start  =========================
+======================== Start Friends =========================
 ====================================================================
 ====================================================================
 */
-/* Start Friends Page */
+#add-friend-form i.add-friend {
+  color: var(--font-color);
+}
+#add-friend-form i.add-friend:hover {
+  color: var(--main-color);
+}
 .friends-page {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
@@ -1421,6 +1482,19 @@ textarea {
 }
 form .submit {
   margin: 0 5px 10px;
+  font-weight: bold;
+}
+form .submit.save {
+  border: 2px solid #0021ff;
+}
+form .submit.save:hover {
+  background-color: #0021ff;
+}
+form .submit.remove {
+  border: 1px solid red;
+}
+form .submit.remove:hover {
+  background-color: red;
 }
 /* 
 ====================================================================

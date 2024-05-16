@@ -1,7 +1,9 @@
 var Utils = {
-  block_ui: function (element) {
+  block_ui: (element, small) => {
     $(element).block({
-      message: '<div class="loader"></div>',
+      message: small
+        ? '<div class="loader small"></div>'
+        : '<div class="loader"></div>',
       css: {
         backgroundColor: "transparent",
         border: "0",
@@ -22,11 +24,13 @@ var Utils = {
     modal.querySelector(".x").addEventListener("click", () => {
       Utils.removeModal(removeeBtn, modal);
     });
-
-    modal.querySelector(".checkout-btn").addEventListener("click", () => {
-      Utils.removeModal(removeeBtn, modal);
-      Utils.appearSuccAlert(message);
-    });
+    if (removeeBtn || cartModal) {
+      //TODO make it with unbock ui
+      modal.querySelector(".checkout-btn").addEventListener("click", () => {
+        Utils.removeModal(removeeBtn, modal);
+        Utils.appearSuccAlert(message);
+      });
+    }
   },
   carouselSplide: (carousel, gap = 25) => {
     const splideTrack = document.querySelector(`${carousel} .splide__track`);
@@ -81,7 +85,7 @@ var Utils = {
   },
   itemModal: (
     item_id,
-    // cart_id,
+    user_id,
     persons,
     days,
     category,
@@ -166,9 +170,9 @@ var Utils = {
         quantityNumber2
       );
 
-      $("#myModal .checkout .checkout-btn").on("click", () => {
+      $("#myModal .checkout .checkout-btn").click(() => {
         CartService.addToCart(
-          1,
+          user_id,
           item_id,
           quantityNumber.textContent,
           quantityNumber2.textContent
@@ -199,9 +203,14 @@ var Utils = {
       );
       $("#myModal .checkout .checkout-btn").on("click", () => {
         category === "package"
-          ? CartService.addToCart(1, item_id, quantityNumber.textContent, days)
+          ? CartService.addToCart(
+              user_id,
+              item_id,
+              quantityNumber.textContent,
+              days
+            )
           : CartService.addToCart(
-              1,
+              user_id,
               item_id,
               persons,
               quantityNumber.textContent
@@ -228,7 +237,7 @@ var Utils = {
   totalPriceModal: (total, totalPriceModal, itemPrice, price) => {
     totalPriceModal[1].textContent = Math.floor(total);
     totalPriceModal[2].textContent = Utils.checkDec(total);
-    itemPrice.textContent = `${price} KM`;
+    itemPrice.textContent = `${Utils.checkDecWithInt(price)} KM`;
   },
   getPrice: (category, itemData) => {
     return category === "package"
@@ -240,7 +249,7 @@ var Utils = {
   checkDecWithInt: (price) => {
     return `${Math.floor(parseFloat(price))}${Utils.checkDec(price)}`;
   },
-  checkDec: function (number) {
+  checkDec: (number) => {
     let decPartTest = Number(
       String((parseFloat(number) - Math.floor(number)).toFixed(2)).slice(3)
     );
@@ -315,22 +324,21 @@ var Utils = {
           );
         }
       });
-      if (cart && Utils.counter() === 1) {
-        $(window).on("hashchange", Utils.handleHashChange);
-        $(window).on("beforeunload", Utils.handleHashChange);
-      }
+      // if (cart && Utils.counter() === 1) {
+      //   $(window).on("hashchange", Utils.handleHashChange);
+      //   $(window).on("beforeunload", Utils.handleHashChange);
+      // }
     });
   },
-  handleHashChange: () => {
-    CartService.updateCart(true);
-    $(window).off("hashchange", Utils.handleHashChange);
-    $(window).off("beforeunload", Utils.handleHashChange);
-  },
+  // handleHashChange: () => {
+  //   CartService.updateCart(true);
+  //   $(window).off("hashchange", Utils.handleHashChange);
+  //   $(window).off("beforeunload", Utils.handleHashChange);
+  // },
   appearFailAlert: (message) => {
     const quantityAlert = document.querySelector(
       ".alert.alert-danger.decrease"
     );
-
     quantityAlert.classList.remove("d-none");
     quantityAlert.textContent = message;
     quantityAlert.style.animation = "alert 1.7s linear forwards";
@@ -369,7 +377,7 @@ var Utils = {
     if (cart) {
       const storedArray = JSON.parse(localStorage.getItem("cart_items")),
         selectedNumber = quantityNumberModal.textContent;
-
+      storedArray[itemIndex]["changed"] = true;
       if (storedArray[itemIndex]["category"] === "hotel") {
         storedArray[itemIndex]["persons_selected"] = selectedNumber;
         storedArray[itemIndex]["days_selected"] = otherQuantity2.textContent;
@@ -413,11 +421,11 @@ var Utils = {
       modal.classList.remove("d-block");
     }, 300);
   },
-  removeAllEventListeners: function (element) {
+  removeAllEventListeners: (element) => {
     const clone = element.cloneNode(true);
     element.parentNode.replaceChild(clone, element);
   },
-  appearSuccAlert: function (message) {
+  appearSuccAlert: (message) => {
     const addItemAlert = document.querySelector(
       ".alert.alert-success.add-item"
     );
@@ -434,8 +442,7 @@ var Utils = {
       ),
       modal = cartModal
         ? document.getElementById("cartModal")
-        : document.getElementById("myModal"),
-      masterContainer = modal.querySelector(".master-container");
+        : document.getElementById("myModal");
     let selectedText = [];
     selectedOptions.forEach((option) => {
       if (option.selected) {
@@ -454,7 +461,52 @@ var Utils = {
       modal.classList.add("active");
     }, 1);
   },
-  fieldAnimation: function (field) {
+  loginModal: () => {
+    const modal = $("#loginModal");
+
+    modal.html(Components.loginModal);
+    $(modal).addClass("d-block");
+    $("body").addClass("fix");
+    Utils.formAnimation();
+    setTimeout(() => {
+      $(modal).addClass("active");
+    }, 1);
+
+    const signComponents = Array.from(
+      document.querySelectorAll(".sign-component")
+    );
+    container = signComponents.shift();
+    signComponents.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        switch (index) {
+          case 0:
+            container.style.transform = "rotateY(0deg)";
+            break;
+          case 1:
+            container.style.transform = "rotateY(-180deg)";
+            break;
+          case 2:
+            container.classList.remove("right-panel-active");
+            break;
+          case 3:
+            container.classList.add("right-panel-active");
+            break;
+          default:
+            console.log("You add new sign-btn without event");
+            break;
+        }
+      });
+    });
+
+    document.getElementById("sign_up").addEventListener("click", () => {
+      UserService.signUp("sign_up_form", modal);
+    });
+
+    document.getElementById("sign_in").addEventListener("click", () => {
+      UserService.signIn("sign_in_form", modal);
+    });
+  },
+  fieldAnimation: (field) => {
     if (field.value.trim() !== "") {
       field.classList.add("active", "delay");
     }
@@ -468,6 +520,7 @@ var Utils = {
       }
     });
   },
+
   resetFormAnimation: () => {
     const textareas = document.querySelectorAll("textarea.field"),
       fields = document.querySelectorAll(".form-control input"),
@@ -508,11 +561,50 @@ var Utils = {
       Utils.fieldAnimation(field);
     });
   },
-  submit: function (form_id, to, success_mge, block_id, callBack, modal) {
-    const form = $("#" + form_id),
-      block = $("#" + block_id);
+  submit: (
+    post,
+    form_id,
+    to,
+    success_mge,
+    callBack,
+    modal,
+    formElement,
+    validate,
+    messages
+  ) => {
+    const form = formElement ? formElement : $("#" + form_id);
+    const block = form.find("*[type=submit]").first();
 
-    FormValidation.validate(form, {}, (data) => {
+    FormValidation.validate(form, validate, messages, (data) => {
+      Utils.block_ui(block);
+      if (data["added_time"]) {
+        data["added_time"] = Utils.formatDateTime(data["added_time"]);
+      }
+      RestClient.request(
+        to,
+        post ? "POST" : "PUT",
+        data,
+        (data) => {
+          form[0].reset();
+          Utils.unblock_ui(block);
+          if (modal) Utils.removeModal(false, modal);
+
+          if (success_mge) Utils.appearSuccAlert(success_mge);
+          if (callBack) callBack(data);
+        },
+        (xhr) => {
+          Utils.unblock_ui(block);
+          if (modal) Utils.removeModal(false, modal);
+          Utils.appearFailAlert(xhr.responseText);
+        }
+      );
+    });
+  },
+  submitPost: (form_id, to, success_mge, callBack, modal, formElement) => {
+    const form = formElement ? formElement : $("#" + form_id),
+      block = form.find("*[type=submit]").first();
+
+    FormValidation.validate(form, {}, {}, (data) => {
       Utils.block_ui(block);
       $.post(Constants.API_BASE_URL + to, data)
         .done((data) => {
@@ -532,6 +624,33 @@ var Utils = {
         });
     });
   },
+  submitPut: (form_id, to, success_mge, callBack, modal, formElement) => {
+    const form = formElement ? formElement : $("#" + form_id),
+      block = form.find("*[type=submit]").first();
+
+    FormValidation.validate(form, {}, {}, (data) => {
+      Utils.block_ui(block);
+      RestClient.put(
+        to,
+        data,
+        (data) => {
+          form[0].reset();
+          Utils.unblock_ui(block);
+          if (modal) Utils.removeModal(false, modal);
+
+          if (success_mge) Utils.appearSuccAlert(success_mge);
+          if (callBack) callBack();
+        },
+        (xhr) => {
+          Utils.unblock_ui(block);
+
+          if (modal) Utils.removeModal(false, modal);
+
+          Utils.appearFailAlert(xhr.responseText);
+        }
+      );
+    });
+  },
   formSetup: (modal, submit) => {
     Utils.formAnimation();
     if (modal) {
@@ -548,6 +667,11 @@ var Utils = {
   capitalizeFirstLetter: (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   },
+  capitalizeWords: (str) => {
+    return str.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+  },
   firstLink: (imgs_srcs) => {
     return `https${imgs_srcs.trim().split("https")[1]}`;
   },
@@ -556,6 +680,77 @@ var Utils = {
       if (!exceptionElements.includes(child)) {
         parentElement.removeChild(child);
       }
+    });
+  },
+  dateOfTimestamp: (date) => {
+    return date.split(" ")[0];
+  },
+  addBtnsAnimation: (form, btn, inputField, icon) => {
+    form.hasClass("d-none")
+      ? form.removeClass("d-none").addClass("between-flex")
+      : setTimeout(() => {
+          form.addClass("d-none").removeClass("between-flex");
+        }, 300);
+
+    btn.toggleClass("hidden-by-width");
+
+    setTimeout(() => {
+      inputField.toggleClass("hidden-by-width");
+      if (icon) icon.toggleClass("fs-0");
+    }, 0);
+  },
+  addDaysToDate: (daysToAdd) => {
+    try {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + daysToAdd);
+
+      // Format the date components
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Zero-based month
+      const day = String(currentDate.getDate()).padStart(2, "0");
+      const hours = String(currentDate.getHours()).padStart(2, "0");
+      const minutes = String(currentDate.getMinutes()).padStart(2, "0");
+      const seconds = String(currentDate.getSeconds()).padStart(2, "0");
+
+      const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return formattedTimestamp;
+    } catch (error) {
+      return "Error occurred while calculating the new timestamp.";
+    }
+  },
+  formatDateTime: (isoDateTime) => {
+    let formattedDateTime = isoDateTime.replace("T", " ");
+
+    if (formattedDateTime.split(" ")[1].split(":").length === 2) {
+      formattedDateTime += ":00";
+    }
+
+    return formattedDateTime;
+  },
+  get_from_localstorage: (key) => {
+    return JSON.parse(localStorage.getItem(key));
+  },
+  set_to_localstorage: (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  showImage: (imgSrc) => {
+    modal = $("#loginModal");
+
+    modal.html(`<img src="${imgSrc}" alt="" class="img-modal">`);
+    $(modal).addClass("d-block");
+    $("body").addClass("fix");
+    setTimeout(() => {
+      $(modal).addClass("active");
+    }, 1);
+
+    $(modal).click(() => {
+      $(modal).removeClass("active");
+
+      $("body").removeClass("fix");
+
+      setTimeout(() => {
+        $(modal).removeClass("d-block");
+      }, 300);
     });
   },
 };

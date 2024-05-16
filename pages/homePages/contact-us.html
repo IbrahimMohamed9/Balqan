@@ -1,7 +1,12 @@
 <!-- Start Touch -->
 <div class="touch new-section">
-  <h2 class="main-title">GET IN TOUCH</h2>
+  <h2 class="main-title">Get In Touch</h2>
   <div class="container">
+    <div class="col">
+      <i class="fa-solid fa-phone"></i>
+      <h3>phone</h3>
+      <p>+38733922790</p>
+    </div>
     <div class="col">
       <i class="fa-solid fa-map-location-dot"></i>
       <!-- <i class="fa-solid fa-location-dot"></i> -->
@@ -12,11 +17,6 @@
         Federation of Bosnia and Herzegovina,<br />
         71200, Bosnia and Herzegovina
       </p>
-    </div>
-    <div class="col">
-      <i class="fa-solid fa-phone"></i>
-      <h3>phone</h3>
-      <p>+38733922790</p>
     </div>
     <div class="col">
       <i class="fa-regular fa-comment-dots"></i>
@@ -45,7 +45,6 @@
               type="text"
               id="name"
               name="name"
-              required=""
               autocomplete="on"
               class="field"
             />
@@ -56,8 +55,6 @@
               type="tel"
               id="phone"
               name="phone"
-              required=""
-              pattern="[0-9]{6,18}"
               autocomplete="on"
               class="field"
             />
@@ -68,7 +65,6 @@
               type="email"
               id="email"
               name="email"
-              required=""
               autocomplete="on"
               class="field"
             />
@@ -77,13 +73,7 @@
         </div>
         <div class="form-control">
           <div class="textarea">
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              required
-              class="field"
-            ></textarea>
+            <textarea id="message" name="message" class="field"></textarea>
           </div>
 
           <label for="message" class="txtar-la" id="txtar-la"> Message </label>

@@ -1,19 +1,39 @@
-USE `balqan`;
+USE `balqgivg_main`;
 
-select *
-from projects;
+SELECT *
+FROM widgets;
 
-select *
-from users;
+SELECT *
+FROM drafts;
 
+SELECT *
+FROM targets;
 
-SELECT act.activities_id
-     , us.user_id
-     , act.img_src
-     , act.name
-     , act.description
-     , act.date
-     , act.time
-FROM users AS us
-         JOIN activities AS act ON us.user_id = act.user_id
-WHERE us.user_id = 1
+SELECT user_id, password, phone, name,email
+FROM users;
+
+SELECT * FROM articles WHERE article_id = :article_id;
+SELECT *
+FROM projects;
+
+SELECT *
+FROM carts;
+
+SELECT *
+FROM cart_items;
+
+SELECT *
+FROM user_projects;
+
+SELECT *
+FROM user_friends;
+
+SELECT *
+FROM friend_requests;
+
+SELECT * FROM items
+WHERE category = 'package'
+ORDER BY added_time
+LIMIT 2;
+
+SELECT * FROM activities;

@@ -38,6 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1950);
   }
 
+  // profile accordion menu
+  function closeWhenNotMe(el, el2) {
+    $(window).click((event) => {
+      if (!$(event.target).is(el) && event.target !== el2) {
+        el.css("opacity", 0);
+        setTimeout(() => {
+          el.css("display", "none");
+        }, 300);
+        $(window).off("click");
+        menuCounter = 0;
+      }
+    });
+  }
+
+  let menuCounter = 0;
+  $(".main-header ul.tile-wrds li.profile").click((el) => {
+    const profileMenu = $(".main-header ul.tile-wrds ul.accordion-menu");
+    profileMenu.css("display", "block");
+    profileMenu.css("opacity", 1);
+    if (!menuCounter) closeWhenNotMe(profileMenu, el.target);
+    menuCounter++;
+  });
+
   //change heart in hover header
   const heartIcon = document.querySelector(".heart.fa-regular");
 
@@ -80,14 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // header
   const headerMenu = document.querySelector(
-      ".main-header .container button.menu"
-    ),
-    headerWords = document.querySelector(".main-header ul.tile-wrds"),
-    globalModal = document.getElementById("headerModal"),
-    currentPage = document.getElementById("current-page");
+    ".main-header .container button.menu"
+  );
+  const headerWords = document.querySelector(".main-header ul.tile-wrds");
+  const globalModal = document.getElementById("globalModal");
 
-  headerMenu.addEventListener("click", () => {
+  headerMenu.addEventListener("click", (el) => {
     if (headerWords.classList.contains("active")) {
+      console.log($(el.target).closest(".tile-wrds").length);
       closeNav();
     } else {
       openNav();
@@ -98,7 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelectorAll(".main-header ul.tile-wrds li").forEach((icon) => {
-    icon.addEventListener("click", closeNav);
+    if (!icon.classList.contains("profile")) {
+      icon.addEventListener("click", closeNav);
+    }
   });
 
   function appearModal() {
@@ -152,5 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
       behavior: "smooth",
     });
   });
-  CartService.shoppingCartCounter(1);
+  const user_id = 1;
+  CartService.shoppingCartCounter(user_id, 0);
 });

@@ -83,216 +83,110 @@ document.addEventListener("DOMContentLoaded", () => {
     templateDir: "./profilePages/",
   });
 
+  // const user_id = 1;
+  // const user_id = 2;
+  // const user_id = 3;
+  // const user_id = 4;
+  // const user_id = 5;
+  const user_id = Utils.get_from_localstorage("user").user_id;
+
+  UserService.mainImage(user_id);
   app.route({
     view: "profile",
     load: "profile.html",
-    onCreate: function () {
-      UserService.loadProfile(1);
+    onCreate: () => {
+      UserService.loadProfile(user_id);
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(0);
     },
   });
   app.route({
     view: "dashboard",
     load: "dashboard.html",
-    onCreate: function () {
-      loadDashboard("../assets/json/dashboard.json");
+    onCreate: () => {
+      UserService.loadDashboard(user_id);
+      // loadDashboard("../assets/json/dashboard.json");
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(1);
+      UserService.loadDashboardWidgets(user_id);
     },
   });
   app.route({
     view: "settings",
     load: "settings.html",
-    onCreate: function () {
-      loadSettings("../assets/json/profile.json");
+    onCreate: () => {
+      UserService.loadSettings(user_id);
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(2);
     },
   });
   app.route({
     view: "projects",
     load: "projects.html",
-    onCreate: function () {
-      loadProjects("../assets/json/projects.json");
+    onCreate: () => {
+      // loadProjects("../assets/json/projects.json");
+      projectService.loadProjects();
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(3);
     },
   });
   app.route({
     view: "friends",
     load: "friends.html",
-    onCreate: function () {
-      loadFriends("../assets/json/friends.json");
+    onCreate: () => {
+      UserService.addFriend(user_id);
+      $("#requests").click((el) => {
+        UserService.requestsFriendModal(user_id, el.currentTarget);
+      });
+      UserService.loadFriends(user_id);
     },
-    onReady: function () {
+    onReady: () => {
       switchButton(4);
     },
   });
   app.route({
     view: "tables",
     load: "tables.html",
-    onCreate: function () {
+    onCreate: () => {
       ItemService.loadTable("tbl_packages");
       ItemService.loadTable("tbl_cars");
       ItemService.loadTable("tbl_hotels");
       ArticleService.loadTable();
       FeedbackService.loadTable();
-      // loadProjectsTable("../assets/json/dashboard.json");
-    },
-    onReady: function () {
-      switchButton(5);
-      document.getElementById("add-package").addEventListener("click", () => {
-        ItemService.addItemModal("package");
+      $("#add-package").on("click", () => {
+        ItemService.addItemModal("package", false);
       });
-      document.getElementById("add-car").addEventListener("click", () => {
-        ItemService.addItemModal("car");
+      $("#add-car").on("click", () => {
+        ItemService.addItemModal("car", false);
       });
-      document.getElementById("add-hotel").addEventListener("click", () => {
-        ItemService.addItemModal("hotel");
+      $("#add-hotel").on("click", () => {
+        ItemService.addItemModal("hotel", false);
       });
-      document.getElementById("add-article").addEventListener("click", () => {
-        ArticleService.addArticleModal();
+      $("#add-article").on("click", () => {
+        ArticleService.addArticleModal("Article added successfully", true);
       });
-      document.getElementById("add-feedback").addEventListener("click", () => {
+      $("#add-feedback").on("click", () => {
         FeedbackService.addFeedbackModal();
       });
+      // loadProjectsTable("../assets/json/dashboard.json");
+    },
+    onReady: () => {
+      switchButton(5);
     },
   });
   app.route({
     view: "files",
     load: "files.html",
-    onCreate: function () {},
-    onReady: function () {
+    onCreate: () => {},
+    onReady: () => {
       switchButton(6);
     },
   });
-
   app.run();
-
-  function loadProfile(src) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const content = `
-            <div class="avatar-box txt-c p-20">
-              <img class="rad-half mb-10" src="${data.imgSrc}" alt="Profile Img" />
-              <h3 class="m-0">${data.name}</h3>
-              <p class="c-grey mt-10">Level ${data.level}</p>
-              <div class="level rad-6 bg-eee p-relative">
-                <span style="width: ${data.level}%"></span>
-              </div>
-              <div class="rating mt-10 mb-10">
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-                <i class="fa-solid fa-star c-orange fs-13"></i>
-              </div>
-              <p class="c-grey m-0 fs-13">${data.ratings} Rating</p>
-            </div>
-            <div class="info-box w-full txt-c-mobile">
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey fs-15 m-0 w-full">General Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Full Name</span>
-                  <span>${data.name}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Gender:</span>
-                  <span>${data.gender}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Nationality:</span>
-                  <span>${data.nationality}</span>
-                </div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Personal Information</h4>
-                <div class="fs-14 d-flex align-center center-mobile">
-                  <span class="c-grey">Email:</span>
-                  <span class="email">&nbsp;${data.email}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Phone:</span>
-                  <span>${data.phone}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Date Of Birth:</span>
-                  <span>${data.DOB}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-              <!-- Start Information Row -->
-              <div class="box p-20 d-flex align-center">
-                <h4 class="c-grey w-full fs-15 m-0">Job Information</h4>
-                <div class="fs-14">
-                  <span class="c-grey">Title:</span>
-                  <span>${data.jobTitle}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Country:</span>
-                  <span>${data.country}</span>
-                </div>
-                <div class="fs-14">
-                  <span class="c-grey">Years Of Experience:</span>
-                  <span>${data.YOE}</span>
-                </div>
-                <div class="fs-14"></div>
-              </div>
-              <!-- End Information Row -->
-            </div>
-          `;
-        const skills = data.skills.split(" ");
-        let skillsList = "";
-        for (let i = 0; i < skills.length; i += 3) {
-          skillsList += "<li>";
-          for (let j = 0; j < 3 && i + j < skills.length; j++) {
-            skillsList += `<span>${skills[i + j]}</span>`;
-          }
-          skillsList += "</li>";
-        }
-
-        const activitiesList = data.activities
-          .map(
-            (activity) => `
-            <div class="activity d-flex align-center txt-c-mobile">
-              <img src="${activity.imgSrc}" alt="" />
-              <div class="info">
-                <span class="d-block mb-10">${activity.name}</span>
-                <span class="c-grey">${activity.desc}</span>
-              </div>
-              <div class="date">
-                <span class="d-block mb-10">${activity.time}</span>
-                <span class="c-grey">${activity.date}</span>
-              </div>
-            </div>
-          `
-          )
-          .join("");
-        document.querySelector(".other-data .skills-card ul").innerHTML +=
-          skillsList;
-        document.querySelector(".other-data .activities").innerHTML +=
-          activitiesList;
-        document.querySelector(".screen .overview").innerHTML = content;
-      })
-      .catch((error) => {
-        console.error("Error fetching Profile data:", error);
-      });
-  }
 
   function loadDashboard(src) {
     fetch(src)
@@ -315,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="body txt-c d-flex p-20 mt-20 mb-20 bg-fourth pl-10-f pr-10-f">
             <div class="fs-13-f">
               ${data.name} ${data.surname}
-              <span class="d-block c-grey fs-14 mt-10 fs-10-f">${data.jobTitle}</span>
+              <span class="d-block c-grey fs-14 mt-10 fs-10-f">${data.job_title}</span>
             </div>
             <div class="fs-13-f">
               ${data.projects}
@@ -337,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let targetsWidget = "",
           ticketsWidget = "",
           progressWidget = "",
-          remindersWidget = "";
+          draftsWidget = "";
 
         data.targets.forEach((target) => {
           const achieved = Number(target.achieved.replace(/,/g, "")),
@@ -372,16 +266,16 @@ document.addEventListener("DOMContentLoaded", () => {
           `;
         });
 
-        // data.progrProjs.forEach((progrProj) => {
-        //   progressWidget += `
-        //   <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
-        //   `;
-        // });
+        data.progrProjs.forEach((progrProj) => {
+          progressWidget += `
+          <li class="mt-25 d-flex align-center ${progrProj.status}">${progrProj.part}</li>
+          `;
+        });
 
-        data.reminders.forEach((reminder) => {
-          remindersWidget += `
+        data.drafts.forEach((reminder) => {
+          draftsWidget += `
             <li class="d-flex align-center mt-15">
-              <span class="key mr-15 d-block rad-half"></span>
+              <span class="key d-block"></span>
               <div class="pl-15">
                 <p class="fs-14 fw-bold mt-0 mb-5">${reminder.title}</p>
                 <span class="fs-13 c-grey">${reminder.date} - ${reminder.time}</span>
@@ -399,8 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ).innerHTML = ticketsWidget;
         document.querySelector(".screen.wrapper .last-project ul").innerHTML =
           progressWidget;
-        document.querySelector(".screen.wrapper .reminders ul").innerHTML =
-          remindersWidget;
+        document.querySelector(".screen.wrapper .drafts ul").innerHTML =
+          draftsWidget;
 
         document.getElementById("profile-btn").addEventListener("click", () => {
           switchButton(0);
@@ -408,22 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
         console.error("Error fetching Dashboard data:", error);
-      });
-  }
-
-  function loadSettings(src) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        document.querySelector(".settings-page .email").value = data.email;
-      })
-      .catch((error) => {
-        console.error("Error fetching Settings data:", error);
       });
   }
 
@@ -444,29 +322,42 @@ document.addEventListener("DOMContentLoaded", () => {
               <h4 class="m-0">${project.name}</h4>
               <p class="c-grey mt-10 mb-10 fs-14">${project.description}</p>
               <div class="team">`;
-
+          // TODO is it good, use js for styling?
+          let left = 0;
           project.team.forEach((teamMember) => {
-            content += `<a href="#"><img src="${teamMember}" alt="" /></a>`;
+            content += `
+            <span 
+              style="left: ${left}px;"
+              onclick="UserService.friendProfile(0, this)"
+              >
+              <!--TODO add user id instead of zero-->
+              <img src="${teamMember}" alt="member image" />
+            </span>`;
+            left += 25;
           });
-
           content += `
               </div>
-              <div class="do d-flex">`;
-
-          project.tasks.forEach((task) => {
-            content += `<span class="fs-13 rad-6 bg-eee">${task}</span>`;
-          });
+              <!--<div class="do d-flex">`;
+          // project tasks (for example cities)
+          // project.tasks.forEach((task) => {
+          //   content += `<span class="fs-13 rad-6 bg-eee">${task}</span>`;
+          // });
 
           content += `
-              </div>
+              </div>-->
               <div class="info between-flex">
-                <div class="prog bg-eee">
+                <div class="prog bg-eee d-none">
                   <span class="bg-red" style="width: ${project.progress}%"></span>
                 </div>
                 <div class="fs-14 c-grey">
-                  <i class="fa-solid fa-dollar-sign"></i>
-                  ${project.price}
+                  KM ${project.price}
                 </div>
+                <button
+                  class="add-btn txt-c d-block fs-15 rad-6 c-white btn-shape"
+                  type="button"
+                >
+                  Add User
+                </button>
               </div>
             </div>`;
         });
@@ -475,64 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
         console.error("Error fetching projects data:", error);
-      });
-  }
-
-  function loadFriends(src) {
-    fetch(src)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        let content = "";
-
-        data.forEach((friend) => {
-          content += `
-          <div class="friend bg-fourth rad-6 p-20 p-relative">
-          <div class="contact">
-            <i class="fa-solid fa-phone"></i>
-            <i class="fa-regular fa-envelope"></i>
-          </div>
-          <div class="txt-c">
-            <img
-              class="rad-half mt-10 mb-10 w-100 h-100"
-              src="${friend.imgSrc}"
-              alt=""
-            />
-            <h4 class="m-0">${friend.name}</h4>
-            <p class="c-grey fs-13 mt-5 mb-0">${friend.jobTitle}</p>
-          </div>
-          <div class="icons fs-14 p-relative">
-            <div class="mb-10">
-              <i class="fa-regular fa-face-smile fa-fw"></i>
-              <span>${friend.friends} Friends</span>
-            </div>
-            <div class="mb-10">
-              <i class="fa-solid fa-code-commit fa-fw"></i>
-              <span>${friend.projects} Projects</span>
-            </div>
-            <div>
-              <i class="fa-regular fa-newspaper fa-fw"></i>
-              <span>${friend.articles} Articles</span>
-            </div>
-          </div>
-          <div class="info between-flex fs-13">
-            <span class="c-grey">Joined ${friend.joined}</span>
-            <div class="d-flex gap-5">
-              <a class="bg-blue c-white btn-shape" href="profile.html">Profile</a>
-              <a class="bg-red c-white btn-shape" href="">Remove</a>
-            </div>
-          </div>
-        </div>
-      `;
-        });
-        document.querySelector(".screen.friends-page").innerHTML = content;
-      })
-      .catch((error) => {
-        console.error("Error fetching Friends data:", error);
       });
   }
 
