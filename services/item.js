@@ -152,13 +152,13 @@ var ItemService = {
         '${category == "car" ? itemData.max_days : itemData.max_persons}',
         '${category == "car" ? itemData.day_price : itemData.person_price}',
         '${category == "car" ? itemData.max_days : itemData.max_persons}',
-        '${category == "car" ? "Persons: " + itemData.persons : ""}',
+        '${category == "car" && "Persons: " + itemData.persons}',
         '${category == "car" ? "Days" : "persons"}',
-        '${category == "hotel" ? itemData.max_days : ""}',
-        '${category == "hotel" ? "Days" : ""}',
-        '${category == "hotel" ? itemData.min_days : ""}',
-        '${category == "hotel" ? itemData.max_days : ""}',
-        '${category == "hotel" ? itemData.day_price : ""}'
+        '${category == "hotel" && itemData.max_days}',
+        '${category == "hotel" && "Days"}',
+        '${category == "hotel" && itemData.min_days}',
+        '${category == "hotel" && itemData.max_days}',
+        '${category == "hotel" && itemData.day_price}'
         )"
         ></button>
       </div>
@@ -331,7 +331,42 @@ var ItemService = {
                       <option value="3">3</option>
                       <option value="4">4</option>
                     </select>
-                    <button class="pckbtn btn">Add to cart</button>
+                    <button class="pckbtn btn" onClick="Utils.itemModal(
+                      '${itemData.item_id}',
+                      '${Utils.get_from_localstorage("user").user_id}',
+                      '${itemData.persons}',
+                      '${itemData.days}',
+                      '${category}',
+                      '${itemData.name}',
+                      '${Utils.firstLink(itemData.imgs_srcs)}',
+                      '${
+                        category == "car"
+                          ? itemData.min_days
+                          : itemData.min_persons
+                      }',
+                      '${
+                        category == "car"
+                          ? itemData.max_days
+                          : itemData.max_persons
+                      }',
+                      '${
+                        category == "car"
+                          ? itemData.day_price
+                          : itemData.person_price
+                      }',
+                      '${
+                        category == "car"
+                          ? itemData.max_days
+                          : itemData.max_persons
+                      }',
+                      '${category == "car" && "Persons: " + itemData.persons}',
+                      '${category == "car" ? "Days" : "persons"}',
+                      '${category == "hotel" && itemData.max_days}',
+                      '${category == "hotel" && "Days"}',
+                      '${category == "hotel" && itemData.min_days}',
+                      '${category == "hotel" && itemData.max_days}',
+                      '${category == "hotel" && itemData.day_price}'
+                      )">Add to cart</button>
                     <button class="pckbtn btn pay d-none">Pay Now</button>
                   </div>
                 </div>

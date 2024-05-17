@@ -492,6 +492,7 @@ var CartService = {
             coupons.push(data);
             localStorage.setItem("coupons", JSON.stringify(coupons));
             localStorage.setItem("totalPrice", currentTotal);
+            Utils.appearSuccAlert("Coupon applied successfully");
           } else {
             Utils.appearFailAlert("Invalid coupon");
           }
