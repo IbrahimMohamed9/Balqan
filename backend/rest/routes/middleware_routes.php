@@ -13,11 +13,13 @@ Flight::route('/*', function () {
     '/articles/cities', '/articles/Hotels',
     '/articles/Tourism'
   ];
+
   $regixArray = [
     '#^/items/get/(\d{1,5})$#',
     '#^/items/new_packages/(\d{1,5})$#',
     '#^/auth/login\?email=[^&]+&password=[^&]+$#',
-    '#^/articles/get/(\d{1,5})$#'
+    '#^/articles/get/(\d{1,5})$#',
+    // '#^/articles/(cities|Hotels|Tourism)$#'
   ];
   $url = Flight::request()->url;
 
