@@ -2,10 +2,9 @@
 require_once __DIR__ . '/../services/CartService.class.php';
 
 require_once __DIR__ . '/AuthClass.class.php';
-Flight::set('token', new AuthClass());
+
 Flight::set('cart_service', new CartService());
 
-$decoded_token = Flight::get('token')->decodeToken();
 Flight::group("/carts", function () {
 
   /**

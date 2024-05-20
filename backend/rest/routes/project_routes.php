@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../services/projectService.class.php';
 require_once __DIR__ . '/AuthClass.class.php';
 
-Flight::set('token', new AuthClass());
 Flight::set('project_service', new ProjectsService());
 
-$decoded_token = Flight::get('token')->decodeToken();
 Flight::group("/projects", function () {
 
   /**
@@ -13,6 +11,9 @@ Flight::group("/projects", function () {
    *     path="/projects/add_user",
    *     tags={"projects"},
    *     summary="Add a user to a project",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\RequestBody(
    *         required=true,
    *         description="User project data",
@@ -63,6 +64,9 @@ Flight::group("/projects", function () {
    *     path="/projects/add",
    *     tags={"projects"},
    *     summary="Add a new project",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\RequestBody(
    *         required=true,
    *         description="Project data",
@@ -106,6 +110,9 @@ Flight::group("/projects", function () {
    *     path="/projects",
    *     tags={"projects"},
    *     summary="Get all projects",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\Response(
    *         response=200,
    *         description="List of projects",
@@ -123,6 +130,9 @@ Flight::group("/projects", function () {
    *     path="/projects/get/{user_id}/{project_id}",
    *     tags={"projects"},
    *     summary="Get user project details",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\Parameter(
    *         name="user_id",
    *         in="path",
@@ -157,6 +167,9 @@ Flight::group("/projects", function () {
    *     path="/projects/get/{project_id}",
    *     tags={"projects"},
    *     summary="Get project by ID",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\Parameter(
    *         name="project_id",
    *         in="path",
@@ -182,6 +195,9 @@ Flight::group("/projects", function () {
    *     path="/projects/delete/{project_id}",
    *     tags={"projects"},
    *     summary="Delete a project by ID",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *     @OA\Parameter(
    *         name="project_id",
    *         in="path",

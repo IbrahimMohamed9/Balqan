@@ -18,21 +18,5 @@ class AuthClass
     }
   }
 
-  function generateToken($user)
-  {
-    unset($user['password']);
-    $payload = [
-      'user' => $user,
-      'iat' => time(),
-      'exp' => time() + 1296000
-    ];
-
-    $token = JWT::encode(
-      $payload,
-      JWT_SECRET,
-      'HS256'
-    );
-
-    return $token;
-  }
+  
 }

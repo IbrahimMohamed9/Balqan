@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../services/ArticleService.class.php';
 require_once __DIR__ . '/AuthClass.class.php';
 
-Flight::set('token', new AuthClass());
 Flight::set('article_service', new ArticleService());
 
-$decoded_token = Flight::get('token')->decodeToken();
 Flight::group("/articles", function () {
 
   /**

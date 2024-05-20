@@ -2,14 +2,8 @@
 require_once __DIR__ . '/../services/UserService.class.php';
 require_once __DIR__ . '/AuthClass.class.php';
 
-Flight::set('token', new AuthClass());
 Flight::set('user_service', new UserService());
-// $decoded_token = Flight::get('token')->decodeToken();
 
-
-// *      security={
-// *          {"ApiKey": {}}
-// *      },
 Flight::group("/users", function () {
 
   Flight::group("/get", function () {
@@ -57,8 +51,8 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route('GET /requests/', function () {
-      $decoded_token = Flight::get('token')->decodeToken();
-      $user_id = $decoded_token->user->user_id;
+      $user_id = Flight::get('user')->user_id;
+
       $requests = Flight::get('user_service')->get_friend_requests($user_id);
 
       Flight::json($requests);
@@ -112,8 +106,7 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route('GET /user/', function () {
-      $decoded_token = Flight::get('token')->decodeToken();
-      $user_id = $decoded_token->user->user_id;
+      $user_id = Flight::get('user')->user_id;
 
       $user = Flight::get('user_service')->get_user_by_id($user_id);
 
@@ -141,8 +134,7 @@ Flight::group("/users", function () {
      * )
      */
     Flight::route('GET /friends/', function () {
-      $decoded_token = Flight::get('token')->decodeToken();
-      $user_id = $decoded_token->user->user_id;
+      $user_id = Flight::get('user')->user_id;
 
       $friends = Flight::get('user_service')->get_friends($user_id);
 

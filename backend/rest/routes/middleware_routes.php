@@ -19,7 +19,7 @@ Flight::route('/*', function () {
     '#^/items/new_packages/(\d{1,5})$#',
     '#^/auth/login\?email=[^&]+&password=[^&]+$#',
     '#^/articles/get/(\d{1,5})$#',
-    // '#^/articles/(cities|Hotels|Tourism)$#'
+    '#^/articles/(cities|Hotels|Tourism)$#'
   ];
   $url = Flight::request()->url;
 
