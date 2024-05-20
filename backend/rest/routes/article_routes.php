@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../services/ArticleService.class.php';
-require_once __DIR__ . '/AuthClass.class.php';
 
 Flight::set('article_service', new ArticleService());
 
@@ -31,6 +30,9 @@ Flight::group("/articles", function () {
    *      path="/articles/add",
    *      tags={"articles"},
    *      summary="Add or edit an article",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *      @OA\Response(
    *           response=200,
    *           description="Article data, if ID does not exist, edit if ID exists",
@@ -135,6 +137,9 @@ Flight::group("/articles", function () {
    *      path="/articles/delete/{article_id}",
    *      tags={"articles"},
    *      summary="Delete an article",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *      @OA\Parameter(
    *          name="article_id",
    *          in="path",

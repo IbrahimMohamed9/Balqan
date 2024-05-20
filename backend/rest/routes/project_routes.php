@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../services/projectService.class.php';
-require_once __DIR__ . '/AuthClass.class.php';
 
 Flight::set('project_service', new ProjectsService());
 
@@ -42,7 +41,6 @@ Flight::group("/projects", function () {
   Flight::route(
     'POST /add_user',
     function () {
-
       $payload = Flight::request()->data;
 
       $user_project =  [

@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__ . '/../services/CartService.class.php';
 
-require_once __DIR__ . '/AuthClass.class.php';
-
 Flight::set('cart_service', new CartService());
 
 Flight::group("/carts", function () {
@@ -72,6 +70,9 @@ Flight::group("/carts", function () {
    *      path="/carts/coupon",
    *      tags={"carts"},
    *      summary="Check coupon code",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *      @OA\Parameter(
    *          name="code",
    *          in="query",
@@ -159,6 +160,9 @@ Flight::group("/carts", function () {
    *      path="/carts/delete/{cart_item_id}",
    *      tags={"carts"},
    *      summary="Delete an item from the cart",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *      @OA\Parameter(
    *          name="cart_item_id",
    *          in="path",
@@ -196,6 +200,9 @@ Flight::group("/carts", function () {
    *      path="/carts/item",
    *      tags={"carts"},
    *      summary="Update an item in the cart",
+   *      security={
+   *          {"ApiKey": {}}
+   *      },
    *      @OA\Parameter(
    *          name="cart_item_id",
    *          in="query",

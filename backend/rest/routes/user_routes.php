@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../services/UserService.class.php';
-require_once __DIR__ . '/AuthClass.class.php';
 
 Flight::set('user_service', new UserService());
 
@@ -12,6 +11,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get",
      *     summary="Get all users",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Response(
      *         response=200,
@@ -28,9 +30,6 @@ Flight::group("/users", function () {
 
       Flight::json($users);
     });
-
-
-    //Here is authentication
 
     /**
      * @OA\Get(
@@ -62,6 +61,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/activity/{user_id}",
      *     summary="Get activity for a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -88,8 +90,6 @@ Flight::group("/users", function () {
       Flight::json($activity);
     });
 
-    //Here is authentication
-
     /**
      * @OA\Get(
      *     path="/users/get/user/",
@@ -112,8 +112,6 @@ Flight::group("/users", function () {
 
       Flight::json($user);
     });
-
-    //Here is authentication
 
     /**
      * @OA\Get(
@@ -145,6 +143,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/draft/{draft_id}",
      *     summary="Get a draft by ID",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="draft_id",
@@ -174,6 +175,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/drafts/{user_id}",
      *     summary="Get drafts of a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -204,6 +208,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/latest_activity/{user_id}/{limit}",
      *     summary="Get latest activity of a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -249,6 +256,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/targets/{user_id}",
      *     summary="Get targets of a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -279,6 +289,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/tickets/{user_id}",
      *     summary="Get tickets of a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -309,6 +322,9 @@ Flight::group("/users", function () {
      * @OA\Get(
      *     path="/users/get/widgets/{user_id}",
      *     summary="Get widgets of a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -341,6 +357,9 @@ Flight::group("/users", function () {
      * @OA\Put(
      *     path="/users/edit/widgets",
      *     summary="Edit user widgets",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -392,6 +411,9 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/user",
      *     summary="Edit user information",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -443,6 +465,9 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/password",
      *     summary="Edit user password",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\RequestBody(
      *         required=true,
@@ -470,6 +495,9 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/friend_request",
      *     summary="Edit friend request status",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\Parameter(
      *         name="requester_id",
@@ -514,6 +542,9 @@ Flight::group("/users", function () {
      * @OA\Post(
      *     path="/users/edit/draft",
      *     summary="Edit user draft",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     tags={"users"},
      *     @OA\RequestBody(
      *         required=true,
@@ -564,6 +595,9 @@ Flight::group("/users", function () {
      *     path="/users/delete/draft/{draft_id}",
      *     tags={"users"},
      *     summary="Delete a draft",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     description="Deletes a draft identified by its ID",
      *     operationId="deleteDraft",
      *     @OA\Parameter(
@@ -597,6 +631,9 @@ Flight::group("/users", function () {
      *     path="/users/delete/friend/{friendship_id}",
      *     tags={"users"},
      *     summary="Delete a friend",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     description="Deletes a friend identified by its friendship ID",
      *     operationId="deleteFriend",
      *     @OA\Parameter(
@@ -629,6 +666,9 @@ Flight::group("/users", function () {
      *     path="/users/delete/user/{user_id}",
      *     tags={"users"},
      *     summary="Delete a user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     description="Deletes a user identified by its ID",
      *     operationId="deleteUser",
      *     @OA\Parameter(
@@ -663,6 +703,9 @@ Flight::group("/users", function () {
      *     path="/users/add/draft",
      *     tags={"users"},
      *     summary="Add a draft",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     description="Adds a new draft",
      *     @OA\Parameter(
      *         name="user_id",
@@ -721,6 +764,9 @@ Flight::group("/users", function () {
      *     path="/users/add/friend_request",
      *     tags={"users"},
      *     summary="Add a friend request",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *     description="Adds a new friend request",
      *     operationId="addFriendRequest",
      *     @OA\Parameter(
