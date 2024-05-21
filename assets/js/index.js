@@ -211,10 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
             type: "GET",
           })
             .done((response) => {
-              console.log(response.data[data.day - 1].date.hijri.date);
-              console.log(response.data[data.day - 1].date.hijri.month.en);
-              console.log(response.data[data.day - 1].date.hijri.weekday.en);
-
               const prayTimes = response.data[data.day - 1].timings;
 
               const timesTable = $("#pray-time-table");
