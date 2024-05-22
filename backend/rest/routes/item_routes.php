@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../services/itemService.class.php';
+require_once __DIR__ . '/../services/ItemService.class.php';
 
 Flight::set('item_service', new ItemService());
 

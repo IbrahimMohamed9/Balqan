@@ -608,7 +608,7 @@ var Utils = {
 
     FormValidation.validate(form, {}, {}, (data) => {
       Utils.block_ui(block);
-      $.post(Constants.API_BASE_URL + to, data)
+      $.post(Constants.get_api_base_url() + to, data)
         .done((data) => {
           form[0].reset();
           Utils.unblock_ui(block);
