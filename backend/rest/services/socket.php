@@ -122,5 +122,3 @@ $server = IoServer::factory(
 );
 
 $server->run();
-
-// cd C:\xampp\htdocs\IT-207-Introduction-to-Web-Programming\backend\rest\services && php socket.php
