@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     view: "chat",
     load: "chat.html",
     onCreate: () => {
-      const ws = new WebSocket("ws://balqan.net:8080");
+      const ws = new WebSocket("ws://localhost:8080");
       const messages = document.getElementById("messages");
       const messageInput = document.getElementById("messageInput");
 

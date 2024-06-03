@@ -1,0 +1,7 @@
+[03-Jun-2024 01:02:08 UTC] PHP Fatal error:  Uncaught RuntimeException: Failed to listen on "tcp://0.0.0.0:8080": Address already in use (EADDRINUSE) in /home/balqgivg/public_html/backend/vendor/react/socket/src/TcpServer.php:184
+Stack trace:
+#0 /home/balqgivg/public_html/backend/vendor/react/socket/src/Server.php(77): React\Socket\TcpServer->__construct()
+#1 /home/balqgivg/public_html/backend/vendor/cboden/ratchet/src/Ratchet/Server/IoServer.php(59): React\Socket\Server->__construct()
+#2 /home/balqgivg/public_html/backend/rest/services/socket.php(115): Ratchet\Server\IoServer::factory()
+#3 {main}
+  thrown in /home/balqgivg/public_html/backend/vendor/react/socket/src/TcpServer.php on line 184
